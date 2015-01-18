@@ -12,8 +12,10 @@ var rimraf = require('rimraf');
 var browserSync = require('browser-sync');
 
 var bundler = watchify(browserify('./src/scripts/app.js', {debug: true}, watchify.args));
+
 bundler.transform(to5ify);
 bundler.transform(partialify);
+bundler.on('update', bundle);
 
 gulp.task('clean', function(cb){
   rimraf('./dist/', cb);
@@ -27,7 +29,7 @@ gulp.task('build', ['clean'], function(){
   return bundle();
 });
 
-gulp.task('watch', bundle);
+gulp.task('js', bundle);
 
 gulp.task('serve', function () {
   browserSync({
