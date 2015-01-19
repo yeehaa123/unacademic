@@ -1,0 +1,2 @@
+--require test/helper
+--compilers js:6to5/register

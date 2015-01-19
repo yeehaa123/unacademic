@@ -1,73 +1,55 @@
-(function(){
+var Switcher = require('./switcher.js');
 
-  describe("switcher", function(){
-    var switcher;
-    var $state;
-    var $rootScope;
-    var $q;
+describe("switcher", function(){
+  var switcher;
+  var $state;
+  var $q;
+  var promise;
+  var response;
 
-    beforeEach(function(){
-      $state = {};
+  beforeEach(function(){
+    $state = {};
+    $q = {}
+    $q.when = sinon.stub()
+    $state.go = sinon.stub();
+    switcher = new Switcher($state, $q);
+    promise = Promise.resolve('foo');
+  });
 
-      dispatcher = {};
-      dispatcher.getState = sinon.stub();
+  describe("state switching", function(){
+    var state;
 
-      module('unacademic.appState.switcher',  function($provide){
-        $provide.value('$state', $state);
-        $provide.value('dispatcher', dispatcher);
+    describe("it has no name", function(){
+      beforeEach(function(){
+        state = {};
+        $q.when.withArgs('no route change').returns(promise);
+        response = switcher.set(state);
       });
 
-      inject(function(_switcher_, _$q_, _$rootScope_){
-        switcher = _switcher_;
-        $q = _$q_;
-        $rootScope = _$rootScope_;
+      it("does not call $state", function(){
+        expect($state.go).not.called;
       });
 
-      var promise = $q.when('123');
-      $state.go = sinon.stub().returns(promise);
+
+      it("returns the success message", function(){
+        return expect(response).to.eventually.equal("foo");
+      });
     });
 
-    describe("state switching", function(){
-      var state;
-      var response;
-
-      describe("it has no name", function(){
-        beforeEach(function(){
-          state = {};
-          switcher.set(state).then(function(msg){
-            response = msg;
-          });
-          $rootScope.$digest();
-        });
-
-        it("calls state with the correct parameters", function(){
-          expect($state.go).not.to.be.called;
-        });
-
-        it("returns the success message", function(){
-          expect(response).to.contain('change');
-        });
+    describe("it has a name", function(){
+      beforeEach(function(){
+        state = { name: 'waypoints.detail' };
+        $state.go.withArgs(state.name, undefined).returns(promise);
+        response = switcher.set(state);
       });
 
-      describe("it has a name", function(){
-        beforeEach(function(){
-          state = { name: 'waypoints.detail' };
-          switcher.set(state).then(function(msg){
-            response = msg;
-          })
-          $rootScope.$digest();
-        });
-
-        it("calls state with the correct parameters", function(){
-          expect($state.go).to.be.calledWithExactly(state.name, undefined);
-        });
-
-        it("returns the success message", function(){
-          expect(response).to.equal('123');
-        });
+      it("does not call $q", function(){
+        expect($q.when).not.called;
       });
-    })
-  });
-})();
 
-
+      it("returns the success message", function(){
+        return expect(response).to.eventually.equal("foo");
+      });
+    });
+  })
+});

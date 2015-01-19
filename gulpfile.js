@@ -17,6 +17,11 @@ bundler.transform(to5ify);
 bundler.transform(partialify);
 bundler.on('update', bundle);
 
+gulp.task('copy', function(){
+  gulp.src(['./src/assets/**/*', './src/index.html'],{base: 'src'})
+    .pipe(gulp.dest('./dist'));
+});
+
 gulp.task('clean', function(cb){
   rimraf('./dist/', cb);
 });
@@ -25,16 +30,16 @@ gulp.task('dist', ['build'], function(){
   process.exit(0);
 });
 
-gulp.task('build', ['clean'], function(){
+gulp.task('build', ['copy'], function(){
   return bundle();
 });
 
 gulp.task('js', bundle);
 
-gulp.task('serve', function () {
+gulp.task('serve', ['build'], function () {
   browserSync({
     server: {
-      baseDir: './'
+      baseDir: './dist'
     }
   });
 });
