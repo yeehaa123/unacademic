@@ -1,73 +1,68 @@
-(function(){
+import DS from './DataStore'
+import ngMock from 'angular-mocks-node';
 
-  describe("DataStore", function(){
-    var DataStore;
-    var $httpBackend;
-    var userId;
-    var generateUrlStub;
+describe("DataStore", () => {
+  let DataStore;
+  let $httpBackend;
+  let userId;
+  let utilities;
 
+  beforeEach(() => {
+    let $http;
+    let $q;
 
-    beforeEach(function(){
-      var utilities = {
-        generateUrl: function(){},
-        generateUID: function(){}
-      };
-
-      generateUrlStub = sinon.stub(utilities, 'generateUrl').returns('/bla.com');
-
-      module('unacademic.DataStore',  function($provide){
-        $provide.value('baseUrl', '');
-        $provide.value('utilities', utilities);
-      });
-
-      userId = 'general'
-
-      inject(function(_DataStore_, _$httpBackend_, _$q_){
-        DataStore = _DataStore_;
-        $httpBackend = _$httpBackend_;
-        $q = _$q_;
-      });
+    ngMock.inject(function(_$q_, _$http_, _$httpBackend_){
+      $q = _$q_;
+      $http = _$http_;
+      $httpBackend = _$httpBackend_;
     });
 
-    afterEach(function() {
-      $httpBackend.flush();
-      expect(generateUrlStub).calledWith('CoverInfo', 'general');
-      $httpBackend.verifyNoOutstandingExpectation();
-      $httpBackend.verifyNoOutstandingRequest();
+    userId = 'general'
+    let baseUrl = '';
+
+    utilities = {};
+    utilities.generateUrl = sinon.stub();
+    utilities.generateUrl.returns('/bla.com');
+
+    DataStore = new DS(baseUrl, $http, $q, utilities);
+
+  });
+
+  afterEach(() =>  {
+    $httpBackend.flush();
+    expect(utilities.generateUrl).calledWith('CoverInfo', userId);
+    $httpBackend.verifyNoOutstandingExpectation();
+    $httpBackend.verifyNoOutstandingRequest();
+  });
+
+
+  describe("get", () => {
+
+    beforeEach(() => {
+      $httpBackend.when('GET', '/bla.com').respond({status: 200});
     });
 
+    it("gets the info", () => {
+      DataStore.get('CoverInfo', userId)
+        .then((data) => { expect(data.status).to.equal(200) });
+    });
+  });
 
-    describe("get", function(){
+  describe("save", () => {
 
-      beforeEach(function(){
-        $httpBackend.when('GET', '/bla.com').respond({status: 200});
-      });
-
-      it("gets the info", function(){
-        DataStore.get('CoverInfo', userId).then(function(data){
-          expect(data.status).to.equal(200);
-        });
-      });
+    beforeEach(() => {
+      $httpBackend.when('PUT', '/bla.com').respond(200);
     });
 
-    describe("save", function(){
+    it("saves the info", () => {
+      let instance = new CoverInfo(userId);
 
-      beforeEach(function(){
-        $httpBackend.when('PUT', '/bla.com').respond(200);
-      });
-
-      it("saves the info", function(){
-        var instance = new CoverInfo(userId);
-
-        DataStore.save(instance).then(function(data){
-          expect(generateUrlStub).called;
-          expect(data.status).to.equal(200);
-        });
-      });
+      DataStore.save(instance)
+        .then((data) => { expect(data.status).to.equal(200) });
     });
-  })
+  });
+})
 
-  function CoverInfo(userId){
-    this.curator = userId;
-  }
-})();
+function CoverInfo(userId){
+  this.curator = userId;
+}

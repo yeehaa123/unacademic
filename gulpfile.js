@@ -10,6 +10,7 @@ var to5ify = require('6to5ify');
 var partialify = require('partialify');
 var rimraf = require('rimraf');
 var browserSync = require('browser-sync');
+var mocha = require('gulp-mocha');
 
 var bundler = watchify(browserify('./src/scripts/app.js', {debug: true}, watchify.args));
 

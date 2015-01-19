@@ -14,7 +14,8 @@ function formHelpers(dispatcher){
 
     if(form.$dirty && form.$valid){
       form.$setPristine();
-      model.save().then(success, error);
+      model.save()
+        .then(success, error);
     }
 
     function success(){

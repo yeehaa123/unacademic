@@ -2,7 +2,6 @@ import Dispatcher from './dispatcher';
 
 describe("dispatcher", () => {
   let dispatcher;
-
   let currentState;
   let queue;
   let mutator;
@@ -19,7 +18,7 @@ describe("dispatcher", () => {
     queue.get = sinon.stub().returns(['123']);
     queue.set = sinon.spy();
     permission.get = sinon.stub();
-    mutator.set = sinon.stub().returns(Promise.resolve());
+    mutator.set = sinon.stub();
 
     dispatcher = new Dispatcher(currentState, queue, permission, mutator);
   });
@@ -65,6 +64,7 @@ describe("dispatcher", () => {
     describe("with changes", () => {
       let changes;
       let state;
+      let promise;
 
       beforeEach(() => {
 
@@ -77,6 +77,8 @@ describe("dispatcher", () => {
           mode: 'learning',
         }
 
+        promise = Promise.resolve(changes);
+        mutator.set.returns(promise);
         permission.get.withArgs(state, changes).returns(changes);
         dispatcher.setState(changes);
       });
@@ -85,8 +87,11 @@ describe("dispatcher", () => {
         expect(mutator.set).calledWith(changes);
       });
 
-      xit("notifies observers", () => {
-        expect(notificationSpy).calledOnce;
+      it("notifies observers", (done) => {
+        promise.then(() => {
+          expect(notificationSpy).calledWith(changes);
+          done();
+        })
       });
 
     });

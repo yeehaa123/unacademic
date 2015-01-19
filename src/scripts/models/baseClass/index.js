@@ -1,9 +1,8 @@
 import _ from 'lodash';
-import DataStore from '../DataStore';
 
 export default InitBaseClass;
 
-function InitBaseClass($http, $q, DataStore, utilities, dispatcher){
+function InitBaseClass($q, DataStore, utilities, dispatcher){
   class BaseClass {
 
     constructor(data){

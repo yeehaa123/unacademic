@@ -1,105 +1,103 @@
-(function(){
+import CourseResolver from './courseResolver';
+import ngMock from 'angular-mocks-node';
 
-  describe("courseResolver", function(){
-    var courseResolver;
-    var dispatcher;
-    var CoverInfo;
-    var Course;
-    var $rootScope;
-    var $q;
+describe("courseResolver", () => {
+  let courseResolver;
+  let Course;
+  let $rootScope;
+  let $q;
 
-    beforeEach(function(){
-      dispatcher = {};
-      dispatcher.getState = sinon.stub().returns({user: '123', resource: '456'});
+  beforeEach(() => {
 
-      Course = function(){};
-      Course.schema = '123';
-
-      module('unacademic.content.course',  function($provide){
-        $provide.value('dispatcher', dispatcher);
-        $provide.value('Course', Course);
-      });
-
-      inject(function(_courseResolver_, _$rootScope_, _$q_){
-        courseResolver = _courseResolver_;
-        $rootScope = _$rootScope_;
-        $q = _$q_;
-      });
-
-      var course = {
-        waypoints: '123'
-      }
-      var promise = $q.when(course);
-      Course.getAll = sinon.stub().returns(promise);
-      Course.get = sinon.stub().returns(promise);
-
+    ngMock.inject(function(_$rootScope_, _$q_){
+      $rootScope = _$rootScope_;
+      $q = _$q_;
     });
 
-    describe("details resolver", function(){
-      var response;
+    Course = () => {};
+    Course.schema = '123';
 
-      describe("without a user and with a regular id", function(){
 
-        beforeEach(function(){
-          courseResolver({resource: '456'}).then(function(data){
-            response = data;
-          });
-          $rootScope.$apply();
+    let course = {
+      waypoints: '123'
+    }
+
+    let promise = $q.when(course);
+
+    Course.getAll = sinon.stub().returns(promise);
+    Course.get = sinon.stub().returns(promise);
+
+    courseResolver = new CourseResolver($q, Course);
+
+  });
+
+  describe("details resolver", () => {
+    let response;
+
+    describe("without a user and with a regular id", () => {
+
+      beforeEach(() => {
+        courseResolver({resource: '456'}).then((data) => {
+          response = data;
         });
-
-        it("calls the Course service with the right arguments", function(){
-          expect(Course.get).not.to.be.called;
-        });
-
-        it("returns all the necessary data for the detail page", function(){
-          expect(response).to.be.undefined;
-        });
+        $rootScope.$apply();
       });
 
-      describe("with a user and regular id", function(){
-
-        beforeEach(function(){
-          var resource = {
-            id: '456',
-            curator: 'yeehaa'
-          }
-          courseResolver(resource).then(function(data){
-            response = data;
-          });
-          $rootScope.$apply();
-        });
-
-        it("calls the Course service with the right arguments", function(){
-          expect(Course.get).to.be.calledWithExactly('yeehaa', '456');
-        });
-
-        it("returns all the necessary data for the detail page", function(){
-          expect(response.info).not.to.be.undefined;
-          expect(response.cards).not.to.be.undefined;
-          expect(response.schema).not.to.be.undefined;
-        });
+      it("calls the Course service with the right arguments", () => {
+        expect(Course.get).not.to.be.called;
       });
 
-      describe("with a user and new as id", function(){
+      it("returns all the necessary data for the detail page", () => {
+        expect(response).to.be.undefined;
+      });
+    });
 
-        beforeEach(function(){
-          var resource = {
-            id: '456',
-            curator: 'yeehaa'
-          }
+    describe("with a user and regular id", () => {
 
-          courseResolver(resource).then(function(data){
-            response = data;
-          });
-          $rootScope.$apply();
+      beforeEach(() => {
+
+        let resource = {
+          id: '456',
+          curator: 'yeehaa'
+        }
+
+        courseResolver(resource).then((data) => {
+          response = data;
         });
 
-        it("returns all the necessary data for the detail page", function(){
-          expect(response.info).not.to.be.undefined;
-          expect(response.cards).not.to.be.undefined;
-          expect(response.schema).not.to.be.undefined;
+        $rootScope.$apply();
+      });
+
+      it("calls the Course service with the right arguments", () => {
+        expect(Course.get).to.be.calledWithExactly('yeehaa', '456');
+      });
+
+      it("returns all the necessary data for the detail page", () => {
+        expect(response.info).not.to.be.undefined;
+        expect(response.cards).not.to.be.undefined;
+        expect(response.schema).not.to.be.undefined;
+      });
+    });
+
+    describe("with a user and new as id", () => {
+
+      beforeEach(() => {
+        let resource = {
+          id: '456',
+          curator: 'yeehaa'
+        }
+
+        courseResolver(resource).then(function(data){
+          response = data;
         });
+        $rootScope.$apply();
+      });
+
+      it("returns all the necessary data for the detail page", () => {
+        expect(response.info).not.to.be.undefined;
+        expect(response.cards).not.to.be.undefined;
+        expect(response.schema).not.to.be.undefined;
       });
     });
   });
-})();
+});

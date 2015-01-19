@@ -22,7 +22,7 @@ function utilities(baseUrl){
   }
 
   function generateUID(){
-    var uid = Date.now();
+    let uid = Date.now();
     return uid;
   }
 

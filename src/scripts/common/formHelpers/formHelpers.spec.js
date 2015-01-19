@@ -1,187 +1,179 @@
-(function(){
+import FormHelpers from './formHelpers';
 
-  describe("formHelpers", function(){
-    var formHelpers;
-    var dispatcher;
-    var $rootScope;
-    var $q;
-    var queue;
+describe("formHelpers", () => {
+  let formHelpers;
+  let dispatcher;
 
-    beforeEach(function(){
-      dispatcher = {}
-      dispatcher.queue = sinon.stub();
-      dispatcher.setState = sinon.stub();
+  beforeEach(() => {
+    dispatcher = {}
+    dispatcher.queue = sinon.stub();
+    dispatcher.setState = sinon.stub();
 
-      module('unacademic.common.formHelpers',  function($provide){
-        $provide.value('dispatcher', dispatcher);
+    formHelpers = new FormHelpers(dispatcher);
+  });
+
+  describe("generateUrl", () => {
+    let form;
+    let model;
+
+    describe("submit", () => {
+
+      beforeEach(() => {
+        model = {
+          id: '123',
+          curator: 'yeehaa'
+        };
+
+        form = {
+          $setPristine: () => {},
+          $setDirty: () => {}
+        }
       });
 
-      inject(function(_formHelpers_, _$rootScope_, _$q_){
-        formHelpers = _formHelpers_;
-        $rootScope = _$rootScope_;
-        $q = _$q_;
+      describe("if form is clean and invalid", () => {
+
+        it("does not call save on the model", () => {
+
+          form.$dirty = false;
+          form.$valid = false;
+
+          model.save = sinon.stub();
+          formHelpers.submit(form, model);
+          expect(model.save).not.called;
+        });
+      });
+
+      describe("if form is clean and valid", () => {
+
+        it("does not call save on the model", () => {
+
+          form.$dirty = false;
+          form.$valid = true;
+
+          model.save = sinon.stub();
+          formHelpers.submit(form, model);
+          expect(model.save).not.called;
+        });
+      });
+
+      describe("if form is dirty and valid", () => {
+        let promise;
+
+        beforeEach(() => {
+          form.$dirty = true;
+          form.$valid = true;
+        });
+
+        describe("successful save", () => {
+
+          beforeEach(() => {
+            promise = Promise.resolve();
+            model.save = sinon.stub().returns(promise);
+            formHelpers.submit(form, model);
+          });
+
+          it("calls save on the model", () => {
+            expect(model.save).called;
+          });
+
+          it("removes the model from the queue", (done) => {
+            promise.then(() => {
+              expect(dispatcher.queue).calledWith({remove: '123'})
+              done();
+            });
+          });
+
+          it("set the correct resource id", () => {
+            let resource = {
+              id: '123',
+              curator: 'yeehaa'
+            }
+
+            promise.then(() => {
+              expect(dispatcher.setState).calledWith({mode: 'learning', resource: resource});
+              done();
+            });
+          });
+        });
+
+        describe("failed save", () => {
+          beforeEach(() => {
+            promise = Promise.reject();
+            model.save = sinon.stub().returns(promise);
+            formHelpers.submit(form, model);
+          });
+
+          it("calls save on the model", () => {
+            expect(model.save).called;
+          });
+
+          it("leaves the model in the queue", (done) => {
+            promise.catch(() => {
+              expect(dispatcher.queue).not.called;
+              done();
+            });
+          });
+        });
       });
     });
 
-    describe("generateUrl", function(){
-      var form;
-      var model;
+    describe("checkForm", () => {
+      let id;
+      let form;
 
-      describe("submit", function(){
+      beforeEach(() => {
+        id = '123';
+        form = {};
+      });
 
-        beforeEach(function(){
-          model = {
-            id: '123',
-            curator: 'yeehaa'
-          };
+      describe("if form is clean", () => {
 
-          form = {
-            $setPristine: function(){},
-            $setDirty: function(){}
-          }
-        });
-
-        describe("if form is clean and invalid", function(){
-
-          it("does not call save on the model", function(){
-
-            form.$dirty = false;
-            form.$valid = false;
-
-            model.save = sinon.stub();
-            formHelpers.submit(form, model);
-            expect(model.save).not.called;
-          });
-        });
-
-        describe("if form is clean and valid", function(){
-
-          it("does not call save on the model", function(){
-
-            form.$dirty = false;
-            form.$valid = true;
-
-            model.save = sinon.stub();
-            formHelpers.submit(form, model);
-            expect(model.save).not.called;
-          });
-        });
-
-        describe("if form is dirty and valid", function(){
-
-          beforeEach(function(){
-            form.$dirty = true;
-            form.$valid = true;
-          });
-
-          describe("successful save", function(){
-            beforeEach(function(){
-              var promise = $q(function(resolve, reject){
-                resolve();
-              });
-
-              model.save = sinon.stub().returns(promise);
-              formHelpers.submit(form, model);
-
-              $rootScope.$apply();
-            });
-
-            it("calls save on the model", function(){
-              expect(model.save).called;
-            });
-
-            it("removes the model from the queue", function(){
-              expect(dispatcher.queue).calledWith({remove: '123'});
-            });
-
-            it("set the correct resource id", function(){
-              var resource = {
-                id: '123',
-                curator: 'yeehaa'
-              }
-              expect(dispatcher.setState).calledWith({mode: 'learning', resource: resource});
-            });
-          });
-
-          describe("failed save", function(){
-            beforeEach(function(){
-              var promise = $q(function(resolve, reject){
-                reject();
-              });
-
-              model.save = sinon.stub().returns(promise);
-              formHelpers.submit(form, model);
-
-              $rootScope.$apply();
-            });
-
-            it("calls save on the model", function(){
-              expect(model.save).called;
-            });
-
-            it("leaves the model in the queue", function(){
-              expect(dispatcher.queue).not.called;
-            });
-          });
+        it("does not add the model to the queue", () => {
+          form.$dirty = false;
+          formHelpers.checkForm(form, id, dispatcher);
+          expect(dispatcher.queue).not.called;
         });
       });
 
-      describe("checkForm", function(){
-        var id;
-        var form;
+      describe("if form is dirty", () => {
 
-        beforeEach(function(){
-          id = '123';
-          form = {};
+        it("adds the model to the queue", () => {
+          form.$dirty = true;
+          formHelpers.checkForm(form, id, dispatcher);
+          expect(dispatcher.queue).calledWith({add: id});
         });
+      });
 
-        describe("if form is clean", function(){
-          it("does not add the model to the queue", function(){
-            form.$dirty = false;
-            formHelpers.checkForm(form, id, dispatcher);
-            expect(dispatcher.queue).not.called;
-          });
-        });
-
-        describe("if form is dirty", function(){
-          it("adds the model to the queue", function(){
-            form.$dirty = true;
-            formHelpers.checkForm(form, id, dispatcher);
-            expect(dispatcher.queue).calledWith({add: id});
-          });
-        });
-
-        function submitForm(options){
-          vm.info = {
-            id: '123',
-            save: function(){}
-          }
-
-          vm.form.$valid = options.valid;
-          vm.form.$dirty = options.dirty;
-          vm.form.$setPristine = function(){
-            vm.form.$dirty = false;
-          }
-
-          vm.form.$setDirty = function(){
-            vm.form.$dirty = true;
-          }
-
-          var promise = $q(function(resolve, reject){
-            if(options.resolve){
-              resolve();
-            } else {
-              reject();
-            }
-          });
-
-          saveModelStub = sinon.stub(vm.info, 'save').returns(promise);
-
-          vm.submit();
-          $scope.$digest();
+      function submitForm(options){
+        vm.info = {
+          id: '123',
+          save: () => {}
         }
 
-      });
+        vm.form.$valid = options.valid;
+        vm.form.$dirty = options.dirty;
+        vm.form.$setPristine = () => {
+          vm.form.$dirty = false;
+        }
+
+        vm.form.$setDirty = () => {
+          vm.form.$dirty = true;
+        }
+
+        let promise = $q(function(resolve, reject){
+          if(options.resolve){
+            resolve();
+          } else {
+            reject();
+          }
+        });
+
+        saveModelStub = sinon.stub(vm.info, 'save').returns(promise);
+
+        vm.submit();
+        $scope.$digest();
+      }
+
     });
   });
-})();
+});

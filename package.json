@@ -4,7 +4,7 @@
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "mocha"
+    "test": "find ./src/scripts/ -name '*.spec.js' | xargs mocha -R spec -C"
   },
   "author": "yeehaa",
   "license": "MIT",
