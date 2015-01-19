@@ -1,12 +1,12 @@
 export default mutator;
 
-function mutator(currentState, switcher, history){
+function mutator($q, currentState, switcher, history){
   return {
     set: set
   }
 
   function set(changes){
-    return new Promise(function(resolve, reject){
+    return $q(function(resolve, reject){
       switcher.set(changes)
         .then(function(){
           setCurrentState(changes);

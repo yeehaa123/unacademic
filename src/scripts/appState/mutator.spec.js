@@ -1,77 +1,115 @@
 var Mutator = require('./mutator.js');
+var ngMock = require('angular-mocks-node');
 
 describe("mutator", function(){
   var mutator;
   var currentState;
   var history;
   var switcher;
+  var $rootScope;
+  var $q;
 
   beforeEach(function(){
+
     currentState = {};
     switcher = {};
     history = {};
 
-    currentState.set = sinon.spy();
-    currentState.get = sinon.stub();
-    history.add = sinon.spy();
-    switcher.set = sinon.stub();
+    ngMock.inject(function(_$q_, _$rootScope_){
+      $q = _$q_;
+      $rootScope = _$rootScope_;
+    });
 
-    mutator = new Mutator(currentState, switcher, history)
+    mutator = new Mutator($q, currentState, switcher, history)
+
+    currentState.get = sinon.stub().returns({mode: 'learning'});
+    currentState.set = sinon.spy();
+    history.add = sinon.spy();
   });
 
-  describe("set", function(){
+  describe("set", () => {
     var changes;
-    var value;
-
-    beforeEach(function(){
-      changes = {
-        mode: 'learning',
-      }
-    });
 
     describe("successful mutations", function(){
 
+      var success;
+      var error;
+
       beforeEach(function(){
+
+        switcher.set = sinon.stub().returns($q.when());
         changes = {
           mode: 'learning',
         }
 
-        var promise = Promise.resolve(changes);
-        currentState.get.returns(changes);
-        switcher.set.returns(promise);
-        value = mutator.set(changes);
+        mutator.set(changes)
+          .then(function(msg){
+            success = msg;
+          })
+          .catch(function(msg){
+            error = msg;
+          })
+        $rootScope.$apply();
       });
 
       it("sets the values", function(){
-        expect(switcher.set).calledWith(changes);
+        expect(currentState.set).calledWith(changes)
       });
 
-      it("sets the values", function(){
-        return expect(value).to.eventually.deep.equal(changes);
+      it("gets the currentState", function(){
+        expect(currentState.get).calledOnce;
       });
 
-      it("calls the services", function(done){
-        value.then(function(){
-          expect(history.add).calledWith(changes);
-          expect(currentState.set).calledWith(changes);
-          done();
-        });
+      it("adds to the history", function(){
+        expect(history.add).calledOnce;
       });
-    });
 
-
-    describe("failed mutations", function(){
-
-      beforeEach(function(){
-        switcher.set = sinon.stub().returns(Promise.reject());
-        value = mutator.set();
+      it("returns the new state", function(){
+        expect(success).to.deep.equal({mode: 'learning'});
       });
 
       it("does not returns an error message", function(){
-        return expect(value).to.eventually.be.rejected;
-        // return expect(value).to.eventually.be.rejectedWith(Error);
+        expect(error).to.be.undefined;
       });
     });
 
+    describe("failed mutations", function(){
+
+      var success;
+      var error;
+
+      beforeEach(function(){
+        switcher.set = sinon.stub().returns($q.reject());
+
+        mutator.set()
+        .then(function(msg){
+          success = msg;
+        })
+        .catch(function(msg){
+          error = msg;
+        })
+        $rootScope.$digest();
+      });
+
+      it("sets the values", function(){
+        expect(currentState.set).not.called;
+      });
+
+      it("gets the currentState", function(){
+        expect(currentState.get).not.called;
+      });
+
+      it("adds to the history", function(){
+        expect(history.add).not.called;
+      });
+
+      it("returns a success message", function(){
+        expect(success).to.be.undefined;
+      });
+
+      it("does not returns an error message", function(){
+        expect(error).to.contain("groundcontrol");
+      });
+    });
   });
 });
