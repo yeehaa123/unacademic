@@ -1,41 +1,39 @@
-var Mutator = require('./mutator.js');
-var ngMock = require('angular-mocks-node');
+import Mutator from './mutator';
+import ngMock from 'angular-mocks-node';
 
-describe("mutator", function(){
-  var mutator;
-  var currentState;
-  var history;
-  var switcher;
-  var $rootScope;
-  var $q;
+describe("mutator", () => {
+  let mutator;
+  let currentState;
+  let history;
+  let switcher;
+  let $rootScope;
+  let $q;
 
-  beforeEach(function(){
+  beforeEach(() => {
+
+    ngMock.inject((_$q_, _$rootScope_) => {
+      $q = _$q_;
+      $rootScope = _$rootScope_;
+    });
 
     currentState = {};
     switcher = {};
     history = {};
 
-    ngMock.inject(function(_$q_, _$rootScope_){
-      $q = _$q_;
-      $rootScope = _$rootScope_;
-    });
-
-    mutator = new Mutator($q, currentState, switcher, history)
-
     currentState.get = sinon.stub().returns({mode: 'learning'});
     currentState.set = sinon.spy();
     history.add = sinon.spy();
+
+    mutator = new Mutator($q, currentState, switcher, history)
   });
 
   describe("set", () => {
-    var changes;
+    let changes;
+    let msg;
 
-    describe("successful mutations", function(){
+    describe("successful mutations", () => {
 
-      var success;
-      var error;
-
-      beforeEach(function(){
+      beforeEach(() => {
 
         switcher.set = sinon.stub().returns($q.when());
         changes = {
@@ -43,72 +41,56 @@ describe("mutator", function(){
         }
 
         mutator.set(changes)
-          .then(function(msg){
-            success = msg;
-          })
-          .catch(function(msg){
-            error = msg;
-          })
-        $rootScope.$apply();
-      });
+          .then((res) => { msg = res })
+          .catch((err) => {msg = err })
 
-      it("sets the values", function(){
-        expect(currentState.set).calledWith(changes)
-      });
-
-      it("gets the currentState", function(){
-        expect(currentState.get).calledOnce;
-      });
-
-      it("adds to the history", function(){
-        expect(history.add).calledOnce;
-      });
-
-      it("returns the new state", function(){
-        expect(success).to.deep.equal({mode: 'learning'});
-      });
-
-      it("does not returns an error message", function(){
-        expect(error).to.be.undefined;
-      });
-    });
-
-    describe("failed mutations", function(){
-
-      var success;
-      var error;
-
-      beforeEach(function(){
-        switcher.set = sinon.stub().returns($q.reject());
-
-        mutator.set()
-        .then(function(msg){
-          success = msg;
-        })
-        .catch(function(msg){
-          error = msg;
-        })
         $rootScope.$digest();
       });
 
-      it("sets the values", function(){
+      it("sets the values", () => {
+        expect(currentState.set).calledWith(changes)
+      });
+
+      it("gets the currentState", () => {
+        expect(currentState.get).calledOnce;
+      });
+
+      it("adds to the history", () => {
+        expect(history.add).calledOnce;
+      });
+
+      it("returns the new state", () => {
+        expect(msg).to.deep.equal({mode: 'learning'});
+      });
+    });
+
+    describe("failed mutations", () => {
+
+      beforeEach(() => {
+
+        switcher.set = sinon.stub().returns($q.reject());
+
+        mutator.set(changes)
+          .then((res) => { msg = res })
+          .catch((err) => {msg = err })
+
+        $rootScope.$digest();
+      });
+
+      it("does not set the values", () => {
         expect(currentState.set).not.called;
       });
 
-      it("gets the currentState", function(){
+      it("does not get the currentState", () => {
         expect(currentState.get).not.called;
       });
 
-      it("adds to the history", function(){
+      it("does not add to the history", () => {
         expect(history.add).not.called;
       });
 
-      it("returns a success message", function(){
-        expect(success).to.be.undefined;
-      });
-
-      it("does not returns an error message", function(){
-        expect(error).to.contain("groundcontrol");
+      it("returns an error message", () => {
+        expect(msg).to.contain("groundcontrol");
       });
     });
   });

@@ -1,53 +1,53 @@
-var Switcher = require('./switcher.js');
+import Switcher from './switcher';
 
-describe("switcher", function(){
-  var switcher;
-  var $state;
-  var $q;
-  var promise;
-  var response;
+describe("switcher", () => {
+  let switcher;
+  let $state;
+  let $q;
 
-  beforeEach(function(){
+  beforeEach(() => {
     $state = {};
     $q = {}
     $q.when = sinon.stub()
     $state.go = sinon.stub();
     switcher = new Switcher($state, $q);
-    promise = Promise.resolve('foo');
   });
 
-  describe("state switching", function(){
-    var state;
+  describe("state switching", () => {
+    let state;
+    let response;
+    let promise;
 
-    describe("it has no name", function(){
-      beforeEach(function(){
+    describe("it has no name", () => {
+      beforeEach(() => {
         state = {};
+        promise = Promise.resolve('foo');
         $q.when.withArgs('no route change').returns(promise);
         response = switcher.set(state);
       });
 
-      it("does not call $state", function(){
+      it("does not call $state", () => {
         expect($state.go).not.called;
       });
 
-
-      it("returns the success message", function(){
+      it("returns the success message", () => {
         return expect(response).to.eventually.equal("foo");
       });
     });
 
-    describe("it has a name", function(){
-      beforeEach(function(){
+    describe("it has a name", () => {
+      beforeEach(() => {
         state = { name: 'waypoints.detail' };
+        promise = Promise.resolve('foo');
         $state.go.withArgs(state.name, undefined).returns(promise);
         response = switcher.set(state);
       });
 
-      it("does not call $q", function(){
+      it("does not call $q", () => {
         expect($q.when).not.called;
       });
 
-      it("returns the success message", function(){
+      it("returns the success message", () => {
         return expect(response).to.eventually.equal("foo");
       });
     });

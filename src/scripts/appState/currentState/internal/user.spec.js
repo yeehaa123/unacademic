@@ -1,44 +1,36 @@
-(function(){
+import User from './user';
 
-  describe("user", function(){
-    var userId;
-    var $log;
+describe("user", () => {
+  let user;
 
-    beforeEach(function(){
+  beforeEach(() => {
+    user = new User();
 
-      module('unacademic.appState.currentState.user');
+  });
 
-      inject(function(_user_){
-        user = _user_;
-      });
+  describe("current user id", () => {
+
+    it("is undefined by default", () => {
+      expect(user.get()).to.be.undefined;
     });
 
-    describe("current user id", function(){
+    describe("set", () => {
+      let userId;
+      let setUserId;
+      let notification;
 
-      it("is undefined by default", function(){
-        expect(user.get()).to.be.undefined;
+      beforeEach(() => {
+        userId = 'John123';
+        setUserId = user.set(userId);
       });
 
-      describe("set", function(){
-        var userId;
-        var setUserId;
-        var notification;
+      it("returns true", () => {
+        expect(setUserId).to.be.true;
+      });
 
-        beforeEach(function(){
-          userId = 'John123';
-          setUserId = user.set(userId);
-        });
-
-        it("returns true", function(){
-          expect(setUserId).to.be.true;
-        });
-
-        it("can be set", function(){
-          expect(user.get()).to.equal(userId);
-        });
-      })
+      it("can be set", () => {
+        expect(user.get()).to.equal(userId);
+      });
     })
-  });
-})();
-
-
+  })
+});

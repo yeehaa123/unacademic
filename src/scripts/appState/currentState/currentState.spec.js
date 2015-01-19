@@ -1,141 +1,99 @@
-(function(){
+import CurrentState from './currentState'
+import _ from 'lodash';
 
-  describe("currentState", function(){
-    var currentState;
+describe("currentState", () => {
+  let currentState;
+  let mode;
+  let user;
+  let view;
+  let resource;
+  let timestamp;
+  let modules;
 
-    var mode;
-    var user;
-    var view;
-    var resource;
-    var getState;
-    var timestamp;
-    var modules;
+  beforeEach(() => {
 
-    beforeEach(function(){
+    mode      = { name: 'mode' };
+    user      = { name: 'user' };
+    view      = { name: 'name' };
+    resource  = { name: 'resource' };
+    timestamp = { name: 'timestamp' };
 
-      mode = {
-        name: 'mode',
-        get: function(){},
-        set: function(){}
-      };
+    modules = [mode, user, view, resource, timestamp];
 
-      user = {
-        name: 'user',
-        get: function(){},
-        set: function(){}
-      };
-
-      view = {
-        name: 'name',
-        get: function(){},
-        set: function(){}
-      }
-
-      resource = {
-        name: 'resource',
-        get: function(){},
-        set: function(){}
-      }
-
-      timestamp = {
-        name: 'timestamp',
-        get: function(){},
-        set: function(){}
-      }
-
-
-      modules = [mode, user, view, resource, timestamp];
-
-      _.each(modules, function(module){
-        module['get'] = sinon.spy();
-        module['set'] = sinon.spy();
-      });
-
-      module('unacademic.appState.currentState',  function($provide){
-        $provide.value('mode', mode);
-        $provide.value('user', user);
-        $provide.value('view', view);
-        $provide.value('timestamp', timestamp);
-        $provide.value('resource', resource);
-      });
-
-      inject(function(_currentState_){
-        currentState = _currentState_;
-      });
-      getState = currentState.get;
+    _.each(modules, (module) => {
+      module['get'] = sinon.spy();
+      module['set'] = sinon.spy();
     });
 
-    describe("get", function(){
-      var state;
+    currentState = new CurrentState(...modules);
+  });
 
-      beforeEach(function(){
-        state = getState();
-      })
+  describe("get", () => {
+    let state;
 
-      it("gets the correct data", function(){
-        _.each(modules, function(module){
-          expect(module.get).calledOnce;
-        })
-      });
-    });
+    beforeEach(() => {
+      currentState.get();
+    })
 
-    describe("set", function(){
-      describe("with no changes", function(){
-
-        beforeEach(function(){
-          setState = currentState.set({});
-        });
-
-
-        it("does not set any value", function(){
-          _.each(modules, function(module){
-            expect(module.set).not.called;
-          })
-        });
-      });
-
-      describe("with one change", function(){
-
-        beforeEach(function(){
-
-          var newState = {
-            mode: 'learning',
-          }
-
-          setState = currentState.set(newState);
-        });
-
-        it("sets the values", function(){
-          expect(user.set).not.called;
-          expect(mode.set).calledWith('learning');
-          expect(view.set).not.called;
-          expect(resource.set).not.called;
-        });
-      });
-
-      describe("with multiple changes", function(){
-        beforeEach(function(){
-
-          var newState = {
-            mode: 'learning',
-            resource: '123',
-            name: 'courses.detail',
-            user: 'yeehaa',
-            timestamp: '123'
-          }
-
-          setState = currentState.set(newState);
-        });
-
-        it("sets the values", function(){
-          expect(user.set).calledWith('yeehaa');
-          expect(mode.set).calledWith('learning');
-          expect(view.set).calledWith('courses.detail');
-          expect(resource.set).calledWith('123');
-          expect(timestamp.set).calledWith('123');
-        });
-
-      });
+    it("gets the correct data", () => {
+      _.each(modules, (module) => { expect(module.get).calledOnce });
     });
   });
-})();
+
+  describe("set", () => {
+    describe("with no changes", () => {
+
+      beforeEach(() => {
+        currentState.set({});
+      });
+
+
+      it("does not set any value", () => {
+        _.each(modules, (module) => { expect(module.set).not.called });
+      });
+    });
+
+    describe("with one change", () => {
+
+      beforeEach(() => {
+
+        let newState = {
+          mode: 'learning',
+        }
+
+        currentState.set(newState);
+      });
+
+      it("sets the values", () => {
+        expect(user.set).not.called;
+        expect(mode.set).calledWith('learning');
+        expect(view.set).not.called;
+        expect(resource.set).not.called;
+      });
+    });
+
+    describe("with multiple changes", () => {
+      beforeEach(() => {
+
+        let newState = {
+          mode: 'learning',
+          resource: '123',
+          name: 'courses.detail',
+          user: 'yeehaa',
+          timestamp: '123'
+        }
+
+        currentState.set(newState);
+      });
+
+      it("sets the values", () => {
+        expect(user.set).calledWith('yeehaa');
+        expect(mode.set).calledWith('learning');
+        expect(view.set).calledWith('courses.detail');
+        expect(resource.set).calledWith('123');
+        expect(timestamp.set).calledWith('123');
+      });
+
+    });
+  });
+});

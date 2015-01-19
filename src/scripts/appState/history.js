@@ -1,4 +1,4 @@
-module.exports = history;
+export default history;
 
 function history(){
   let history;
@@ -33,7 +33,6 @@ function history(){
 
   function status(){
     let length = history.length;
-    let index = index;
     return {length, index};
   }
 

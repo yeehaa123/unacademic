@@ -1,61 +1,36 @@
-(function(){
+import View from './view';
 
-  describe("view", function(){
-    var view;
-    var $log;
+describe("view", () => {
+  let view;
+  let $log;
 
-    beforeEach(function(){
+  beforeEach(() => {
+    view = new View();
+  });
 
-      module('unacademic.appState.currentState.view');
+  describe("view name", () => {
 
-      $state = {
-        current: {
-          name: '123'
-        }
-      };
-
-
-      module('unacademic.appState.dispatcher',  function($provide){
-        $provide.value('$state', $state);
-      });
-
-      inject(function(_view_, _$rootScope_){
-        view = _view_;
-        $rootScope = _$rootScope_;
-      });
+    it("calls $state to get its initial state name", () => {
+      expect(view.get()).to.equal('');
     });
 
-    describe("view name", function(){
+    describe("set", () => {
+      let name;
+      let setName;
 
-      it("calls $state to get its initial state name", function(){
-        expect(view.get()).to.equal('123');
+      beforeEach(() => {
+        name = '123';
+        setName = view.set(name);
       });
 
-      it("is set to its internal value on subsequent calls", function(){
-        view.get();
-        $state.current.name = '456';
-        $rootScope.$apply();
-        expect(view.get()).to.equal('123');
+
+      it("returns true", () => {
+        expect(setName).to.be.true;
       });
 
-      describe("set", function(){
-        var name;
-        var setName;
-
-        beforeEach(function(){
-          name = '123';
-          setName = view.set(name);
-        });
-
-
-        it("returns true", function(){
-          expect(setName).to.be.true;
-        });
-
-        it("can be set", function(){
-          expect(view.get()).to.equal(name);
-        });
-      })
+      it("can be set", () => {
+        expect(view.get()).to.equal(name);
+      });
     })
-  });
-})();
+  })
+});

@@ -1,46 +1,39 @@
-(function(){
+import Resource from './resource';
 
-  describe("resource", function(){
-    var resource;
+describe("resource", () => {
+  let resource;
 
-    beforeEach(function(){
+  beforeEach(() => {
+    resource = new Resource();
+  });
 
-      module('unacademic.appState.currentState.resource');
+  describe("resource", () => {
 
-      inject(function(_resource_, _$rootScope_){
-        resource = _resource_;
-        $rootScope = _$rootScope_;
-      });
+    it("is undefined by default", () => {
+      expect(resource.get()).to.be.undefined;
     });
 
-    describe("resource", function(){
 
-      it("is undefined by default", function(){
-        expect(resource.get()).to.be.undefined;
+    describe("set", () => {
+      let newResource;
+      let setName;
+
+      beforeEach(() => {
+        newResource = {
+          id: '123',
+          curator: 'yeehaa'
+        }
+        setName = resource.set(newResource);
       });
 
 
-      describe("set", function(){
-        var newResource;
-        var setName;
+      it("returns true", () => {
+        expect(setName).to.be.true;
+      });
 
-        beforeEach(function(){
-          newResource = {
-            id: '123',
-            curator: 'yeehaa'
-          }
-          setName = resource.set(newResource);
-        });
-
-
-        it("returns true", function(){
-          expect(setName).to.be.true;
-        });
-
-        it("can be set", function(){
-          expect(resource.get()).to.equal(newResource);
-        });
-      })
+      it("can be set", () => {
+        expect(resource.get()).to.equal(newResource);
+      });
     })
-  });
-})();
+  })
+});

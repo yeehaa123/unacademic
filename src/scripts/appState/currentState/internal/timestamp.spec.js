@@ -1,41 +1,36 @@
-(function(){
+import TimeStamp from './timestamp';
 
-  describe("timestamp", function(){
-    var timestamp;
-    var $log;
+describe("timestamp", () => {
+  let timestamp;
 
-    beforeEach(function(){
+  beforeEach(() => {
+    timestamp = new TimeStamp();
 
-      module('unacademic.appState.currentState.timestamp');
+  });
 
-      inject(function(_timestamp_){
-        timestamp = _timestamp_;
-      });
+  describe("timestamp name", () => {
+
+    it("is set to its internal value on subsequent calls", () => {
+      expect(timestamp.get()).to.be.undefined;
     });
 
-    describe("timestamp name", function(){
+    describe("set", () => {
+      let time;
+      let setTime;
 
-      it("is set to its internal value on subsequent calls", function(){
-        expect(timestamp.get()).to.be.undefined;
+      beforeEach(() => {
+        time = '123';
+        setTime = timestamp.set(time);
       });
 
-      describe("set", function(){
-        var time;
 
-        beforeEach(function(){
-          time = '123';
-          setTime = timestamp.set(time);
-        });
+      it("returns true", () => {
+        expect(setTime).to.be.true;
+      });
 
-
-        it("returns true", function(){
-          expect(setTime).to.be.true;
-        });
-
-        it("can be set", function(){
-          expect(timestamp.get()).to.equal(time);
-        });
-      })
+      it("can be set", () => {
+        expect(timestamp.get()).to.equal(time);
+      });
     })
-  });
-})();
+  })
+});
