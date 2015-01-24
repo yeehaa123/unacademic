@@ -1,4 +1,4 @@
-import Resource from './resource';
+import Resource from '../../../src/scripts/appState/currentState/resource';
 
 describe("resource", () => {
   let resource;

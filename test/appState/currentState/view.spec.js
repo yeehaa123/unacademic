@@ -1,4 +1,4 @@
-import View from './view';
+import View from '../../../src/scripts/appState/currentState/view';
 
 describe("view", () => {
   let view;

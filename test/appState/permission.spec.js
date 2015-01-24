@@ -1,4 +1,4 @@
-import Permission from './permission';
+import Permission from '../../src/scripts/appState/permission';
 import ngMock from 'angular-mocks-node';
 
 describe("permission", () => {

@@ -1,4 +1,4 @@
-import Switcher from './switcher';
+import Switcher from '../../src/scripts/appState/switcher';
 
 describe("switcher", () => {
   let switcher;

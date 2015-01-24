@@ -1,4 +1,4 @@
-import FormHelpers from './formHelpers';
+import FormHelpers from '../../src/scripts/common/formHelpers';
 
 describe("formHelpers", () => {
   let formHelpers;

@@ -1,4 +1,4 @@
-import Mutator from './mutator';
+import Mutator from '../../src/scripts/appState/mutator';
 import ngMock from 'angular-mocks-node';
 
 describe("mutator", () => {

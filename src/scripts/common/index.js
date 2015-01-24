@@ -1,5 +1,5 @@
-import formHelpers from './formHelpers/formHelpers';
-import navHelpers from './navHelpers/navHelpers';
+import formHelpers from './formHelpers';
+import navHelpers from './navHelpers';
 
 let app = angular.module('unacademic.common', []);
 

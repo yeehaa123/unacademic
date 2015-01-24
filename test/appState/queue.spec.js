@@ -1,4 +1,4 @@
-import Queue from './queue';
+import Queue from '../../src/scripts/appState/queue';
 
 describe("queue", () => {
   let queue;

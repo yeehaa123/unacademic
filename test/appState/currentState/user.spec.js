@@ -1,4 +1,4 @@
-import User from './user';
+import User from '../../../src/scripts/appState/currentState/user';
 
 describe("user", () => {
   let user;

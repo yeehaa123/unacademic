@@ -1,4 +1,4 @@
-import NavHelpers from './navHelpers.js';
+import NavHelpers from '../../src/scripts/common/navHelpers.js';
 
 describe("navHelpers", () => {
   let navHelpers;

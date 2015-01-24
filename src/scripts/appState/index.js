@@ -1,4 +1,4 @@
-let app = require('angular').module('unacademic.appState', [
+let app = angular.module('unacademic.appState', [
   'unacademic.appState.currentState'
 ]);
 

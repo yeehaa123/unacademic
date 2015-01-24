@@ -1,4 +1,4 @@
-import Sidebar from './sidebar.js';
+import Sidebar from '../../../src/scripts/sidebar/controllers/sidebar.js';
 
 describe("Sidebar", () => {
   let sidebar;

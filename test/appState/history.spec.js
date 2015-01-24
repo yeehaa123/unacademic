@@ -1,4 +1,4 @@
-import History from './history.js';
+import History from '../../src/scripts/appState/history.js';
 
 describe("history", () => {
   var history;

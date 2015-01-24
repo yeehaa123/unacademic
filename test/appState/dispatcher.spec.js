@@ -1,4 +1,4 @@
-import Dispatcher from './dispatcher';
+import Dispatcher from '../../src/scripts/appState/dispatcher';
 
 describe("dispatcher", () => {
   let dispatcher;

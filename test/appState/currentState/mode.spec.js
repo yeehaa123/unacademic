@@ -1,4 +1,4 @@
-import Mode from './mode';
+import Mode from '../../../src/scripts/appState/currentState/mode';
 
 describe("mode", () => {
   let mode;

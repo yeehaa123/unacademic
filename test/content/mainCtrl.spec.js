@@ -1,4 +1,4 @@
-import MainCtrl from './MainCtrl';
+import MainCtrl from '../../src/scripts/content/MainCtrl';
 import ngMock from 'angular-mocks-node';
 
 describe("MainCtrl", () => {

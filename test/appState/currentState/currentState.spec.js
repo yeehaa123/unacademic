@@ -1,4 +1,4 @@
-import CurrentState from './currentState'
+import CurrentState from '../../../src/scripts/appState/currentState/currentState'
 import _ from 'lodash';
 
 describe("currentState", () => {

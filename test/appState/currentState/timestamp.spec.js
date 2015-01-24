@@ -1,4 +1,4 @@
-import TimeStamp from './timestamp';
+import TimeStamp from '../../../src/scripts/appState/currentState/timestamp';
 
 describe("timestamp", () => {
   let timestamp;

@@ -1,4 +1,4 @@
-import Utilities from './utilities';
+import Utilities from '../../src/scripts/models/DataStore/utilities';
 
 describe("Utilities", function(){
   var utilities;

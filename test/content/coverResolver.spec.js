@@ -1,4 +1,4 @@
-import CoverResolver from './coverResolver';
+import CoverResolver from '../../src/scripts/content/cover/coverResolver';
 import ngMock from 'angular-mocks-node';
 
 describe("coverResolver", () => {

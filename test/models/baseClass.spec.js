@@ -1,4 +1,4 @@
-import BC from './index';
+import BC from '../../src/scripts/models/baseClass/index';
 import ngMock from 'angular-mocks-node';
 
 describe("BaseClass", () => {

@@ -9,10 +9,9 @@
   "author": "yeehaa",
   "license": "MIT",
   "devDependencies": {
-    "6to5": "^2.13.1",
+    "6to5": "^2.13.7",
     "6to5ify": "^3.1.2",
     "angular-mocks-node": "^1.3.2",
-    "angular-node": "^1.3.2",
     "browser-sync": "^1.9.0",
     "browserify": "^8.1.1",
     "chai": "^1.10.0",
@@ -26,11 +25,14 @@
     "sinon-chai": "^2.6.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.0.0",
-    "watchify": "^2.2.1"
+    "watchify": "^2.2.1",
+    "gulp-mocha": "^2.0.0",
+    "mocha": "^2.1.0"
   },
   "dependencies": {
     "angular-ui-router": "^0.2.13",
     "lodash": "^2.4.1",
-    "angular": "^1.3.9"
+    "angular": "^1.3.10",
+    "angular-bsfy": "^1.3.8-1"
   }
 }

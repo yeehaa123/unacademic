@@ -1,4 +1,4 @@
-import DS from './DataStore'
+import DS from '../../src/scripts/models/DataStore/DataStore'
 import ngMock from 'angular-mocks-node';
 
 describe("DataStore", () => {

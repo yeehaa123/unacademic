@@ -1,4 +1,4 @@
-import CourseResolver from './courseResolver';
+import CourseResolver from '../../src/scripts/content/course/courseResolver';
 import ngMock from 'angular-mocks-node';
 
 describe("courseResolver", () => {
