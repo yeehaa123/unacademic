@@ -207,12 +207,12 @@ describe("permission", () => {
       proposal = {
         user: '',
         mode: 'browsing',
-        name: '345',
+        view: '345',
         queue: new Set()
       }
 
       isAllowed = permission.get(currentState, proposal);
-      expect(isAllowed).to.eql({name: '345'});
+      expect(isAllowed).to.deep.equal({view: '345'});
     });
   });
 
@@ -223,7 +223,7 @@ describe("permission", () => {
       currentState = {
         user: 'yeehaa',
         mode: 'learning',
-        name: '123'
+        view: '123'
       }
 
     });
@@ -233,7 +233,7 @@ describe("permission", () => {
       proposal = {
         user: 'yeehaa',
         mode: 'curation',
-        name: '123',
+        view: '123',
         queue: new Set()
       }
 
@@ -246,7 +246,7 @@ describe("permission", () => {
       proposal = {
         user: 'yeehaa',
         mode: 'browsing',
-        name: '123',
+        view: '123',
         queue: new Set()
       }
 

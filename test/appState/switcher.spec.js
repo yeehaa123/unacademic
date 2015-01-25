@@ -37,9 +37,9 @@ describe("switcher", () => {
 
     describe("it has a name", () => {
       beforeEach(() => {
-        state = { name: 'waypoints.detail' };
+        state = { view: 'waypoints.detail' };
         promise = Promise.resolve('foo');
-        $state.go.withArgs(state.name, undefined).returns(promise);
+        $state.go.withArgs(state.view, undefined).returns(promise);
         response = switcher.set(state);
       });
 

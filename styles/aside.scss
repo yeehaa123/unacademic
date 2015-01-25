@@ -1,0 +1,64 @@
+aside {
+  width: 400px;
+  height: 100vh; 
+  background-color: rgb(228, 228, 228);
+  float: left;
+  top: 0;
+  left: 0;
+  position: fixed;
+
+  .logo {
+    margin-top: 20px;
+    font-family: 'NB';
+
+    h1, h2  {
+      padding-left: 20px;
+      padding-right: 20px;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      color: $primary-color;
+      background-color: $secondary-color;
+    }
+  }
+
+  nav {
+    margin-top: 50px;
+
+    ul li {
+      padding-bottom: 5px;
+      padding-left: 20px;
+      width: 300px;
+      color: black;
+    }
+  }
+
+  .modes {
+    width: 300px;
+    bottom: 10px;
+    margin-left: 50px;
+    position: fixed;
+
+    button {
+      background: black;
+      width: 33%;
+      height: 40px;
+      border-radius: 0;
+      margin-right: -10px;
+      text-align: center;
+      padding-left: 8px;
+      border-right: 1px solid white;
+    }
+
+    button:last-child {
+      border-right: none;
+    }
+
+    .browsing, .curating {
+      border-top-left-radius: $borderradius;
+      border-bottom-left-radius: $borderradius;
+    }
+  }
+}

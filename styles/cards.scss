@@ -1,0 +1,12 @@
+.cards {
+  width: auto;
+  height: auto;
+  margin: 0;
+	overflow-x: scroll;
+	overflow-y: scroll;
+	white-space: nowrap;  
+	float: left;
+	margin-left: 400px + $pad;
+}
+
+
