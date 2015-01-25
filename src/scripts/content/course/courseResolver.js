@@ -1,6 +1,7 @@
 export default courseResolver;
+import _ from 'lodash';
 
-function courseResolver($q, Course){
+function courseResolver($q, Course, $http){
 
   return data;
 
@@ -17,10 +18,7 @@ function courseResolver($q, Course){
       courseId = id;
     }
 
-
-    let promises;
-
-    return $q(function(resolve, reject){
+    return $q((resolve, reject) => {
 
       if(!curatorId){
         return reject();
@@ -31,16 +29,35 @@ function courseResolver($q, Course){
         return resolve({schema: schema, info: course, cards: course.waypoints});
       }
 
-      promises = [
-        Course.get(curatorId, courseId)
-      ];
+      // all temporary...
 
-      $q.all(promises).then(function(data){
-        let info = data[0];
-        // get the waypoints
-        let cards = [];
-        return resolve({info, schema, cards});
-      });
+      Course.get(curatorId, courseId)
+        .then(getWaypoints)
+        .then((data) => {
+          let info = data.info;
+          let cards = data.waypoints;
+          return resolve({info, schema, cards});
+        });
+
+
+      function getWaypoints(data){
+        return $q((resolve, reject) => {
+          let info = data;
+
+          // to waypoints service
+          // Waypoints.get([waypoint]);
+
+          let promises = _.map(info.waypoints, (waypoint) => {
+            let url = `https://cth-curriculum.firebaseio.com/waypoints/yeehaa/${waypoint}.json`;
+            return $http.get(url);
+          });
+
+          $q.all(promises).then((responses) => {
+            let waypoints = _.map(responses, (response) => { return response.data });
+            resolve({info, waypoints})
+          });
+        });
+      }
     });
   }
 }

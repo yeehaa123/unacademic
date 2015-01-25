@@ -1,8 +1,10 @@
-<div class="sidebar">
+<aside class="sidebar">
 
   <div ng-show="sidebar.mode === 'learning' || sidebar.mode === 'browsing'" class="metabox">
 
-    <h1>{{sidebar.model.title}}</h1>
+    <div class="logo">
+      <h1>{{sidebar.model.title}}</h1>
+    </div>
 
     <p ng-repeat="property in sidebar.learn">
       <strong>{{property}}: </strong>{{sidebar.model[property]}}
@@ -34,5 +36,4 @@
         <span class="button-group-item">{{mode}}</span>
       </label>
     </div>
-
-</div>
+</aside>

@@ -19,33 +19,28 @@ let app = angular.module('unacademic', [
 ]);
 
 app.constant('baseUrl', 'https://cth-curriculum.firebaseio.com/');
-//app.constant('baseUrl', 'http://private-7c8dd-unacademic.apiary-mock.com');
 
-app.run(function(Cover, $state, $rootScope, history, dispatcher) {
-  initialize();
+app.config(function($urlRouterProvider){
+  $urlRouterProvider.otherwise('cover');
+});
 
-  $rootScope.$on('$stateChangeError', function(event, toState, toParams, fromState, fromParams, error) {
-    event.preventDefault();
-    $state.go('cover');
+app.run(function($rootScope, history, dispatcher) {
+  let initialized = false;
+
+  $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams, error) {
+    if(!initialized){
+      event.preventDefault();
+      initialized = true;
+      initialize(toState, toParams);
+    } 
   });
 
-  function initialize(){
+  function initialize(toState, toParams){
     history.initialize();
-
-    dispatcher.setState({
-      name: 'cover',
-      mode: 'browsing',
-    });
-
-    // dispatcher.setState({
-    //   name: 'course',
-    //   mode: 'browsing',
-    //   resource: {
-    //     curator: 'yeehaa',
-    //     id: '1420924907004'
-    //   }
-    // });
-
     window.backlog = history.get;
+    let state = dispatcher.getState();
+    let urlState = toState.url.match(/^\/(.+?)\//) || toState.url.match(/^\/(.+)\/?/);
+    let view = urlState[1];
+    dispatcher.setState({view: view, resource: {curator: toParams.curator, id: toParams.id}});
   }
 });

@@ -25,7 +25,7 @@ function permission($log) {
     var hasView = _.has(intersection, 'view');
 
     if(hasResource && !hasView){
-      intersection.name = currentState.name;
+      intersection.view = currentState.view;
     }
 
     delete intersection.queue;
@@ -59,11 +59,6 @@ function permission($log) {
 
     if((nextState.mode === 'curation' || nextState.mode === 'learning') && !nextState.user){
       $log.warn('curation and learning mode are only accessible after signing in')
-      return false;
-    }
-
-    if(nextState.mode === 'browsing' && nextState.user){
-      $log.warn('browsing mode is not available for logged in users')
       return false;
     }
 

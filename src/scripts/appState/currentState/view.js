@@ -2,20 +2,20 @@ export default currentView;
 
 function currentView(){
 
-  let name = '';
+  let view = '';
 
   return {
-    name: 'name',
+    name: 'view',
     get: get,
     set: set
   }
 
   function get(){
-    return name = name;
+    return view;
   }
 
-  function set(newName){
-    name = newName;
+  function set(newView){
+    view = newView;
     return true;
   }
 };

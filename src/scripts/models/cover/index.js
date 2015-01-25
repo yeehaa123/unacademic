@@ -4,6 +4,6 @@ import Cover from './cover';
 
 let app = angular.module('unacademic.models.cover', []);
 
-app.factory('schema', schema);
-app.factory('initData', initData);
+app.factory('coverSchema', schema);
+app.factory('coverInitData', initData);
 app.factory('Cover', Cover);

@@ -105,7 +105,7 @@ describe("permission", () => {
 
         currentState = {
           mode: 'browsing',
-          name: 'course',
+          view: 'course',
           resource: {
             id: '123',
             curator: 'yeehaa'
@@ -129,7 +129,7 @@ describe("permission", () => {
       });
 
       it("includes the view name", () => {
-        expect(isAllowed.name).not.to.be.undefined;
+        expect(isAllowed.view).not.to.be.undefined;
       });
 
     })
@@ -238,22 +238,7 @@ describe("permission", () => {
       }
 
       isAllowed = permission.get(currentState, proposal);
-      expect(isAllowed).to.eql({mode: 'curation'});
-    });
-
-    it("is not allowed to switch to browsing", () => {
-
-      proposal = {
-        user: 'yeehaa',
-        mode: 'browsing',
-        view: '123',
-        queue: new Set()
-      }
-
-      isAllowed = permission.get(currentState, proposal);
-      expect(isAllowed).to.deep.equal({});
-      expect($log.warn.logs.length).to.equal(1);
-      expect($log.warn.logs[0][0]).to.contain('browsing mode');
+      expect(isAllowed).to.deep.equal({mode: 'curation'});
     });
   });
 
@@ -278,22 +263,7 @@ describe("permission", () => {
       }
 
       isAllowed = permission.get(currentState, proposal);
-      expect(isAllowed).to.eql({mode: 'learning'});
-    });
-
-    it("is not allowed to switch to browsing", () => {
-
-      proposal = {
-        user: 'yeehaa',
-        mode: 'browsing',
-        name: '123',
-        queue: new Set()
-      }
-
-      isAllowed = permission.get(currentState, proposal);
-      expect(isAllowed).to.deep.equal({});
-      expect($log.warn.logs.length).to.equal(1);
-      expect($log.warn.logs[0][0]).to.contain('browsing mode');
+      expect(isAllowed).to.deep.equal({mode: 'learning'});
     });
   });
 })

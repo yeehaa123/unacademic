@@ -12,7 +12,6 @@ function currentState(view, user, mode, resource, timestamp){
 
   function get(){
     let state = {};
-
     _.each(modules, (module) => {
       state[module.name] = module.get();
     });

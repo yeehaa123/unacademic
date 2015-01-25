@@ -1,7 +1,7 @@
 import CourseResolver from '../../src/scripts/content/course/courseResolver';
 import ngMock from 'angular-mocks-node';
 
-describe("courseResolver", () => {
+describe.only("courseResolver", () => {
   let courseResolver;
   let Course;
   let $rootScope;

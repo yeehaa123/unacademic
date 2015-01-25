@@ -40,14 +40,14 @@ function navHelpers(dispatcher, history){
     }
   }
 
-  function goTo(name, resource){
+  function goTo(view, resource){
 
     if(!resource){
       resource = createNewResource();
     }
 
     dispatcher.setState({
-      name: name,
+      view: view,
       resource: {
         id: resource.id,
         curator: resource.curator

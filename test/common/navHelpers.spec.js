@@ -35,7 +35,7 @@ describe("navHelpers", () => {
 
     it("sets the app to the correct state", () => {
       expect(dispatcher.setState).calledWith({
-        name: 'courses.detail',
+        view: 'courses.detail',
         resource: {
           id: '123',
           curator: 'yeehaa'
@@ -56,7 +56,7 @@ describe("navHelpers", () => {
 
     it("can create new courses", () => {
       expect(dispatcher.setState).calledWith({
-        name: 'courses.detail',
+        view: 'courses.detail',
         resource: {
           id: 'new',
           curator: 'yeehaa'
