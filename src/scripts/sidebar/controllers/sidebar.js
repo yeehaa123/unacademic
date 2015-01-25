@@ -35,7 +35,7 @@ function SidebarCtrl(dispatcher, navHelpers){
   }
 
   function signIn(){
-    let users = ['yeehaa', 'marijn', 'reika', 'peter'];
+    let users = ['yeehaa'];
     let user = _.sample(users);
     return dispatcher.setState({user: user, mode: 'learning'});
   }

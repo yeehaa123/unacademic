@@ -1,7 +1,15 @@
+body {
+  height: 100vh;
+  width: 100000px; 
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
-  box-sizing: border-box; }
+  box-sizing: border-box; 
+}
 
 /* Bitters 0.10.0
  * http://bitters.bourbon.io
@@ -14,6 +22,17 @@
 @font-face {
   font-family: NittyBold;
   src: url('../assets/fonts/NB.woff') format('woff'); }
+
+.cards {
+  width: auto;
+  height: 100%;
+  margin-left: 1em;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  width: auto;
+  float: left;
+}
+
 
 button, input[type="submit"] {
   -webkit-font-smoothing: antialiased;
@@ -214,17 +233,10 @@ button, input[type="submit"] {
   vertical-align: middle;
   white-space: nowrap; }
 
-.cards {
-  width: 500px;
-  float: right; }
-  .cards:after {
-    content: "";
-    display: table;
-    clear: both; }
-
 .card {
   width: 380px;
-  margin: 3em auto 1em auto;
+  float: left;
+  margin: 3em 1em 1em 1em;
   border-radius: 0px;
   padding-bottom: 1.5em;
   background-color: black;

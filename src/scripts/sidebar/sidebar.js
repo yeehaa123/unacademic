@@ -1,10 +1,10 @@
 export default sidebar;
 
-let template = require('./views/sidebar.html');
+let templateUrl = './scripts/sidebar/views/sidebar.html';
 
 function sidebar(){
   return {
-    template: template,
+    templateUrl: templateUrl,
     replace: true,
     scope: {
       model:  '=',

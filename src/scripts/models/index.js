@@ -1,7 +1,7 @@
-import './cover';
-import './course';
-import './DataStore';
-import BaseClass from './baseClass'
+import './cover/index';
+import './course/index';
+import './DataStore/index';
+import BaseClass from './baseClass/index'
 
 let app = angular.module('unacademic.models', [
   'unacademic.models.cover',

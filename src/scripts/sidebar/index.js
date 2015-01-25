@@ -1,5 +1,5 @@
 import sidebar from './sidebar';
-import SidebarCtrl from './controllers/sidebar.js';
+import SidebarCtrl from './controllers/sidebar';
 
 let app = angular.module('unacademic.sidebar', []);
 

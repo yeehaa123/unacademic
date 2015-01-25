@@ -5,9 +5,9 @@ function switcher($state, $q){
     set: set
   };
 
-  function set({name, resource}){
+  function set({view, resource}){
     if(name || resource){
-      return $state.go(name, resource);
+      return $state.go(view, resource);
     }
     return $q.when('no route change');
   };

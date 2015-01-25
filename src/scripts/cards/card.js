@@ -1,13 +1,35 @@
 export default card;
 
-let template = require('./card.html');
+let templateUrl = './scripts/cards/card.html';
+
 function card(){
   return {
-    template: template,
+    templateUrl: templateUrl,
     restrict: 'E',
     replace: true,
     scope: {
       card: '='
+    },
+
+    // move this to separate controller
+    controller: function($scope, dispatcher){
+
+      // move this function to decorator on cards
+
+      $scope.card.goTo = function(mode, model){
+        dispatcher.setState({
+
+          // pass this in as argument
+          mode: mode,
+
+          // should be resolved from model name
+          view: 'course',
+          resource: {
+            curator: model.curator,
+            id: model.id
+          }
+        });
+      }
     }
   }
 }

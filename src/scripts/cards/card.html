@@ -1,4 +1,4 @@
-<section class="card ng-class:card.type">
+<section class="ng-class:card.type">
   <div class="heading">
     <div class="bio">
       <h1>{{card.title}}</h1>
@@ -24,8 +24,8 @@
     <div class="data">
       <ul>
         <li>
-        <h4>8,5</h4>
-        <span>Rating</span>
+        <h4>{{card.waypoints.length}}</h4>
+        <span>Waypoints</span>
         </li>
         <li>
         <h4>1,119</h4>
@@ -37,9 +37,6 @@
         </li>
       </ul>
     </div>
-  <div ng-click="card.goTo(card)" class="follow">Learn</div>
-  <div ng-click="card.goTo(card)" class="follow">Browse</div>
-
-  </div>
-</div>
+  <div ng-click="card.goTo('learning', card)" class="follow">Learn</div>
+  <div ng-click="card.goTo('browsing', card)" class="follow">Browse</div>
 </section>

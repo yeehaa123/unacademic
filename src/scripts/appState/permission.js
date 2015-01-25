@@ -22,9 +22,9 @@ function permission($log) {
     });
 
     var hasResource = _.has(intersection, 'resource');
-    var hasName = _.has(intersection, 'name');
+    var hasView = _.has(intersection, 'view');
 
-    if(hasResource && !hasName){
+    if(hasResource && !hasView){
       intersection.name = currentState.name;
     }
 
@@ -34,7 +34,7 @@ function permission($log) {
   }
 
   function createProposal(currentState, changes){
-    let modules = ["mode", "name", "user", "resource", "queue"]
+    let modules = ["mode", "view", "user", "resource", "queue"]
     let state = _.clone(currentState);
 
     _.each(modules, (module) => {

@@ -1,12 +1,12 @@
-import angular from 'angular-bsfy';
+import angular from 'angular';
 import 'angular-ui-router';
 
-import './appState';
-import './common';
-import './models';
-import './content';
-import './sidebar';
-import './cards';
+import './appState/index';
+import './common/index';
+import './models/index';
+import './content/index';
+import './sidebar/index';
+import './cards/index';
 
 let app = angular.module('unacademic', [
   'ui.router',

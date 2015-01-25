@@ -37,7 +37,8 @@ function courseResolver($q, Course){
 
       $q.all(promises).then(function(data){
         let info = data[0];
-        let cards = data[0].waypoints;
+        // get the waypoints
+        let cards = [];
         return resolve({info, schema, cards});
       });
     });

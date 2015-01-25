@@ -2,7 +2,7 @@ export default routes;
 
 /*@ngInject*/
 
-let template = require('./views/index.html');
+let templateUrl = './scripts/content/views/index.html';
 
 function routes($stateProvider) {
   $stateProvider
@@ -10,7 +10,7 @@ function routes($stateProvider) {
       url: '/cover',
       controller: 'MainCtrl',
       controllerAs: 'vm',
-      template: template,
+      templateUrl: templateUrl,
       resolve: {
         data: function(init){
           return init.cover.resolver();
@@ -22,7 +22,7 @@ function routes($stateProvider) {
       url: '/course/:curator/:id',
       controller: 'MainCtrl',
       controllerAs: 'vm',
-      templateUrl: template,
+      templateUrl: templateUrl,
       resolve: {
         data: function(init, $stateParams){
           var params = $stateParams

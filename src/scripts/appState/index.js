@@ -2,7 +2,7 @@ let app = angular.module('unacademic.appState', [
   'unacademic.appState.currentState'
 ]);
 
-import currentState from './currentState';
+import currentState from './currentState/index';
 import history from './history';
 import queue from './queue';
 import permission from './permission';
