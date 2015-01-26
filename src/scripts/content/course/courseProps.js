@@ -10,33 +10,9 @@ function courseProps(){
         'summary',
         'description',
         'keywords',
-        'learners',
-        'waypoints'
+        'learners'
       ],
-      curate: [
-        {
-        key: 'title',
-      },
-      {
-        key: 'summary',
-      },
-      {
-        key: 'description',
-        type: 'textarea',
-      },
-      {
-        key: 'keywords',
-      },
-      {
-        type: 'button',
-        title: 'Add New Course',
-        onClick: () => goTo()
-      },
-      {
-        type: 'submit',
-        title: 'Save',
-      }
-      ]
+      curate: './scripts/content/views/courseForm.html'
     }
   }
 }

@@ -1,0 +1,17 @@
+<div class="toolbox">
+  <button class="signIn"
+    ng-hide="toolbox.user"
+    ng-click="toolbox.signIn()">Sign In</button>
+
+  <button class="back" ng-click="toolbox.back()">Back</button>
+  <button class="forward" ng-click="toolbox.forward()">Forward</button>
+
+  <div class="button-group">
+    <label ng-repeat="mode in toolbox.modes">
+      <input type="radio" ng-model="toolbox.mode" 
+      ng-change="toolbox.checkMode(mode)" 
+      ng-value="mode">
+      <span class="button-group-item">{{mode}}</span>
+    </label>
+  </div>
+</div>

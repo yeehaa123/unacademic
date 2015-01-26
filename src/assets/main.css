@@ -699,3 +699,6 @@ body {
   margin-left: 440px;
   overflow-y: hidden;
   overflow-x: scroll; }
+
+::-webkit-scrollbar {
+  display: none; }

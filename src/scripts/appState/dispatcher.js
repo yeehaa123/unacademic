@@ -4,10 +4,12 @@ export default dispatcher;
 
 function dispatcher(currentState, queue, permission, mutator){
   let observerCallbacks = [];
+  let modes = ['browsing', 'learning', 'curation'];
 
   return {
     getState: get,
     setState: set,
+    getModes: getModes,
     queue: setQueue,
     registerObserverCallback: registerObserverCallback
   }
@@ -25,6 +27,10 @@ function dispatcher(currentState, queue, permission, mutator){
     if(!_.isEmpty(changes)){
       mutator.set(changes).then((data) => { notifyObservers(data); });
     }
+  }
+
+  function getModes(){
+    return modes;
   }
 
   function setQueue(options){

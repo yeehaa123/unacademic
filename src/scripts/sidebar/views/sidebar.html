@@ -1,39 +1,17 @@
 <aside class="sidebar">
 
-  <div ng-show="sidebar.mode === 'learning' || sidebar.mode === 'browsing'" class="metabox">
+  <div ng-show="sidebar.mode === 'browsing'" class="metabox">
+    <browse-panel model="sidebar.model"></browse-panel>
+  </div>
 
-    <div class="logo">
-      <h1>{{sidebar.model.title}}</h1>
-    </div>
-
-    <p ng-repeat="property in sidebar.learn">
-      <strong>{{property}}: </strong>{{sidebar.model[property]}}
-    </p>
+  <div ng-show="sidebar.mode === 'learning'" class="metabox">
+    <learn-panel model="sidebar.model"></learn-panel>
   </div>
 
   <div ng-show="sidebar.mode === 'curation'" class="metabox">
-    <form name="sidebar.form"
-          sf-schema="sidebar.schema"
-          sf-form="sidebar.curate".
-          sf-model="sidebar.model"
-          ng-submit="sidebar.submit()">
-    </form>
+    <curate-panel model="sidebar.model"></curate-panel>
   </div>
 
-  <div class="toolbox">
+  <toolbox></toolbox>
 
-    <button class="signIn"
-            ng-hide="sidebar.user"
-            ng-click="sidebar.signIn()">Sign In</button>
-
-    <button class="back" ng-click="sidebar.back()">Back</button>
-    <button class="forward" ng-click="sidebar.forward()">Forward</button>
-
-
-    <div class="button-group">
-      <label ng-repeat="mode in sidebar.modes">
-        <input type="radio" ng-model="sidebar.mode" ng-change="sidebar.checkMode(mode)" ng-value="mode">
-        <span class="button-group-item">{{mode}}</span>
-      </label>
-    </div>
 </aside>

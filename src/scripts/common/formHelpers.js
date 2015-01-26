@@ -8,6 +8,7 @@ function formHelpers(dispatcher){
   };
 
   function submit(form, model){
+    console.log(form);
     if(!form.$dirty){
       return dispatcher.setState({mode: 'learning'});
     }

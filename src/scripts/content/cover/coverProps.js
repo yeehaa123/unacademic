@@ -9,27 +9,7 @@ function coverProps(){
         'summary',
         'description'
       ],
-      curate: [
-        {
-        key: 'title',
-      },
-      {
-        key: 'summary',
-      },
-      {
-        key: 'description',
-        type: 'textarea',
-      },
-      {
-        type: 'button',
-        title: 'Add New Course',
-        onClick: () => goTo()
-      },
-      {
-        type: 'submit',
-        title: 'Save',
-      }
-      ]
+      curate: 'scripts/content/views/coverForm.html'
     }
   }
 }

@@ -7,16 +7,10 @@ function sidebar(){
     templateUrl: templateUrl,
     replace: true,
     scope: {
-      model:  '=',
-      schema: '=',
-      form:   '=',
-      learn:  '=',
-      curate: '=',
-      submit: '&'
+      model:   '='
     },
     bindToController: true,
     controllerAs: 'sidebar',
     controller: 'SidebarCtrl'
   }
 };
-
