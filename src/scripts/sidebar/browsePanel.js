@@ -16,7 +16,7 @@ function browsePanel(){
       browsePanel.getTemplateUrl = function(){
         let modelName = browsePanel.model.constructor.name;
         let name = modelName.toLowerCase();
-        let template =  `./scripts/content/${name}/browsePanel.html`;
+        let template =  `./scripts/content/${name}/panels/browse.html`;
         return template;
       }
     } 

@@ -1,13 +1,13 @@
 import sidebar from './sidebar';
 import toolbox from './toolbox';
 
-import browsePanel from './browse-panel';
-import learnPanel from './learn-panel';
-import curatePanel from './curate-panel';
+import browsePanel from './browsePanel';
+import learnPanel from './learnPanel';
+import curatePanel from './curatePanel';
 
 import SidebarCtrl from './controllers/sidebar';
-import CuratePanelCtrl from './controllers/curate-panel';
-import ToolboxCtrl from './controllers/ToolboxCtrl';
+import CuratePanelCtrl from './controllers/curatePanel';
+import ToolboxCtrl from './controllers/toolbox';
 
 let app = angular.module('unacademic.sidebar', []);
 

@@ -30,13 +30,4 @@ describe("Sidebar", () => {
       expect(dispatcher.registerObserverCallback).called;
     });
   });
-
-  xdescribe("watching the model for changes", () => {
-    it("calls form helpers checkForm with the right arguments", () => {
-      vm.form = '123';
-      vm.info = {id: '456'};
-      $scope.$digest();
-      expect(formHelpers.checkForm).calledWith('123', '456');
-    });
-  });
 });

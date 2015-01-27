@@ -16,12 +16,10 @@ describe("MainCtrl", () => {
     });
 
     data = {
-      info: {
-        constructor: {
-          name: 'cover'
-        }
+      constructor: {
+        name: 'cover'
       },
-      cards: '',
+      courses: '',
       schema: ''
     }
 

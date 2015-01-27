@@ -6,17 +6,17 @@ function MainCtrl(init, dispatcher, data) {
   initialize();
 
   function initialize(){
-    vm.viewName = data.info.constructor.name.toLowerCase();
-    vm.info = data.info;
-    vm.cards = data.cards;
+    vm.viewName = data.constructor.name.toLowerCase();
+    vm.info = data;
+    vm.cards = data.courses;
     dispatcher.registerObserverCallback(updateInfo);
   }
 
   function updateInfo(params){
     init[vm.viewName].resolver(params)
-      .then(({info, cards}) => {
-        vm.info = info;
-        vm.cards = cards;
+      .then((data) => {
+        vm.info = data;
+        vm.cards = data.courses;
       })
   }
 };

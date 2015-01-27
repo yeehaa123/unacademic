@@ -1,4 +1,4 @@
-import ToolboxCtrl from '../../../src/scripts/sidebar/controllers/ToolboxCtrl.js';
+import ToolboxCtrl from '../../../src/scripts/sidebar/controllers/toolbox.js';
 
 describe("Toolbox", () => {
   let toolbox;

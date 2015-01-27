@@ -1,7 +1,7 @@
 import CoverResolver from '../../src/scripts/content/cover/coverResolver';
 import ngMock from 'angular-mocks-node';
 
-describe("coverResolver", () => {
+xdescribe("coverResolver", () => {
   let coverResolver;
   let dispatcher;
   let Cover;

@@ -17,7 +17,7 @@ function learnPanel(){
       learnPanel.getTemplateUrl = function(){
         let modelName = learnPanel.model.constructor.name;
         let name = modelName.toLowerCase();
-        let template =  `./scripts/content/${name}/learnPanel.html`;
+        let template =  `./scripts/content/${name}/panels/learn.html`;
         return template;
       }
     } 
