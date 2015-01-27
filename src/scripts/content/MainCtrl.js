@@ -8,7 +8,14 @@ function MainCtrl(init, dispatcher, data) {
   function initialize(){
     vm.viewName = data.constructor.name.toLowerCase();
     vm.info = data;
-    vm.cards = data.courses;
+
+    if(data.courses){
+      vm.cards = data.courses;
+    }
+    if(data.waypoints){
+      vm.cards = data.waypoints;
+    }
+
     dispatcher.registerObserverCallback(updateInfo);
   }
 
@@ -16,7 +23,12 @@ function MainCtrl(init, dispatcher, data) {
     init[vm.viewName].resolver(params)
       .then((data) => {
         vm.info = data;
-        vm.cards = data.courses;
-      })
+        if(data.courses){
+          vm.cards = data.courses;
+        }
+        if(data.waypoints){
+          vm.cards = data.waypoints;
+        }
+      });
   }
 };

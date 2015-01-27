@@ -71,6 +71,18 @@ function InitBaseClass($q, DataStore, utilities, dispatcher){
     }
   }
 
+  function _extractData(data){
+    if(data && _.isArray(data)){
+      let collection = _.map(data, (item) => { 
+        return new this(item) 
+      }, this);
+      return collection;
+    } else if(data){
+      return new this(data);
+    }
+    return new this(this.initData);
+  };
+
   function _extractUserData(data){
     let extractObjects = _.bind(_extractObjects, this);
     if(data){
@@ -86,13 +98,6 @@ function InitBaseClass($q, DataStore, utilities, dispatcher){
       let keys = _.keys(data);
       return _.map(keys, (key) => new this(data[key]));
     }
-  };
-
-  function _extractData(data){
-    if(data){
-      return new this(data);
-    }
-    return new this(this.initData);
   };
 
   return BaseClass

@@ -26,38 +26,13 @@ function courseResolver($q, Course, $http){
 
       if(curatorId && courseId === 'new'){
         let course = new Course();
-        return resolve({schema: schema, info: course, cards: course.waypoints});
+        return resolve(course);
       }
-
-      // all temporary...
 
       Course.get(curatorId, courseId)
-        .then(getWaypoints)
         .then((data) => {
-          let info = data.info;
-          let cards = data.waypoints;
-          return resolve({info, schema, cards});
+          return resolve(data);
         });
-
-
-      function getWaypoints(data){
-        return $q((resolve, reject) => {
-          let info = data;
-
-          // to waypoints service
-          // Waypoints.get([waypoint]);
-
-          let promises = _.map(info.waypoints, (waypoint) => {
-            let url = `https://cth-curriculum.firebaseio.com/waypoints/yeehaa/${waypoint}.json`;
-            return $http.get(url);
-          });
-
-          $q.all(promises).then((responses) => {
-            let waypoints = _.map(responses, (response) => { return response.data });
-            resolve({info, waypoints})
-          });
-        });
-      }
     });
   }
 }

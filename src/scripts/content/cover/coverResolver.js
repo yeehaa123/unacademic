@@ -1,6 +1,6 @@
 export default coverResolver;
 
-function coverResolver($q, Cover, Course, dispatcher){
+function coverResolver(Cover, dispatcher){
 
   return data;
 

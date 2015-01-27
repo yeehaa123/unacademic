@@ -1,7 +1,7 @@
 import CourseResolver from '../../src/scripts/content/course/courseResolver';
 import ngMock from 'angular-mocks-node';
 
-xdescribe("courseResolver", () => {
+describe("courseResolver", () => {
   let courseResolver;
   let Course;
   let $rootScope;
@@ -73,9 +73,7 @@ xdescribe("courseResolver", () => {
       });
 
       it("returns all the necessary data for the detail page", () => {
-        expect(response.info).not.to.be.undefined;
-        expect(response.cards).not.to.be.undefined;
-        expect(response.schema).not.to.be.undefined;
+        expect(response).not.to.be.undefined;
       });
     });
 
@@ -94,9 +92,7 @@ xdescribe("courseResolver", () => {
       });
 
       it("returns all the necessary data for the detail page", () => {
-        expect(response.info).not.to.be.undefined;
-        expect(response.cards).not.to.be.undefined;
-        expect(response.schema).not.to.be.undefined;
+        expect(response).not.to.be.undefined;
       });
     });
   });

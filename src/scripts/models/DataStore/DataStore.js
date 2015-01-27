@@ -1,4 +1,5 @@
 export default DataStore;
+import _ from 'lodash';
 
 function DataStore(baseUrl, $http, $q, utilities){
   return {
@@ -7,8 +8,16 @@ function DataStore(baseUrl, $http, $q, utilities){
   };
 
   function get(modelName, userId, id){
-    let url = utilities.generateUrl(modelName, userId, id);
-    return $http.get(url).then(extractData);
+    if(_.isArray(id)){
+      let promises = id.map((id) => {
+        let url = utilities.generateUrl(modelName, userId, id);
+        return $http.get(url);
+      });
+      return $q.all(promises).then(extractCollection);
+    } else {
+      let url = utilities.generateUrl(modelName, userId, id);
+      return $http.get(url).then(extractData);
+    }
   }
 
   function save(instance){
@@ -17,9 +26,12 @@ function DataStore(baseUrl, $http, $q, utilities){
   }
 
   function extractData(response){
-    return $q(function(resolve, reject){
-      let data = response.data;
-      resolve(data);
-    });
+    let data = response.data;
+    return data;
+  }
+
+  function extractCollection(response){
+    let data = response.map((item) => { return item.data });
+    return data;
   }
 }

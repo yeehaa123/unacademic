@@ -1,6 +1,7 @@
 import MainCtrl from '../../src/scripts/content/MainCtrl';
 import ngMock from 'angular-mocks-node';
 
+// needs refactoring
 describe("MainCtrl", () => {
   let vm;
   let $scope;
@@ -19,27 +20,15 @@ describe("MainCtrl", () => {
       constructor: {
         name: 'cover'
       },
-      courses: '',
+      courses: 'haskjlf',
       schema: ''
     }
 
-    let props = {
-      learn: '123',
-      curate: '123',
-    }
 
     let init = {}
-    init.cover = {};
     dispatcher = {}
-    formHelpers = {}
-    navHelpers = {}
 
-    dispatcher.setState = sinon.spy();
     dispatcher.registerObserverCallback = sinon.spy();
-    formHelpers.submit = sinon.spy();
-    formHelpers.checkForm = sinon.spy();
-    navHelpers.goTo = sinon.spy();
-    init.cover.props = sinon.stub().returns(props);
 
     vm = new MainCtrl(init, dispatcher, data);
   });

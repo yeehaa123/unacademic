@@ -32,21 +32,44 @@ describe("BaseClass", () => {
   describe("get", () => {
     let response;
 
-    beforeEach(() => {
-      let promise = $q.when({title: 'Mock Title'});
-      let args = ['BaseClass', 'general', '123'];
+    beforeEach(() => {});
 
-      DataStore.get.withArgs(...args).returns(promise);
-      BaseClass.get('general', '123').then((data) => { response = data });
-      $rootScope.$apply();
+    describe("a single item", () => {
+      beforeEach(() => {
+        let promise = $q.when({title: 'Mock Title'});
+        let args = ['BaseClass', 'general', '123'];
+
+        DataStore.get.withArgs(...args).returns(promise);
+        BaseClass.get('general', '123').then((data) => { response = data });
+        $rootScope.$apply();
+      });
+
+      it("returns an instance of BaseClass", () => {
+        expect(response).to.be.an.instanceOf(BaseClass);
+      });
+
+      it("gets the info", () => {
+        expect(response.title).to.equal('Mock Title');
+      });
     });
 
-    it("returns an instance of BaseClass", () => {
-      expect(response).to.be.an.instanceOf(BaseClass);
-    });
+    describe("a collection", () => {
+      beforeEach(() => {
+        let promise = $q.when([{title: 'Mock Title'}]);
+        let args = ['BaseClass', 'general', ['123']];
 
-    it("gets the info", () => {
-      expect(response.title).to.equal('Mock Title');
+        DataStore.get.withArgs(...args).returns(promise);
+        BaseClass.get('general', ['123']).then((data) => { response = data });
+        $rootScope.$apply();
+      });
+
+      it("returns an instance of BaseClass", () => {
+        expect(response[0]).to.be.an.instanceOf(BaseClass);
+      });
+
+      it("gets the info", () => {
+        expect(response[0].title).to.equal('Mock Title');
+      });
     });
   });
 

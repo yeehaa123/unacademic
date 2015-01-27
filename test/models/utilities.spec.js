@@ -33,6 +33,12 @@ describe("Utilities", function(){
         var url = '/path/yeehaa123/456.json';
         expect(generatedUrl).to.equal(url);
       });
+
+      it("converts 0 to a string", function(){
+        var generatedUrl = utilities.generateUrl('Path', 'yeehaa123', 0);
+        var url = '/path/yeehaa123/0.json';
+        expect(generatedUrl).to.equal(url);
+      });
     });
   });
 });

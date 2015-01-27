@@ -13,12 +13,14 @@ function utilities(baseUrl){
     if(!userId){
       return `${baseUrl}/${resourceName}.json`;
     }
+    if(id || id === 0){
+      return `${baseUrl}/${resourceName}/${userId}/${id}.json`;
+    }
 
     if(!id){
       return `${baseUrl}/${resourceName}/${userId}.json`;
     }
 
-    return `${baseUrl}/${resourceName}/${userId}/${id}.json`;
   }
 
   function generateUID(){
