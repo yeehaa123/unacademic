@@ -10,11 +10,16 @@ function CourseInit($q, BaseClass, Waypoint, schema, initData){
 
   function getWaypoints(course){
     return $q((resolve, reject) => {
-      Waypoint.get(course.curator, course.waypoints)
-        .then((waypoints) => {
-          course.waypoints = waypoints;
-          resolve(course);
-        });
+      if(course.waypoints){
+        Waypoint.get(course.curator, course.waypoints)
+          .then((waypoints) => {
+            course.waypoints = waypoints;
+            resolve(course);
+          });
+      } else {
+        course.waypoints = [];
+        resolve(course);
+      }
     });
   };
 

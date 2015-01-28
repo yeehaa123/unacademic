@@ -30,35 +30,68 @@ describe("Course", () => {
     let userId;
     let courseId;
     let waypointIds;
+    let coursePromise;
 
     beforeEach(() => {
+
       userId = 'general';
       courseId = '124';
       waypointIds = [1,2];
 
-      let coursePromise = $q.when({
-        curator: userId,
-        waypoints: waypointIds 
+    });
+
+
+    describe("with waypoints", () => {
+
+      beforeEach(() => {
+        coursePromise = $q.when({
+          curator: userId,
+          waypoints: waypointIds 
+        });
+
+        BaseClass.get.withArgs(userId).returns(coursePromise);
+        let waypointsPromise = $q.when(waypointIds);
+        Waypoint.get.withArgs(userId, waypointIds).returns(waypointsPromise);
+        Course.get(userId, courseId).then((data) => { response = data });
+        $rootScope.$apply();
       });
-      let waypointsPromise = $q.when(waypointIds);
 
-      BaseClass.get.withArgs(userId).returns(coursePromise);
-      Waypoint.get.withArgs(userId, waypointIds).returns(waypointsPromise);
-      Course.get(userId, courseId).then((data) => { response = data });
-      $rootScope.$apply();
+      it("calls get on the baseClass", () => {
+        expect(BaseClass.get).calledWith(userId, courseId);
+      });
+
+      it("gets the user's courses", () => {
+        expect(Waypoint.get).calledWith(userId, waypointIds);
+      });
+
+      it("returns the profile and courses", () => {
+        expect(response.waypoints.length).to.equal(2);
+      });
     });
 
-    it("calls get on the baseClass", () => {
-      expect(BaseClass.get).calledWith(userId, courseId);
-    });
+   describe("without waypoints", () => {
 
-    it("gets the user's courses", () => {
-      expect(Waypoint.get).calledWith(userId, waypointIds);
-    });
+      beforeEach(() => {
+        coursePromise = $q.when({
+          curator: userId,
+        });
 
-    it("returns the profile and courses", () => {
-      expect(response.waypoints.length).to.equal(2);
-    });
+        BaseClass.get.withArgs(userId).returns(coursePromise);
+        Course.get(userId, courseId).then((data) => { response = data });
+        $rootScope.$apply();
+      });
 
+      it("calls get on the baseClass", () => {
+        expect(BaseClass.get).calledWith(userId, courseId);
+      });
+
+      it("gets the user's courses", () => {
+        expect(Waypoint.get).not.called;
+      });
+
+      it("returns the profile and courses", () => {
+        expect(response.waypoints.length).to.equal(0);
+      });
+    });
   });
 });

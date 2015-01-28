@@ -1,6 +1,6 @@
 import Switcher from '../../src/scripts/appState/switcher';
 
-describe("switcher", () => {
+xdescribe("switcher", () => {
   let switcher;
   let $state;
   let $q;

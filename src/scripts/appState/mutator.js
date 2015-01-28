@@ -16,6 +16,7 @@ function mutator($q, currentState, switcher, history){
         })
         .catch(function(err){
           // set(changes);
+          console.log(err);
           reject("this is groundcontrol")
         });
     });

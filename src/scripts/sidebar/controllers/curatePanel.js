@@ -14,10 +14,12 @@ function CuratePanelCtrl($scope, dispatcher, formHelpers){
   }
 
   function addNew(model){
-    if(model.constructor.name === 'Course'){
-      dispatcher.setState({resource: {course: model.id}});
+    if(model.constructor.name === 'Cover'){
+      dispatcher.setState({view: 'course'});
     }
-    model.addNewChild();
+    if(model.constructor.name === 'Course'){
+      dispatcher.setState({view: 'waypoint', resource: {course: model.id}});
+    }
   }
 
   function getTemplateUrl(){

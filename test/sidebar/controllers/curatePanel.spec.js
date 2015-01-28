@@ -54,21 +54,17 @@ describe("CuratePanelCtrl", () => {
       
       beforeEach(() => {
         dispatcher.setState = sinon.spy();
-        curatePanel.model.addNewChild = sinon.spy();
       });
 
       describe("new courses, checkpoints or objectives", () => {
 
         beforeEach(() => {
+          curatePanel.model.constructor = { name: 'Cover' };
           curatePanel.addNew();
         });
 
-        it("wires up the addNew button", () => {
-          expect(curatePanel.model.addNewChild).called;
-        });
-
-        it("does not store a reference to the parent course", ()=> {
-          expect(dispatcher.setState).not.called;
+        it("does not store a reference to the parent", ()=> {
+          expect(dispatcher.setState).calledWith({view: 'course'});
         });
       });
 
@@ -79,12 +75,9 @@ describe("CuratePanelCtrl", () => {
           curatePanel.addNew();
         });
 
-        it("wires up the addNew button", () => {
-          expect(curatePanel.model.addNewChild).called;
-        });
-
         it("stores a reference to the parent course", ()=> {
-          expect(dispatcher.setState).called;
+          let state = { view: 'waypoint', resource: { course: '456'} };
+          expect(dispatcher.setState).calledWith(state);
         });
       });
     });
