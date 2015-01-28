@@ -1,6 +1,6 @@
 export default CuratePanelCtrl;
 
-function CuratePanelCtrl($scope, formHelpers, resourceHelpers){
+function CuratePanelCtrl($scope, formHelpers, dispatcher, resourceHelpers){
   let curatePanel = this;
   init();
 
@@ -8,9 +8,17 @@ function CuratePanelCtrl($scope, formHelpers, resourceHelpers){
     curatePanel.form = {};
     curatePanel.getTemplateUrl = getTemplateUrl;
     curatePanel.submit = () => formHelpers.submit(curatePanel.form, curatePanel.model);
-    curatePanel.addNew = () => resourceHelpers.addNewChild(curatePanel.model); 
+    curatePanel.addNew = addNew;
     let checkForm = ()=> formHelpers.checkForm(curatePanel.form, curatePanel.model.id);
     $scope.$watch('curatePanel.form', checkForm, true);
+  }
+
+  // test this...
+  function addNew(){
+    let resourceName = curatePanel.model.resourceName;
+    let childName = resourceHelpers.getChildName(resourceName);
+    let viewState = { name:  childName, [childName]: 'new' }
+    dispatcher.setState({view: viewState});
   }
 
   function getTemplateUrl(){

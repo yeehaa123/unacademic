@@ -5,6 +5,7 @@ describe("CuratePanelCtrl", () => {
   let curatePanel;
   let formHelpers;
   let $scope;
+  let dispatcher;
   let resourceHelpers;
 
   beforeEach(function () {
@@ -14,8 +15,9 @@ describe("CuratePanelCtrl", () => {
 
     formHelpers = {};
     resourceHelpers = {};
+    dispatcher = {};
 
-    curatePanel = new CuratePanelCtrl($scope, formHelpers, resourceHelpers);
+    curatePanel = new CuratePanelCtrl($scope, formHelpers, dispatcher, resourceHelpers);
   });
 
   describe("initialize",() => {
@@ -44,11 +46,6 @@ describe("CuratePanelCtrl", () => {
       expect(formHelpers.submit).calledWith('123', {id: '456'});
     });
 
-    it('wires up the addNew button', () => {
-      resourceHelpers.addNewChild = sinon.spy();
-      curatePanel.addNew();
-      expect(resourceHelpers.addNewChild).calledWith({id: '456'});
-    });
 
     it("watches the form for changes", () => {
       formHelpers.checkForm = sinon.spy();
@@ -56,5 +53,24 @@ describe("CuratePanelCtrl", () => {
       expect(formHelpers.checkForm).calledWith('123', '456');
     });
 
+  });
+  describe("add new", () => {
+    beforeEach(() => {
+      curatePanel.model = {
+        resourceName: 'cover'
+      };
+      resourceHelpers.getChildName = sinon.stub().returns('course');
+      dispatcher.setState = sinon.spy();
+      curatePanel.addNew();
+    });
+
+    it("gets the child name", () => {
+      expect(resourceHelpers.getChildName).calledWith('cover');
+    });
+
+    it("sets the new state", () => {
+      let state = { name: 'course', course: 'new' };
+      expect(dispatcher.setState).calledWith({view: state});
+    });
   });
 });

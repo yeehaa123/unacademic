@@ -7,7 +7,14 @@ describe("resourceHelpers", () => {
     resourceHelpers = new ResourceHelpers();
   });
 
-  describe("create state object", () => {
+  describe("get child name", () => {
+    it("gets the name of the child state", () => {
+      let childName = resourceHelpers.getChildName('course');
+      expect(childName).to.equal('waypoint');
+    });
+  });
+
+  describe("create view state object", () => {
     let oldState;
 
     beforeEach(() => {
