@@ -21,6 +21,10 @@ function InitBaseClass($q, DataStore, utilities, dispatcher){
       }
     }
 
+    get resourceName(){
+      return this.constructor.name.toLowerCase();
+    }
+
     save(){
       let schema = this.constructor.schema;
       let props = _.keys(schema.properties);

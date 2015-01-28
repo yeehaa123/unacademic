@@ -5,7 +5,7 @@ function courseResolver($q, Course, $http){
 
   return data;
 
-  function data({curator, id}){
+  function data({curator, course}){
     let schema = Course.schema;
     let curatorId;
     let courseId;
@@ -14,8 +14,8 @@ function courseResolver($q, Course, $http){
       curatorId = curator;
     }
 
-    if(id){
-      courseId = id;
+    if(course){
+      courseId = course;
     }
 
     return $q((resolve, reject) => {

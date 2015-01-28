@@ -7,24 +7,29 @@ describe("formHelpers", () => {
   let model;
 
   beforeEach(() => {
-    dispatcher = {}
+
+    model = {};
+    form = {};
+    dispatcher = {};
+
+    model.save = sinon.stub();
     dispatcher.queue = sinon.stub();
     dispatcher.setState = sinon.stub();
+    dispatcher.getState = sinon.stub();
+
     formHelpers = new FormHelpers(dispatcher);
   });
 
   describe("submit", () => {
 
     beforeEach(() => {
-      model = {
-        id: '123',
-      curator: 'yeehaa'
-      };
 
-      form = {
-        $setPristine: () => {},
-      $setDirty: () => {}
-      }
+      model.id = '123';
+      model.curator = 'yeehaa';
+
+      form.$setPristine = sinon.spy();
+      form.$setDirty = sinon.spy();
+
     });
 
     describe("if form is clean and invalid", () => {
@@ -34,7 +39,6 @@ describe("formHelpers", () => {
         form.$dirty = false;
         form.$valid = false;
 
-        model.save = sinon.stub();
         formHelpers.submit(form, model);
         expect(model.save).not.called;
       });
@@ -47,7 +51,6 @@ describe("formHelpers", () => {
         form.$dirty = false;
         form.$valid = true;
 
-        model.save = sinon.stub();
         formHelpers.submit(form, model);
         expect(model.save).not.called;
       });
@@ -57,15 +60,18 @@ describe("formHelpers", () => {
       let promise;
 
       beforeEach(() => {
+
         form.$dirty = true;
         form.$valid = true;
+
       });
 
       describe("successful save", () => {
-
         beforeEach(() => {
           promise = Promise.resolve();
-          model.save = sinon.stub().returns(promise);
+          model.save.returns(promise);
+          dispatcher.getState.returns({resource: { course: '123' }});
+          model.resourceName = 'course';
           formHelpers.submit(form, model);
         });
 
@@ -80,14 +86,12 @@ describe("formHelpers", () => {
           });
         });
 
-        it("set the correct resource id", () => {
-          let resource = {
-            id: '123',
-          curator: 'yeehaa'
-          }
+        it("set the new state", (done) => {
+          let resource = { course: '123', curator: 'yeehaa' };
+          let state = { mode: 'learning', resource: resource };
 
           promise.then(() => {
-            expect(dispatcher.setState).calledWith({mode: 'learning', resource: resource});
+            expect(dispatcher.setState).calledWith(state);
             done();
           });
         });
@@ -96,7 +100,7 @@ describe("formHelpers", () => {
       describe("failed save", () => {
         beforeEach(() => {
           promise = Promise.reject();
-          model.save = sinon.stub().returns(promise);
+          model.save.returns(promise);
           formHelpers.submit(form, model);
         });
 

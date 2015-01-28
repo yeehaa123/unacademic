@@ -29,6 +29,9 @@ function dispatcher(currentState, queue, permission, mutator){
     }
   }
 
+  function getViewProposal(changes, state){
+  }
+
   function getModes(){
     return modes;
   }

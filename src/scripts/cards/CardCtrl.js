@@ -6,15 +6,9 @@ function CardCtrl(dispatcher){
   let card = _.extend(this, this.model);
 
   card.goTo = function(mode, model){
-    let view = model.constructor.name.toLowerCase();
-    dispatcher.setState({
-      mode: mode,
-      view: view,
-      resource: {
-        curator: model.curator,
-        id: model.id
-      }
-    });
+    let name = model.resourceName;
+    let state = { mode: mode, view: { name: name, [name]: model.id } };
+    dispatcher.setState(state);
   }
 }
 

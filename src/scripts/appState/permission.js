@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 export default permission;
 
-function permission($log) {
+function permission($log, resourceHelpers) {
   var modes = ['browsing', 'learning', 'curation'];
 
   return {
@@ -21,20 +21,20 @@ function permission($log) {
       return _.isEqual(currentState[key], value);
     });
 
-    var hasResource = _.has(intersection, 'resource');
-    var hasView = _.has(intersection, 'view');
+    delete intersection.queue;
 
-    if(hasResource && !hasView){
-      intersection.view = currentState.view;
+    if(!_.isEmpty(intersection)){
+      let user = intersection.user || currentState.user;
+      let viewState = resourceHelpers.createViewState(intersection.view, currentState.view, user);
+      intersection.view = viewState;
     }
 
-    delete intersection.queue;
 
     return intersection;
   }
 
   function createProposal(currentState, changes){
-    let modules = ["mode", "view", "user", "resource", "queue"]
+    let modules = ["mode", "view", "user", "queue"]
     let state = _.clone(currentState);
 
     _.each(modules, (module) => {

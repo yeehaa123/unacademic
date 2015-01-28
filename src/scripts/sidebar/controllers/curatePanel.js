@@ -1,6 +1,6 @@
 export default CuratePanelCtrl;
 
-function CuratePanelCtrl($scope, dispatcher, formHelpers){
+function CuratePanelCtrl($scope, formHelpers, resourceHelpers){
   let curatePanel = this;
   init();
 
@@ -8,23 +8,13 @@ function CuratePanelCtrl($scope, dispatcher, formHelpers){
     curatePanel.form = {};
     curatePanel.getTemplateUrl = getTemplateUrl;
     curatePanel.submit = () => formHelpers.submit(curatePanel.form, curatePanel.model);
-    curatePanel.addNew = () => addNew(curatePanel.model); 
+    curatePanel.addNew = () => resourceHelpers.addNewChild(curatePanel.model); 
     let checkForm = ()=> formHelpers.checkForm(curatePanel.form, curatePanel.model.id);
     $scope.$watch('curatePanel.form', checkForm, true);
   }
 
-  function addNew(model){
-    if(model.constructor.name === 'Cover'){
-      dispatcher.setState({view: 'course'});
-    }
-    if(model.constructor.name === 'Course'){
-      dispatcher.setState({view: 'waypoint', resource: {course: model.id}});
-    }
-  }
-
   function getTemplateUrl(){
-    let modelName = curatePanel.model.constructor.name;
-    let name = modelName.toLowerCase();
+    let name = curatePanel.model.resourceName.toLowerCase();
     let template =  `./scripts/content/${name}/panels/curate.html`;
     return template;
   }

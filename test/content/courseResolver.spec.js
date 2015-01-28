@@ -57,7 +57,7 @@ describe("courseResolver", () => {
       beforeEach(() => {
 
         let resource = {
-          id: '456',
+          course: '456',
           curator: 'yeehaa'
         }
 
@@ -81,7 +81,7 @@ describe("courseResolver", () => {
 
       beforeEach(() => {
         let resource = {
-          id: '456',
+          course: '456',
           curator: 'yeehaa'
         }
 

@@ -5,7 +5,7 @@ describe("CuratePanelCtrl", () => {
   let curatePanel;
   let formHelpers;
   let $scope;
-  let dispatcher;
+  let resourceHelpers;
 
   beforeEach(function () {
     ngMock.inject(($rootScope) => {
@@ -13,9 +13,9 @@ describe("CuratePanelCtrl", () => {
     });
 
     formHelpers = {};
-    dispatcher = {};
+    resourceHelpers = {};
 
-    curatePanel = new CuratePanelCtrl($scope, dispatcher, formHelpers);
+    curatePanel = new CuratePanelCtrl($scope, formHelpers, resourceHelpers);
   });
 
   describe("initialize",() => {
@@ -25,7 +25,7 @@ describe("CuratePanelCtrl", () => {
     });
 
     it('sets its own template', () => {
-      curatePanel.model = { constructor: { name: 'Course' }};
+      curatePanel.model = { resourceName: 'Course' };
       let templateUrl = curatePanel.getTemplateUrl();
       expect(templateUrl).to.equal('./scripts/content/course/panels/curate.html');
     });
@@ -44,42 +44,17 @@ describe("CuratePanelCtrl", () => {
       expect(formHelpers.submit).calledWith('123', {id: '456'});
     });
 
+    it('wires up the addNew button', () => {
+      resourceHelpers.addNewChild = sinon.spy();
+      curatePanel.addNew();
+      expect(resourceHelpers.addNewChild).calledWith({id: '456'});
+    });
+
     it("watches the form for changes", () => {
       formHelpers.checkForm = sinon.spy();
       $scope.$digest();
       expect(formHelpers.checkForm).calledWith('123', '456');
     });
 
-    describe("add new waypoint", () => {
-      
-      beforeEach(() => {
-        dispatcher.setState = sinon.spy();
-      });
-
-      describe("new courses, checkpoints or objectives", () => {
-
-        beforeEach(() => {
-          curatePanel.model.constructor = { name: 'Cover' };
-          curatePanel.addNew();
-        });
-
-        it("does not store a reference to the parent", ()=> {
-          expect(dispatcher.setState).calledWith({view: 'course'});
-        });
-      });
-
-      describe('new waypoints on a course', () => {
-
-        beforeEach(() => {
-          curatePanel.model.constructor = { name: 'Course' };
-          curatePanel.addNew();
-        });
-
-        it("stores a reference to the parent course", ()=> {
-          let state = { view: 'waypoint', resource: { course: '456'} };
-          expect(dispatcher.setState).calledWith(state);
-        });
-      });
-    });
   });
 });

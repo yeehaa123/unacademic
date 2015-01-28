@@ -5,6 +5,7 @@ describe("permission", () => {
   let permission;
   let $log;
   let currentState;
+  let resourceHelpers;
   let proposal;
   let isAllowed;
 
@@ -14,7 +15,11 @@ describe("permission", () => {
       $log = _$log_;
     });
 
-    permission = new Permission($log);
+    resourceHelpers = {};
+
+    resourceHelpers.createViewState = sinon.stub();
+
+    permission = new Permission($log, resourceHelpers);
   });
 
   describe("general", () => {
@@ -77,8 +82,8 @@ describe("permission", () => {
 
         currentState = {
           mode: 'browsing',
-          resource: {
-            id: '123',
+          view: {
+            course: '123',
             curator: 'yeehaa'
           }
         }
@@ -86,7 +91,7 @@ describe("permission", () => {
         proposal = {
           mode: 'browsing',
           resource: {
-            id: '123',
+            course: '123',
             curator: 'yeehaa',
           },
           queue: new Set()
@@ -105,27 +110,34 @@ describe("permission", () => {
 
         currentState = {
           mode: 'browsing',
-          view: 'course',
-          resource: {
-            id: '123',
+          view: {
+            name: 'course',
+            course: '123',
             curator: 'yeehaa'
           }
         }
 
         proposal = {
           mode: 'browsing',
-          resource: {
-            id: '456',
+          view: {
+            course: '456',
             curator: 'yeehaa',
           },
           queue: new Set()
         }
 
+        resourceHelpers.createViewState.returns({course: '456'});
         isAllowed = permission.get(currentState, proposal);
       });
 
+      it("creates a view state", () => {
+        expect(resourceHelpers.createViewState)
+          .calledWith(proposal.view, currentState.view, undefined);
+      });
+
+
       it("returns the resource id", () => {
-        expect(isAllowed.resource.id).to.equal('456');
+        expect(isAllowed.view.course).to.equal('456');
       });
 
       it("includes the view name", () => {
@@ -168,7 +180,6 @@ describe("permission", () => {
       currentState = {
         user: '',
         mode: 'browsing',
-        name: '123'
       }
 
     });
@@ -177,7 +188,6 @@ describe("permission", () => {
 
       proposal = {
         mode: 'learning',
-        name: '123',
         queue: new Set()
       }
 
@@ -211,8 +221,9 @@ describe("permission", () => {
         queue: new Set()
       }
 
+      resourceHelpers.createViewState.returns({course: '456'});
       isAllowed = permission.get(currentState, proposal);
-      expect(isAllowed).to.deep.equal({view: '345'});
+      expect(isAllowed.view).to.deep.equal({course: '456'});
     });
   });
 
@@ -238,7 +249,7 @@ describe("permission", () => {
       }
 
       isAllowed = permission.get(currentState, proposal);
-      expect(isAllowed).to.deep.equal({mode: 'curation'});
+      expect(isAllowed.mode).to.equal('curation');
     });
   });
 
@@ -263,7 +274,7 @@ describe("permission", () => {
       }
 
       isAllowed = permission.get(currentState, proposal);
-      expect(isAllowed).to.deep.equal({mode: 'learning'});
+      expect(isAllowed.mode).to.equal('learning');
     });
   });
 })

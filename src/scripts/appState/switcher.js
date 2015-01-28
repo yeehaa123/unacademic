@@ -5,11 +5,9 @@ function switcher($state, $q){
     set: set
   };
 
-  function set({view, resource}){
-    if(view || resource){
-      // needs to be tested...
-      resource = resource || { curator: 'yeehaa', id: 'new' }
-      return $state.go(view, resource);
+  function set({view}){
+    if(view){
+      return $state.go(view.name, view);
     }
     return $q.when('no route change');
   };

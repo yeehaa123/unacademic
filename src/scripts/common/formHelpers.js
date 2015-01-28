@@ -8,7 +8,6 @@ function formHelpers(dispatcher){
   };
 
   function submit(form, model){
-    console.log(form);
     if(!form.$dirty){
       return dispatcher.setState({mode: 'learning'});
     }
@@ -19,9 +18,17 @@ function formHelpers(dispatcher){
         .then(success, error);
     }
 
+    // start refactoring here...
+
     function success(){
       dispatcher.queue({remove: model.id});
-      dispatcher.setState({mode: 'learning', resource: {id: model.id, curator: model.curator}});
+      dispatcher.setState({
+        mode: 'learning', 
+        resource: {
+          curator: model.curator,
+          [model.resourceName]: model.id
+        }
+      });
     }
 
     function error(){

@@ -19,7 +19,7 @@ function routes($stateProvider) {
     })
 
     .state('course', {
-      url: '/course/:curator/:id',
+      url: '/course/:curator/:course',
       controller: 'MainCtrl',
       controllerAs: 'vm',
       templateUrl: templateUrl,

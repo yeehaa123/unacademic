@@ -1,4 +1,5 @@
 import BC from '../../src/scripts/models/baseClass/index';
+import _ from 'lodash';
 import ngMock from 'angular-mocks-node';
 
 describe("BaseClass", () => {
@@ -27,6 +28,23 @@ describe("BaseClass", () => {
 
     BaseClass = new BC($q, DataStore, utilities, dispatcher);
     BaseClass.initialize(initialize());
+  });
+
+  describe("general", () => {
+
+    let instance;
+
+    beforeEach(() => {
+      instance = new BaseClass();
+    });
+
+    it("knows it's name", () => {
+      expect(instance.resourceName).to.equal('baseclass');
+    });
+
+    it("keeps its private info to itself", () => {
+      expect(_.keys(instance)).not.to.contain(['resourceName']);
+    });
   });
 
   describe("get", () => {

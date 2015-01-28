@@ -41,6 +41,6 @@ app.run(function($rootScope, history, dispatcher) {
     let state = dispatcher.getState();
     let urlState = toState.url.match(/^\/(.+?)\//) || toState.url.match(/^\/(.+)\/?/);
     let view = urlState[1];
-    dispatcher.setState({view: view, resource: {curator: toParams.curator, id: toParams.id}});
+    dispatcher.setState({view: {name: view, curator: toParams.curator, id: toParams.id}});
   }
 });

@@ -1,6 +1,6 @@
 import Switcher from '../../src/scripts/appState/switcher';
 
-xdescribe("switcher", () => {
+describe("switcher", () => {
   let switcher;
   let $state;
   let $q;
@@ -37,9 +37,9 @@ xdescribe("switcher", () => {
 
     describe("it has a name", () => {
       beforeEach(() => {
-        state = { view: 'waypoints.detail' };
+        state = { view: { name: 'waypoints.detail' } };
         promise = Promise.resolve('foo');
-        $state.go.withArgs(state.view, undefined).returns(promise);
+        $state.go.withArgs(state.view.name, state.view).returns(promise);
         response = switcher.set(state);
       });
 

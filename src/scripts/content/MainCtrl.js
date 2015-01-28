@@ -24,7 +24,6 @@ function MainCtrl(init, dispatcher, data) {
     init[vm.viewName].resolver(params)
       .then((data) => {
         vm.info = data;
-        console.log(data);
         if(data.courses){
           vm.cards = data.courses;
         }
