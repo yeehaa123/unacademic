@@ -10,17 +10,12 @@ function ToolboxCtrl($scope, dispatcher, navHelpers){
 
 
   function initialize(){
-    let modes = dispatcher.getModes(); 
-    initToolbox(modes);
-
-    $scope.$watch('toolbox.dmode', (newVal, oldVal) => {
-      toolbox.mode = newVal;
-      currentMode = newVal;
-    });
+    toolbox.modes = dispatcher.getModes(); 
+    $scope.$watch(() => toolbox.dmode , setMode);
+    initButtons();
   }
 
-  function initToolbox(modes){
-    toolbox.modes = modes;
+  function initButtons(){
     toolbox.back = back;
     toolbox.forward = forward;
     toolbox.signIn = signIn;
@@ -40,6 +35,11 @@ function ToolboxCtrl($scope, dispatcher, navHelpers){
     let user = _.sample(users);
     console.log(user);
     return dispatcher.setState({user: user});
+  }
+
+  function setMode(newVal, oldVal){
+    toolbox.mode = newVal;
+    currentMode = newVal;
   }
 
   function checkMode(newMode, oldMode){

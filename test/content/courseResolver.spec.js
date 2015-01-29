@@ -14,21 +14,15 @@ describe("courseResolver", () => {
       $q = _$q_;
     });
 
-    Course = () => {};
-    Course.schema = '123';
+    Course = sinon.spy(); 
 
-
-    let course = {
-      waypoints: '123'
-    }
-
+    let course = { waypoints: '123' };
     let promise = $q.when(course);
 
     Course.getAll = sinon.stub().returns(promise);
     Course.get = sinon.stub().returns(promise);
 
     courseResolver = new CourseResolver($q, Course);
-
   });
 
   describe("details resolver", () => {
@@ -37,9 +31,8 @@ describe("courseResolver", () => {
     describe("without a user and with a regular id", () => {
 
       beforeEach(() => {
-        courseResolver({resource: '456'}).then((data) => {
-          response = data;
-        });
+        let view = { course: '456' };
+        courseResolver({view}).then((data) => response = data);
         $rootScope.$apply();
       });
 
@@ -55,16 +48,8 @@ describe("courseResolver", () => {
     describe("with a user and regular id", () => {
 
       beforeEach(() => {
-
-        let resource = {
-          course: '456',
-          curator: 'yeehaa'
-        }
-
-        courseResolver(resource).then((data) => {
-          response = data;
-        });
-
+        let view = { course: '456', curator: 'yeehaa' }
+        courseResolver({view}).then((data) => response = data);
         $rootScope.$apply();
       });
 
@@ -80,14 +65,8 @@ describe("courseResolver", () => {
     describe("with a user and new as id", () => {
 
       beforeEach(() => {
-        let resource = {
-          course: '456',
-          curator: 'yeehaa'
-        }
-
-        courseResolver(resource).then(function(data){
-          response = data;
-        });
+        let view = { course: '456', curator: 'yeehaa' }
+        courseResolver({view}).then((data) => response = data);
         $rootScope.$apply();
       });
 

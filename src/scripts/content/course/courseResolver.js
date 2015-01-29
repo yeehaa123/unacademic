@@ -1,38 +1,22 @@
 export default courseResolver;
-import _ from 'lodash';
 
-function courseResolver($q, Course, $http){
+function courseResolver($q, Course){
 
   return data;
 
-  function data({curator, course}){
-    let schema = Course.schema;
-    let curatorId;
-    let courseId;
-
-    if(curator){
-      curatorId = curator;
-    }
-
-    if(course){
-      courseId = course;
-    }
+  function data({view: {curator, course}}){
 
     return $q((resolve, reject) => {
 
-      if(!curatorId){
-        return reject();
+      if(!curator){ 
+        return reject(); 
       }
 
-      if(curatorId && courseId === 'new'){
-        let course = new Course();
+      if(curator && course === 'new'){
         return resolve(course);
       }
 
-      Course.get(curatorId, courseId)
-        .then((data) => {
-          return resolve(data);
-        });
+      Course.get(curator, course).then((data) => resolve(data));
     });
   }
 }

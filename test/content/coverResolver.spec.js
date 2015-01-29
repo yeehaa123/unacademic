@@ -11,12 +11,9 @@ describe("coverResolver", () => {
   beforeEach(() => {
 
     Cover = {};
-    dispatcher = {};
-    dispatcher.getState = sinon.stub().returns({user: '123', resource: '456'});
-
-    let promise = Promise.resolve('hi'); 
-
+    let promise = Promise.resolve({}); 
     Cover.get = sinon.stub().returns(promise);
+
     coverResolver = new CoverResolver(Cover, dispatcher);
   });
 
@@ -24,20 +21,15 @@ describe("coverResolver", () => {
     let response;
 
     beforeEach(() => {
-      response = coverResolver();
-    });
-
-    it("calls the dispatcher to get the current user", () => {
-      expect(dispatcher.getState).to.be.called;
+      response = coverResolver({user: 'yeehaa'});
     });
 
     it("calls the CoverInfo service with the right arguments", () => {
-      expect(Cover.get).to.be.calledWith('123', 'info');
+      expect(Cover.get).to.be.calledWith('yeehaa', 'info');
     });
 
-
     it("returns all the necessary data for the detail page", () => {
-      return expect(response).to.eventually.equal('hi');
+      return expect(response).to.eventually.not.be.undefined;
     });
   });
 });

@@ -28,13 +28,6 @@ describe("Toolbox", () => {
 
   describe("initialize",() => {
 
-    describe("app state", () => {
-      it("sets the corresponding props", () => {
-        expect(toolbox.user).to.be.undefined;
-        expect(toolbox.mode).to.be.undefined;
-      });
-    });
-
     describe("app modes", () => {
       it("gets the app modes", () => {
         expect(dispatcher.getModes).called;
@@ -91,39 +84,17 @@ describe("Toolbox", () => {
     });
 
     it("sets the state", () => {
-      expect(dispatcher.setState).to.be.called;
+      expect(dispatcher.setState).to.be.calledWith({mode: 'learning'});
     });
 
   });
 
-  xdescribe("state switching", () => {
-
-    describe("new mode, same user", () => {
-      beforeEach(() => {
-        dispatcher.registerObserverCallback.callArgWith(0, {mode: 'learning'});
-      });
-
-      it("sets the mode to learning", () => {
-        expect(toolbox.mode).to.equal('learning');
-      });
-
-      it("keep the mode to learning", () => {
-        expect(toolbox.user).to.undefined;
-      });
-    });
-
-    describe("new mode, new user", () => {
-      beforeEach(() => {
-        dispatcher.registerObserverCallback.callArgWith(0, {mode: 'learning', user: 'yeehaa'});
-      });
-
-      it("sets the mode to learning", () => {
-        expect(toolbox.mode).to.equal('learning');
-      });
-
-      it("keep the mode to learning", () => {
-        expect(toolbox.user).to.equal('yeehaa');
-      });
+  describe("state switching", () => {
+    it("sets the mode to learning", () => {
+      toolbox.mode = "browsing";
+      toolbox.dmode = "learning";
+      $scope.$apply();
+      expect(toolbox.mode).to.equal('learning');
     });
   });
 });
