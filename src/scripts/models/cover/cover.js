@@ -4,10 +4,6 @@ function CoverInit($q, BaseClass, Course, coverSchema, coverInitData){
 
   class Cover extends BaseClass {
 
-    get childModel(){
-      return Course;
-    }
-
     static get(userId, id){
       return $q((resolve, reject) => {
         let promises = [
@@ -16,7 +12,6 @@ function CoverInit($q, BaseClass, Course, coverSchema, coverInitData){
           Course.getAll(userId)
         ];
 
-        //  add test
         $q.all(promises).then(function(data){
           let cover = data[0];
           cover.courses = data[1];

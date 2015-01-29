@@ -8,9 +8,8 @@
 
   <div class="button-group">
     <label ng-repeat="mode in toolbox.modes">
-      <input type="radio" ng-model="toolbox.mode" 
-      ng-change="toolbox.checkMode(mode)" 
-      ng-value="mode">
+      <input type="radio" ng-model="toolbox.buttonMode" 
+      ng-change="toolbox.checkMode(mode)" ng-value="mode">
       <span class="button-group-item">{{mode}}</span>
     </label>
   </div>

@@ -7,7 +7,7 @@ function toolbox(){
     templateUrl: templateUrl,
     replace: true,
     scope: {
-      dmode: '=',
+      mode: '=',
       user: '='
     },
     bindToController: true,

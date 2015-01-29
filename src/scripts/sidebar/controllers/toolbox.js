@@ -11,7 +11,7 @@ function ToolboxCtrl($scope, dispatcher, navHelpers){
 
   function initialize(){
     toolbox.modes = dispatcher.getModes(); 
-    $scope.$watch(() => toolbox.dmode , setMode);
+    $scope.$watch(() => toolbox.mode , setMode);
     initButtons();
   }
 
@@ -38,12 +38,12 @@ function ToolboxCtrl($scope, dispatcher, navHelpers){
   }
 
   function setMode(newVal, oldVal){
-    toolbox.mode = newVal;
+    toolbox.buttonMode = newVal;
     currentMode = newVal;
   }
 
   function checkMode(newMode, oldMode){
-    toolbox.mode = currentMode;
+    toolbox.buttonMode = currentMode;
     dispatcher.setState({mode: newMode});
   }
 }

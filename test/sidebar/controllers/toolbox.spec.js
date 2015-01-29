@@ -91,10 +91,10 @@ describe("Toolbox", () => {
 
   describe("state switching", () => {
     it("sets the mode to learning", () => {
-      toolbox.mode = "browsing";
-      toolbox.dmode = "learning";
+      toolbox.buttonMode = "browsing";
+      toolbox.mode = "learning";
       $scope.$apply();
-      expect(toolbox.mode).to.equal('learning');
+      expect(toolbox.buttonMode).to.equal('learning');
     });
   });
 });

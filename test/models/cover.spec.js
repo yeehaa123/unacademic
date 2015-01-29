@@ -1,7 +1,7 @@
 import CoverInit from '../../src/scripts/models/cover/cover';
 import ngMock from 'angular-mocks-node';
 
-describe.only("Cover", () => {
+describe("Cover", () => {
   let Cover;
   let Course;
   let BaseClass;
