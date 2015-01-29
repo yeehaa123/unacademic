@@ -13,7 +13,7 @@ function courseResolver($q, Course){
       }
 
       if(curator && course === 'new'){
-        return resolve(course);
+        return resolve(new Course());
       }
 
       Course.get(curator, course).then((data) => resolve(data));

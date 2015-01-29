@@ -64,14 +64,14 @@ describe("courseResolver", () => {
 
     describe("with a user and new as id", () => {
 
-      beforeEach(() => {
-        let view = { course: '456', curator: 'yeehaa' }
+      beforeEach(() => { 
+        let view = { course: 'new', curator: 'yeehaa' }
         courseResolver({view}).then((data) => response = data);
         $rootScope.$apply();
       });
 
       it("returns all the necessary data for the detail page", () => {
-        expect(response).not.to.be.undefined;
+        expect(response).to.be.an.instanceOf(Course);;
       });
     });
   });

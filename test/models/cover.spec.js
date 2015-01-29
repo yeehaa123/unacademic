@@ -1,7 +1,7 @@
 import CoverInit from '../../src/scripts/models/cover/cover';
 import ngMock from 'angular-mocks-node';
 
-xdescribe("Cover", () => {
+describe.only("Cover", () => {
   let Cover;
   let Course;
   let BaseClass;
@@ -36,6 +36,7 @@ xdescribe("Cover", () => {
         userId = 'yeehaa';
 
         BaseClass.get.withArgs(userId).returns(coverPromise);
+        Course.getAll.withArgs().returns(coursesPromise);
         Course.getAll.withArgs(userId).returns(coursesPromise);
         Cover.get(userId).then((data) => { response = data });
         $rootScope.$apply();
@@ -45,11 +46,17 @@ xdescribe("Cover", () => {
         expect(BaseClass.get).calledWith(userId);
       });
 
+      it("gets all the courses", () => {
+        expect(Course.getAll).calledWith().at.firstCall;
+      });
+
       it("gets the user's courses", () => {
-        expect(Course.getAll).calledWith();
+        expect(Course.getAll).calledWith('yeehaa').at.secondCall;
       });
 
       it("returns the profile and courses", () => {
+        expect(response.title).to.equal('Mock Title');
+        expect(response.userCourses.length).to.equal(2);
         expect(response.courses.length).to.equal(2);
       });
     });
