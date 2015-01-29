@@ -6,17 +6,22 @@ function CoverInit($q, BaseClass, Course, coverSchema, coverInitData){
 
     static get(userId, id){
       return $q((resolve, reject) => {
-        let promises = [
-        super.get(userId, id),
-          Course.getAll(),
-          Course.getAll(userId)
-        ];
+        let coverPromise = super.get(userId, id);
+        let coursePromise;
+        let promises;
+
+        if(!userId || userId === 'general'){
+          coursePromise = Course.getAll();
+        } else {
+          coursePromise = Course.getAll(userId);
+        }
+
+        promises = [coverPromise, coursePromise];
 
         $q.all(promises).then(function(data){
-          let cover = data[0];
-          cover.courses = data[1];
-          cover.userCourses = data[2] || [];
-          return resolve(cover);
+          let cover     = data[0];
+          let courses   = data[1] || [];
+          return resolve({cover, courses});
         });
       });
     }
@@ -26,4 +31,3 @@ function CoverInit($q, BaseClass, Course, coverSchema, coverInitData){
 
   return Cover;
 };
-

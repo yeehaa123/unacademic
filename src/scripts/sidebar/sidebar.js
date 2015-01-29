@@ -1,6 +1,6 @@
 export default sidebar;
 
-let templateUrl = './scripts/sidebar/views/sidebar.html';
+let templateUrl = './scripts/sidebar/templates/sidebar.html';
 
 function sidebar(){
   return {

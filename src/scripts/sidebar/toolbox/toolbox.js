@@ -1,6 +1,6 @@
 export default toolbox;
 
-let templateUrl = './scripts/sidebar/views/toolbox.html';
+let templateUrl = './scripts/sidebar/templates/toolbox.html';
 
 function toolbox(){
   return {

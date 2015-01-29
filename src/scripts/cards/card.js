@@ -1,6 +1,6 @@
 export default card;
 
-let templateUrl = './scripts/cards/card.html';
+let templateUrl = './scripts/cards/templates/card.html';
 
 function card(){
   return {

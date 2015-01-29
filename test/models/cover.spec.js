@@ -55,8 +55,7 @@ describe("Cover", () => {
       });
 
       it("returns the profile and courses", () => {
-        expect(response.title).to.equal('Mock Title');
-        expect(response.userCourses.length).to.equal(2);
+        expect(response.cover.title).to.equal('Mock Title');
         expect(response.courses.length).to.equal(2);
       });
     });

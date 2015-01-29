@@ -1,4 +1,4 @@
-import ToolboxCtrl from '../../../src/scripts/sidebar/controllers/toolbox.js';
+import ToolboxCtrl from '../../../src/scripts/sidebar/toolbox/controllers/toolbox.js';
 import ngMock from 'angular-mocks-node';
 
 describe("Toolbox", () => {
@@ -9,7 +9,7 @@ describe("Toolbox", () => {
 
   beforeEach(function () {
 
-    ngMock.inject(function ($rootScope, _$q_) {
+    ngMock.inject(function ($rootScope) {
       $scope = $rootScope.$new();
     });
 
@@ -48,7 +48,6 @@ describe("Toolbox", () => {
         expect(toolbox.checkMode).not.to.be.undefined;
       });
     });
-
   });
 
   describe("navigation", () => {

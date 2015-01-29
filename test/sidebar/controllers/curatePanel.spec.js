@@ -1,4 +1,4 @@
-import CuratePanelCtrl from '../../../src/scripts/sidebar/controllers/curatePanel.js';
+import CuratePanelCtrl from '../../../src/scripts/sidebar/panels/controllers/curatePanel.js';
 import ngMock from 'angular-mocks-node';
 
 describe("CuratePanelCtrl", () => {

@@ -7,10 +7,11 @@ function MainCtrl(init, dispatcher) {
 
   function updateInfo(params){
     init[params.view.name].resolver(params)
-      .then((data) => {
-        vm.model = data;
-        vm.mode = params.mode;
-        vm.user = params.user;
+      .then(({model, collection}) => {
+        vm.model          = model;
+        vm.collection     = collection;
+        vm.mode           = params.mode;
+        vm.user           = params.user;
       });
   }
 };
