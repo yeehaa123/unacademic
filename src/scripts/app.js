@@ -38,9 +38,11 @@ app.run(function($rootScope, history, dispatcher) {
   function initialize(toState, toParams){
     history.initialize();
     window.backlog = history.get;
-    let state = dispatcher.getState();
-    let urlState = toState.url.match(/^\/(.+?)\//) || toState.url.match(/^\/(.+)\/?/);
-    let view = urlState[1];
-    dispatcher.setState({view: {name: view, curator: toParams.curator, id: toParams.id}});
+
+    // let state = dispatcher.getState();
+    // let urlState = toState.url.match(/^\/(.+?)\//) || toState.url.match(/^\/(.+)\/?/);
+    // let view = urlState[1];
+    // dispatcher.setState({view: {name: view, curator: toParams.curator, id: toParams.id}});
+    dispatcher.setState( {view: {name: 'cover'} });
   }
 });

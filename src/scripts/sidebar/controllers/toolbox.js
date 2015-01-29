@@ -2,24 +2,25 @@ import _ from 'lodash';
 
 export default ToolboxCtrl;
 
-function ToolboxCtrl(dispatcher, navHelpers){
+function ToolboxCtrl($scope, dispatcher, navHelpers){
 
   let toolbox = this;
-  let currentMode;
+  let currentMode; 
   initialize();
 
+
   function initialize(){
-    let state = dispatcher.getState();
     let modes = dispatcher.getModes(); 
-    currentMode = state.mode;
-    initToolbox(state, modes);
-    dispatcher.registerObserverCallback(updateAppState);
+    initToolbox(modes);
+
+    $scope.$watch('toolbox.dmode', (newVal, oldVal) => {
+      toolbox.mode = newVal;
+      currentMode = newVal;
+    });
   }
 
-  function initToolbox({mode, user}, modes){
+  function initToolbox(modes){
     toolbox.modes = modes;
-    toolbox.user = user;
-    toolbox.mode = mode;
     toolbox.back = back;
     toolbox.forward = forward;
     toolbox.signIn = signIn;
@@ -35,19 +36,14 @@ function ToolboxCtrl(dispatcher, navHelpers){
   }
 
   function signIn(){
-    let users = ['yeehaa'];
+    let users = ['yeehaa', 'reika', 'marijn', 'peter', 'nigel'];
     let user = _.sample(users);
-    return dispatcher.setState({user: user, mode: 'learning'});
+    console.log(user);
+    return dispatcher.setState({user: user});
   }
 
-  function checkMode(newMode){
+  function checkMode(newMode, oldMode){
     toolbox.mode = currentMode;
     dispatcher.setState({mode: newMode});
-  }
-
-  function updateAppState(state){
-    toolbox.user = state.user;
-    currentMode = state.mode;
-    toolbox.mode = state.mode;
   }
 }

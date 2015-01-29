@@ -6,6 +6,10 @@ function toolbox(){
   return {
     templateUrl: templateUrl,
     replace: true,
+    scope: {
+      dmode: '=',
+      user: '='
+    },
     bindToController: true,
     controllerAs: 'toolbox',
     controller: 'ToolboxCtrl'

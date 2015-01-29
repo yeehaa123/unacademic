@@ -5,22 +5,11 @@ export default CardCtrl;
 function CardCtrl(dispatcher){
   let card = _.extend(this, this.model);
 
-  card.goTo = function(mode, model){
-    let name = model.resourceName;
-    let state = { mode: mode, view: { name: name, [name]: model.id } };
+  card.goTo = function(mode, { resourceName: name, id, curator }){
+    let state = { 
+      mode: mode, 
+      view: { name, [name]: id, curator } 
+    };
     dispatcher.setState(state);
   }
 }
-
-// controller: function($scope){
-//
-//   $scope.getTemplateUrl = function(){
-//     var template;
-//     if($scope.model instanceof Path){
-//       template = 'pathCard.tpl.html';
-//     } else {
-//       template = 'card.tpl.html';
-//     }
-
-//     return template;
-//   }

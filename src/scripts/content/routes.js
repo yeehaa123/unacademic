@@ -10,24 +10,13 @@ function routes($stateProvider) {
       url: '/cover',
       controller: 'MainCtrl',
       controllerAs: 'vm',
-      templateUrl: templateUrl,
-      resolve: {
-        data: function(init){
-          return init.cover.resolver();
-        }
-      }
+      templateUrl: templateUrl
     })
 
     .state('course', {
       url: '/course/:curator/:course',
       controller: 'MainCtrl',
       controllerAs: 'vm',
-      templateUrl: templateUrl,
-      resolve: {
-        data: function(init, $stateParams){
-          var params = $stateParams
-          return init.course.resolver(params);
-        }
-      }
+      templateUrl: templateUrl
     })
 };

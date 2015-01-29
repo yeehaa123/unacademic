@@ -1,35 +1,16 @@
 export default MainCtrl;
 
-function MainCtrl(init, dispatcher, data) {
-
+function MainCtrl(init, dispatcher) {
   let vm = this;
-  initialize();
 
-  function initialize(){
-    vm.viewName = data.constructor.name.toLowerCase();
-    vm.info = data;
-
-    if(data.courses){
-      vm.cards = data.courses;
-    }
-
-    if(data.waypoints){
-      vm.cards = data.waypoints;
-    }
-
-    dispatcher.registerObserverCallback(updateInfo);
-  }
+  dispatcher.registerObserverCallback(updateInfo);
 
   function updateInfo(params){
-    init[vm.viewName].resolver(params)
+    init[params.view.name].resolver(params)
       .then((data) => {
-        vm.info = data;
-        if(data.courses){
-          vm.cards = data.courses;
-        }
-        if(data.waypoints){
-          vm.cards = data.waypoints;
-        }
+        vm.model = data;
+        vm.mode = params.mode;
+        vm.user = params.user;
       });
   }
 };

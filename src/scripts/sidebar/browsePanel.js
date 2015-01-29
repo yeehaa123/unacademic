@@ -12,7 +12,6 @@ function browsePanel(){
     controllerAs: 'browsePanel',
     controller: function(){
       let browsePanel = this;
-
       browsePanel.getTemplateUrl = function(){
         let modelName = browsePanel.model.constructor.name;
         let name = modelName.toLowerCase();

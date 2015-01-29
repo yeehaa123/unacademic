@@ -17,7 +17,7 @@ describe("CuratePanelCtrl", () => {
     resourceHelpers = {};
     dispatcher = {};
 
-    curatePanel = new CuratePanelCtrl($scope, formHelpers, dispatcher, resourceHelpers);
+    curatePanel = new CuratePanelCtrl($scope, dispatcher, formHelpers, resourceHelpers);
   });
 
   describe("initialize",() => {

@@ -7,7 +7,9 @@ function sidebar(){
     templateUrl: templateUrl,
     replace: true,
     scope: {
-      model:   '='
+      model:   '=',
+      mode: '=',
+      user: '='
     },
     bindToController: true,
     controllerAs: 'sidebar',

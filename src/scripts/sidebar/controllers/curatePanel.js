@@ -1,6 +1,6 @@
 export default CuratePanelCtrl;
 
-function CuratePanelCtrl($scope, formHelpers, dispatcher, resourceHelpers){
+function CuratePanelCtrl($scope, dispatcher, formHelpers, resourceHelpers){
   let curatePanel = this;
   init();
 
@@ -13,7 +13,6 @@ function CuratePanelCtrl($scope, formHelpers, dispatcher, resourceHelpers){
     $scope.$watch('curatePanel.form', checkForm, true);
   }
 
-  // test this...
   function addNew(){
     let resourceName = curatePanel.model.resourceName;
     let childName = resourceHelpers.getChildName(resourceName);
