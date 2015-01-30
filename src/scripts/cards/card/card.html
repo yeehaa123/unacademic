@@ -1,13 +1,14 @@
-<section class="card ng-class:card.type">
+<section class="card ng-class:card.model.type">
   <div class="heading">
+
     <div class="bio">
-      <h1>{{card.title}}</h1>
+      <h1>{{card.model.title}}</h1>
       <img src="http://www.innovata-llc.com/fullpanel/uploads/files/global-data.jpg" alt="background" class="bg">
       <div class="desc">
-        <h3>{{card.curator}}</h3>
-        <p>{{card.description}}</p>
+        <h3>{{card.model.curator}}</h3>
+        <p>{{card.model.description}}</p>
         <div class="tags">
-          <p>{{card.keywords}}</p>
+          <p>{{card.model.keywords}}</p>
         </div>
       </div>
     </div>
@@ -19,12 +20,13 @@
     </div>
   </div>
 
-  <p class="summary">{{card.summary}}</p>
+  <p class="summary">{{card.model.summary}}</p>
+
   <div class="content">
     <div class="data">
       <ul>
         <li>
-        <h4>{{card.waypoints.length}}</h4>
+        <h4>{{card.model.waypoints.length}}</h4>
         <span>Waypoints</span>
         </li>
         <li>
@@ -37,6 +39,8 @@
         </li>
       </ul>
     </div>
-  <div ng-click="card.goTo('learning', card.model)" class="follow">Learn</div>
-  <div ng-click="card.goTo('browsing', card.model)" class="follow">Browse</div>
+
+  <div ng-show="card.user && card.user !== card.model.curator" 
+       ng-click="card.learn()" class="follow">Learn</div>
+  <div ng-click="card.browse()" class="follow">Browse</div>
 </section>

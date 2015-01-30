@@ -1,6 +1,7 @@
 export default card;
+import CardCtrl from './card';
 
-let templateUrl = './scripts/cards/templates/card.html';
+let templateUrl = './scripts/cards/card/card.html';
 
 function card(){
   return {
@@ -8,10 +9,11 @@ function card(){
     restrict: 'E',
     replace: true,
     scope: {
-      model: '='
+      model: '=',
+      user: '='
     },
     bindToController: true,
     controllerAs: 'card',
-    controller: 'CardCtrl'
+    controller: CardCtrl
   }
 }

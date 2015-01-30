@@ -6,6 +6,7 @@ describe("Cards", () => {
   let $scope;
 
   beforeEach(function () {
+
     ngMock.inject(function ($rootScope) {
       $scope = $rootScope.$new();
     });
