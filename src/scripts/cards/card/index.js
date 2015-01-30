@@ -10,7 +10,8 @@ function card(){
     replace: true,
     scope: {
       model: '=',
-      user: '='
+      user: '=',
+      mode: '='
     },
     bindToController: true,
     controllerAs: 'card',

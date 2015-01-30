@@ -2,7 +2,7 @@ import BC from '../../src/scripts/models/baseClass/index';
 import _ from 'lodash';
 import ngMock from 'angular-mocks-node';
 
-describe("BaseClass", () => {
+describe.only("BaseClass", () => {
   let BaseClass;
   let DataStore;
   let dispatcher;
@@ -24,7 +24,7 @@ describe("BaseClass", () => {
     let utilities = {};
 
     utilities.generateUID = sinon.spy();
-    dispatcher.getState = sinon.stub().returns({user: '123'});
+    dispatcher.getState = sinon.stub().returns({user: 'yeehaa'});
 
     BaseClass = new BC($q, DataStore, utilities, dispatcher);
     BaseClass.initialize(initialize());
@@ -43,7 +43,11 @@ describe("BaseClass", () => {
     });
 
     it("keeps its private info to itself", () => {
-      expect(_.keys(instance)).not.to.contain(['resourceName']);
+      expect(_.keys(instance)).not.to.contain('resourceName');
+    });
+
+    it("sets its properties from the schema", () => {
+      expect(_.keys(instance)).to.contain('id');
     });
   });
 
@@ -151,7 +155,7 @@ describe("BaseClass", () => {
 
     beforeEach(() => {
       let promise = $q.when();
-      instanceWithCurator = new BaseClass({title: 'Mock Title', curator: '123'});
+      instanceWithCurator = new BaseClass({title: 'Mock Title', id: '123', curator: 'yeehaa'});
     });
 
     afterEach(() => {
@@ -171,17 +175,72 @@ describe("BaseClass", () => {
     });
 
     it("calls the datastore to save the model", () => {
-      instance = new BaseClass({title: 'Mock Title'});
+      instance = new BaseClass({title: 'Mock Title', id: '123'});
       instance.save();
       expect(DataStore.save).calledWith(instanceWithCurator);
     });
   });
+
+  describe("clone", () => {
+    let clone;
+    let response;
+    let promise;
+    let spy;
+    let instance;
+
+    beforeEach(() => {
+      instance = new BaseClass({ id: '123', curator: 'marijn' });
+
+      let promises = [$q.when(1), $q.when(2)];
+
+      BaseClass.prototype.save = sinon.stub()
+      BaseClass.prototype.save
+        .onCall(0).returns(promises[0])
+        .onCall(1).returns(promises[1]);
+
+      response = BaseClass.clone(instance);
+      spy = BaseClass.prototype.save;
+    });
+
+    it("keeps the original's id", () => {
+      expect(spy.thisValues[0].id).to.equal('123');
+    });
+
+    it("sets the new curator to current user", () => {
+      expect(dispatcher.getState).called;
+      expect(spy.thisValues[0].curator).to.equal('yeehaa');
+    });
+
+    it("stores the original's curator name on the clone", () => {
+      expect(spy.thisValues[0].clonedFrom).to.equal('marijn');
+    });
+
+    it("stores the clone's curator name on the original", () => {
+      expect(instance.clones).to.include('yeehaa');
+    });
+
+    it("saves the original", () => {
+      expect(spy.thisValues[1]).to.equal(instance);
+    });
+
+    it("returns the clone", (done) => {
+      response.then((data) => {
+        expect(data).to.be.instanceof(BaseClass);
+        done();
+      });
+      $rootScope.$apply();
+    });
+  });
 });
+
 
 function initialize(){
   return {
     schema: {
       properties: {
+        id: {
+          required: true
+        },
         title: {
           required: true
         },

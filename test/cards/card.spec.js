@@ -1,7 +1,7 @@
 import CardCtrl from '../../src/scripts/cards/card/card.js';
 import ngMock from 'angular-mocks-node';
 
-describe.only("Card", () => {
+describe("Card", () => {
   let card;
   let $scope;
   let dispatcher;
@@ -35,9 +35,11 @@ describe.only("Card", () => {
   });
 
   describe("initialize",() => {
+
     it("should set the props correctly", () => {
       expect(card.model.title).to.equal('Learn Angular');
     });
+
   });
 
   describe("learn", () => {

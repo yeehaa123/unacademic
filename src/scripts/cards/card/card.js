@@ -7,20 +7,15 @@ function CardCtrl(dispatcher){
 
   vm.browse = function(){
     let name = vm.model.resourceName;
-    let curator = vm.model.curator;
-    let id = vm.model.id;
-
+    let { id, curator } = vm.model;
     let state = { view: { name, [name]: id, curator} };
     dispatcher.setState(state);
   }
 
   vm.learn = function(){
-    let Constructor = vm.model.constructor;
-    let name = vm.model.resourceName;
-    let clone = new Constructor(vm.model);
-
-    clone.curator = vm.user;
-    clone.save().then(({data: {curator, id}}) => {
+    vm.model.constructor.clone(vm.model).then((instance) => {
+      let { id, curator } = instance;
+      let name = instance.resourceName;
       let view = { name, curator, [name]: id };
       dispatcher.setState({view});
     });

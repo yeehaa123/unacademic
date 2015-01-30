@@ -49,6 +49,27 @@ function InitBaseClass($q, DataStore, utilities, dispatcher){
 
     }
 
+    static clone(instance){
+      return $q((resolve, reject) => {
+        let clone = new this(instance);
+        clone.curator = dispatcher.getState().user;
+        clone.clonedFrom = instance.curator;
+
+        instance.clones = instance.clones || [];
+        instance.clones.push(clone.curator);
+
+        let promises = [
+          clone.save(),
+          instance.save()
+        ];
+
+        $q.all(promises).then((data) => {
+          let savedClone = new this(data[0].data);
+          resolve(savedClone);
+        });
+      });
+    }
+
     static getAll(userId){
       let extractUserData = _.bind(_extractUserData, this);
       let extractObjects = _.bind(_extractObjects, this);

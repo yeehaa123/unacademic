@@ -42,5 +42,8 @@
 
   <div ng-show="card.user && card.user !== card.model.curator" 
        ng-click="card.learn()" class="follow">Learn</div>
+
   <div ng-click="card.browse()" class="follow">Browse</div>
+
+  <div ng-show="card.mode === 'curation'" ng-click="" class="follow">Delete</div>
 </section>
