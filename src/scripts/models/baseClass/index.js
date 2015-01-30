@@ -49,6 +49,32 @@ function InitBaseClass($q, DataStore, utilities, dispatcher){
 
     }
 
+    static get(userId, id){
+      let extractData = _.bind(_extractData, this);
+
+      return DataStore.get(this.name, userId, id)
+        .then(extractData);
+    }
+
+    static initialize({schema, initData}){
+      this.schema = schema;
+      this.initData = initData;
+    }
+
+    static getAll(userId){
+      let extractUserData = _.bind(_extractUserData, this);
+      let extractObjects = _.bind(_extractObjects, this);
+
+      if(!userId){
+        return DataStore.get(this.name)
+          .then(extractUserData)
+          .then(removeClones);
+      } else {
+        return DataStore.get(this.name, userId)
+          .then(extractObjects);
+      }
+    }
+
     static clone(instance){
       return $q((resolve, reject) => {
         let clone = new this(instance);
@@ -70,30 +96,12 @@ function InitBaseClass($q, DataStore, utilities, dispatcher){
       });
     }
 
-    static getAll(userId){
-      let extractUserData = _.bind(_extractUserData, this);
-      let extractObjects = _.bind(_extractObjects, this);
+  }
 
-      if(!userId){
-        return DataStore.get(this.name)
-        .then(extractUserData);
-      } else {
-        return DataStore.get(this.name, userId)
-        .then(extractObjects);
-      }
-    }
-
-    static get(userId, id){
-      let extractData = _.bind(_extractData, this);
-
-      return DataStore.get(this.name, userId, id)
-        .then(extractData);
-    }
-
-    static initialize({schema, initData}){
-      this.schema = schema;
-      this.initData = initData;
-    }
+  function removeClones(data){
+    let cloneLess = _.reject(data, 'clonedFrom');
+    return cloneLess;
+    
   }
 
   function _extractData(data){

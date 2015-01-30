@@ -13,9 +13,9 @@ function CardCtrl(dispatcher){
   }
 
   vm.learn = function(){
-    vm.model.constructor.clone(vm.model).then((instance) => {
-      let { id, curator } = instance;
-      let name = instance.resourceName;
+    vm.model.constructor.clone(vm.model).then(({data}) => {
+      let { id, curator, resourceName:name } = data;
+      console.log(id, curator, name);
       let view = { name, curator, [name]: id };
       dispatcher.setState({view});
     });

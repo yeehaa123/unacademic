@@ -28,7 +28,8 @@ describe("Card", () => {
       id: '123'
     }
 
-    model.constructor = sinon.stub();
+    model.constructor = {};
+    model.constructor.clone = sinon.stub();
     
     cardFn.instance.model = model;
     card = cardFn(dispatcher);
@@ -44,28 +45,17 @@ describe("Card", () => {
 
   describe("learn", () => {
     let promise;
-    let clone;
+    let name;
 
     beforeEach(() => {
-      clone = {};
-      promise = Promise.resolve({ data: { id: model.id, curator: model.curator }});
-
-      clone.save = sinon.stub().returns(promise);
-      model.constructor.returns(clone);
-
+      name = model.resourceName;
+      let data = { resourceName: name, id: model.id, curator: model.curator };
+      promise = Promise.resolve({data});
+      model.constructor.clone = sinon.stub().returns(promise);
       card.learn();
     });
 
-    it("should clone the resource", () => {
-      expect(model.constructor).calledWith(model);
-    });
-
-    it("should save the clone", () => {
-      expect(clone.save).called;
-    });
-
     it("should save the clone", (done) => {
-      let name = model.resourceName;
       let curator = model.curator;
       let id = model.id;
 

@@ -31,7 +31,7 @@ function ToolboxCtrl($scope, dispatcher, navHelpers){
   }
 
   function signIn(){
-    let users = ['yeehaa', 'reika', 'marijn', 'peter', 'nigel'];
+    let users = ['marijn'];
     let user = _.sample(users);
     console.log(user);
     return dispatcher.setState({user: user});

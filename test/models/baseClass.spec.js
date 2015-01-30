@@ -2,7 +2,7 @@ import BC from '../../src/scripts/models/baseClass/index';
 import _ from 'lodash';
 import ngMock from 'angular-mocks-node';
 
-describe.only("BaseClass", () => {
+describe("BaseClass", () => {
   let BaseClass;
   let DataStore;
   let dispatcher;
@@ -102,12 +102,15 @@ describe.only("BaseClass", () => {
       beforeEach(() => {
         let data = {
           "yeehaa": { "123": { curator: 'yeehaa' } },
-          "marijn": { "456": { curator: 'marijn' } }
+          "marijn": { "456": { curator: 'marijn' } ,
+                      "123": { curator: 'marijn', clonedFrom: 'yeehaa' } }
         };
         let promise = $q.when(data);
 
         DataStore.get.withArgs('BaseClass').returns(promise);
-        BaseClass.getAll().then((data) => { response = data });
+        BaseClass.getAll().then((data) => { 
+          response = data 
+        });
         $rootScope.$apply();
       });
 
@@ -241,6 +244,7 @@ function initialize(){
         id: {
           required: true
         },
+        clonedFrom: {},
         title: {
           required: true
         },
