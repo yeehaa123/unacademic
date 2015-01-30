@@ -40,7 +40,6 @@ describe("Course", () => {
 
     });
 
-
     describe("with waypoints", () => {
 
       beforeEach(() => {
@@ -92,6 +91,38 @@ describe("Course", () => {
       it("returns the profile and courses", () => {
         expect(response.waypoints.length).to.equal(0);
       });
+    });
+  });
+
+  describe("clone", () => {
+    let clone;
+    let response;
+    let promise;
+    let spy;
+    let course;
+
+    beforeEach(() => {
+      course = new Course({ id: '123', curator: 'marijn', waypoints: [1,2]});
+      let promise = $q.when(course);
+      Waypoint.clone = sinon.stub();
+
+      BaseClass.clone = sinon.stub()
+      BaseClass.clone.onCall(0).returns(promise)
+
+      Course.clone('yeehaa', course).then((data) => response = data);
+      $rootScope.$apply();
+    });
+
+    it("calls clone on the baseclass", () => {
+      expect(BaseClass.clone).calledWith('yeehaa', course);;
+    });
+
+    it("calls clone on the baseclass", () => {
+      expect(Waypoint.clone).called;
+    });
+
+    it("returns the clone", () => {
+      expect(response).to.be.instanceof(Course);
     });
   });
 });

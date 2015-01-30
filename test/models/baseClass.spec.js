@@ -198,11 +198,15 @@ describe("BaseClass", () => {
 
       BaseClass.prototype.save = sinon.stub()
       BaseClass.prototype.save
-        .onCall(0).returns(promises[0])
-        .onCall(1).returns(promises[1]);
+      .onCall(0).returns(promises[0])
+      .onCall(1).returns(promises[1]);
 
-      response = BaseClass.clone(instance);
-      spy = BaseClass.prototype.save;
+    BaseClass.clone('yeehaa', instance).then((data) => {
+      response = data
+    });
+
+    spy = BaseClass.prototype.save;
+    $rootScope.$apply();
     });
 
     it("keeps the original's id", () => {
@@ -226,12 +230,8 @@ describe("BaseClass", () => {
       expect(spy.thisValues[1]).to.equal(instance);
     });
 
-    it("returns the clone", (done) => {
-      response.then((data) => {
-        expect(data).to.be.instanceof(BaseClass);
-        done();
-      });
-      $rootScope.$apply();
+    it("returns the clone", () => {
+      expect(response).to.be.instanceof(BaseClass);
     });
   });
 });

@@ -16,7 +16,12 @@ function courseResolver($q, Course){
         return resolve(new Course());
       }
 
-      Course.get(curator, course).then((data) => resolve(data));
+      Course.get(curator, course).then((data) => {
+        let model = data;
+        let collection = data.waypoints;
+        console.log(model, collection);
+        resolve({model, collection});
+      });
     });
   }
 }

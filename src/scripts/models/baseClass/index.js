@@ -75,10 +75,11 @@ function InitBaseClass($q, DataStore, utilities, dispatcher){
       }
     }
 
-    static clone(instance){
+    static clone(userId, instance){
+
       return $q((resolve, reject) => {
         let clone = new this(instance);
-        clone.curator = dispatcher.getState().user;
+        clone.curator = userId; 
         clone.clonedFrom = instance.curator;
 
         instance.clones = instance.clones || [];
@@ -95,7 +96,6 @@ function InitBaseClass($q, DataStore, utilities, dispatcher){
         });
       });
     }
-
   }
 
   function removeClones(data){
