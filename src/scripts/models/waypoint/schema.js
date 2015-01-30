@@ -16,6 +16,12 @@ function schema(){
         maxLength: 25
 
       },
+      clonedFrom: {
+        type: 'string'
+      },
+      clones: {
+        type: 'array'
+      },
       curator: {
         type: 'string',
         required: true

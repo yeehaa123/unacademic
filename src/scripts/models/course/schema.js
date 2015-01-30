@@ -19,6 +19,12 @@ function schema(){
         type: 'string',
         required: true
       },
+      clonedFrom: {
+        type: 'string'
+      },
+      clones: {
+        type: 'array'
+      },
       keywords: {
         type: 'array',
         items: {
@@ -26,12 +32,6 @@ function schema(){
         }
       },
       waypoints: {
-        type: 'array',
-        items: {
-          type: 'string'
-        }
-      },
-      learners: {
         type: 'array',
         items: {
           type: 'string'
