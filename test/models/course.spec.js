@@ -25,6 +25,66 @@ describe("Course", () => {
     Course = new CourseInit($q, BaseClass, Waypoint);
   });
 
+  // test getWaypoints instead....
+  describe("getWaypoints", () => {
+    let response;
+    let userId;
+    let courseId;
+    let waypointIds;
+    let coursePromise;
+
+    beforeEach(() => {
+      userId = 'general';
+      courseId = '124';
+      waypointIds = [1,2];
+    });
+
+    describe("with waypoints", () => {
+
+      beforeEach(() => {
+        let course = {
+          curator: userId,
+          waypoints: waypointIds,
+          clonedFrom: 'yeehaa'
+        };
+
+        let waypointsPromise = $q.when(waypointIds);
+        Waypoint.get.withArgs(userId, waypointIds).returns(waypointsPromise);
+        Course.getWaypoints(course).then((data) => { response = data });
+        $rootScope.$apply();
+      });
+
+      it("gets the user's courses", () => {
+        expect(Waypoint.get).calledWith(userId, waypointIds);
+      });
+
+      it("returns the profile and courses", () => {
+        expect(response.waypoints.length).to.equal(2);
+      });
+    });
+
+   describe("without waypoints", () => {
+
+      beforeEach(() => {
+        let course = {
+          curator: userId,
+        };
+
+        Course.getWaypoints(userId, courseId).then((data) => { response = data });
+        $rootScope.$apply();
+      });
+
+
+      it("gets the user's courses", () => {
+        expect(Waypoint.get).not.called;
+      });
+
+      it("returns the profile and courses", () => {
+        expect(response.waypoints.length).to.equal(0);
+      });
+    });
+  });
+
   describe("clone", () => {
     let clone;
     let response;

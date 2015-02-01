@@ -1,9 +1,7 @@
 import CourseResolver from '../../src/scripts/content/course/courseResolver';
 import ngMock from 'angular-mocks-node';
 
-// stub out Course.getWaypoints
-
-describe.only("courseResolver", () => {
+describe("courseResolver", () => {
   let courseResolver;
   let Course;
   let $rootScope;
