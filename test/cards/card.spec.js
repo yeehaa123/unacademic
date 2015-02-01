@@ -43,23 +43,30 @@ describe("Card", () => {
 
   });
 
-  describe("learn", () => {
+  describe.only("learn", () => {
     let promise;
     let name;
 
     beforeEach(() => {
       name = model.resourceName;
       let data = { resourceName: name, id: model.id, curator: model.curator };
-      promise = Promise.resolve({data});
+      promise = Promise.resolve(data);
+      dispatcher.getState = sinon.stub().returns({user: 'yeehaa'});
       model.constructor.clone = sinon.stub().returns(promise);
       card.learn();
     });
 
-    it("should save the clone", (done) => {
-      let curator = model.curator;
-      let id = model.id;
+    it("should get the user", () => {
+      expect(dispatcher.getState).called;
+    }); 
 
+    it("should call clone on the model", () => {
+      expect(model.constructor.clone).calledWith(model.curator, model);
+    }); 
+
+    it("should save the clone", (done) => {
       promise.then(() => {
+        let { name:resourceName, curator, id} = model;
         let view = { name, curator, [name]: id }
         expect(dispatcher.setState).calledWith({view});;
         done();
