@@ -1,8 +1,10 @@
 export default courseResolver;
 
-function courseResolver($q, Course){
+function courseResolver($q, Course, Waypoint){
 
   return data;
+
+  /// revise tests
 
   function data({view: {curator, course}}){
 
@@ -16,11 +18,12 @@ function courseResolver($q, Course){
         return resolve(new Course());
       }
 
-      Course.get(curator, course).then((data) => {
-        let model = data;
-        let collection = data.waypoints;
-        resolve({model, collection});
-      });
+      Course.get(curator, course)
+        .then(Course.getWaypoints)
+        .then((response) => {
+          console.log(response);
+          resolve({model: response.course, collection: response.waypoints})
+        });
     });
   }
 }

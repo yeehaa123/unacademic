@@ -43,7 +43,7 @@ describe("Card", () => {
 
   });
 
-  describe.only("learn", () => {
+  describe("learn", () => {
     let promise;
     let name;
 
