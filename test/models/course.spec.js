@@ -38,7 +38,7 @@ describe("Course", () => {
       waypointIds = [1,2];
     });
 
-    describe.only("with waypoints", () => {
+    describe("with waypoints", () => {
 
       beforeEach(() => {
         coursePromise = $q.when({
@@ -101,13 +101,16 @@ describe("Course", () => {
     let course;
 
     beforeEach(() => {
-      course = new Course({ id: '123', curator: 'marijn', waypoints: [1,2]});
-      let promise = $q.when(course);
+      course = { id: '123', curator: 'marijn', waypoints: [1,2]};
+      let coursePromise = $q.when(course);
       Waypoint.clone = sinon.stub()
-      Waypoint.get.returns(1);
+
+      let waypoints = {a: 1, b: 2};
+      let waypointsPromise = $q.when(waypoints); 
+      Waypoint.get.returns(waypointsPromise);
 
       BaseClass.clone = sinon.stub()
-      BaseClass.clone.onCall(0).returns(promise)
+      BaseClass.clone.onCall(0).returns(coursePromise)
 
       Course.clone('yeehaa', course).then((data) => response = data);
       $rootScope.$apply();
@@ -117,12 +120,17 @@ describe("Course", () => {
       expect(BaseClass.clone).calledWith('yeehaa', course);;
     });
 
-    it("calls clone on the baseclass", () => {
-      expect(Waypoint.clone).calledWith('yeehaa', course);
+    it("gets the waypoints", () => {
+      expect(Waypoint.get).calledWith('marijn', [1,2]);
+    });
+
+    it("calls clone on waypoints", () => {
+      expect(Waypoint.clone).calledWith('marijn', 1);
+      expect(Waypoint.clone).calledWith('marijn', 2);
     });
 
     it("returns the clone", () => {
-      expect(response).to.be.instanceof(Course);
+      expect(response).to.equal(course);
     });
   });
 });
