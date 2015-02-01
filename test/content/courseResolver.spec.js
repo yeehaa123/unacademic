@@ -1,11 +1,14 @@
 import CourseResolver from '../../src/scripts/content/course/courseResolver';
 import ngMock from 'angular-mocks-node';
 
-describe("courseResolver", () => {
+// stub out Course.getWaypoints
+
+describe.only("courseResolver", () => {
   let courseResolver;
   let Course;
   let $rootScope;
   let $q;
+  let course;
 
   beforeEach(() => {
 
@@ -16,11 +19,11 @@ describe("courseResolver", () => {
 
     Course = sinon.spy(); 
 
-    let course = { waypoints: '123' };
+    course = { waypoints: '123' };
     let promise = $q.when(course);
 
-    Course.getAll = sinon.stub().returns(promise);
     Course.get = sinon.stub().returns(promise);
+    Course.getWaypoints = sinon.stub().returns(promise);
 
     courseResolver = new CourseResolver($q, Course);
   });
@@ -55,6 +58,10 @@ describe("courseResolver", () => {
 
       it("calls the Course service with the right arguments", () => {
         expect(Course.get).to.be.calledWithExactly('yeehaa', '456');
+      });
+
+      it("calls the Course service with the right arguments", () => {
+        expect(Course.getWaypoints).calledWith(course);
       });
 
       it("returns all the necessary data for the detail page", () => {

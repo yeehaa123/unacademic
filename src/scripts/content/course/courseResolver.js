@@ -21,7 +21,6 @@ function courseResolver($q, Course, Waypoint){
       Course.get(curator, course)
         .then(Course.getWaypoints)
         .then((response) => {
-          console.log(response);
           resolve({model: response.course, collection: response.waypoints})
         });
     });
