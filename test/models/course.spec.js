@@ -33,19 +33,18 @@ describe("Course", () => {
     let coursePromise;
 
     beforeEach(() => {
-
       userId = 'general';
       courseId = '124';
       waypointIds = [1,2];
-
     });
 
-    describe("with waypoints", () => {
+    describe.only("with waypoints", () => {
 
       beforeEach(() => {
         coursePromise = $q.when({
           curator: userId,
-          waypoints: waypointIds 
+          waypoints: waypointIds,
+          clonedFrom: 'yeehaa'
         });
 
         BaseClass.get.withArgs(userId).returns(coursePromise);
@@ -104,7 +103,8 @@ describe("Course", () => {
     beforeEach(() => {
       course = new Course({ id: '123', curator: 'marijn', waypoints: [1,2]});
       let promise = $q.when(course);
-      Waypoint.clone = sinon.stub();
+      Waypoint.clone = sinon.stub()
+      Waypoint.get.returns(1);
 
       BaseClass.clone = sinon.stub()
       BaseClass.clone.onCall(0).returns(promise)
@@ -118,7 +118,7 @@ describe("Course", () => {
     });
 
     it("calls clone on the baseclass", () => {
-      expect(Waypoint.clone).called;
+      expect(Waypoint.clone).calledWith('yeehaa', course);
     });
 
     it("returns the clone", () => {

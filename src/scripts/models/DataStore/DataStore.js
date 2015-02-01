@@ -27,11 +27,19 @@ function DataStore(baseUrl, $http, $q, utilities){
 
   function extractData(response){
     let data = response.data;
+    //  test this;
+    if(data){
+      data.id = `${data.id}`;
+    }
     return data;
   }
 
   function extractCollection(response){
-    let data = response.map((item) => { return item.data });
+    //  test this;
+    let data = response.map((item) => { 
+      item.data.id = `${ item.data.id }`;
+      return item.data; 
+    });
     return data;
   }
 }

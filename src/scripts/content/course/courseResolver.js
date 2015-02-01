@@ -19,7 +19,6 @@ function courseResolver($q, Course){
       Course.get(curator, course).then((data) => {
         let model = data;
         let collection = data.waypoints;
-        console.log(model, collection);
         resolve({model, collection});
       });
     });

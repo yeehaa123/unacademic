@@ -14,6 +14,7 @@ function InitBaseClass($q, DataStore, utilities, dispatcher){
       if(!instance.id){
         instance.id = utilities.generateUID();
       }
+
       _.each(props, (prop) => { this[prop] = instance[prop]; });
 
       if(!this.curator || this.curator === 'general'){
@@ -76,7 +77,6 @@ function InitBaseClass($q, DataStore, utilities, dispatcher){
     }
 
     static clone(userId, instance){
-
       return $q((resolve, reject) => {
         let clone = new this(instance);
         clone.curator = userId; 

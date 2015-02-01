@@ -11,19 +11,21 @@ function CourseInit($q, BaseClass, Waypoint, schema, initData){
     }
 
     static clone(userId, instance){
-      return super.clone(userId, instance)
-        .then(getWaypoints)
-        .then(cloneWaypoints)
-        .then(createCourse);
+      let promises = [
+        getWaypoints(instance),
+        super.clone(userId, instance)
+      ];
+
+      return $q.all(promises).then(cloneWaypoints);
     }
   }
 
-  function cloneWaypoints({waypoints, course}){
+  function cloneWaypoints([{waypoints}, course]){
     return $q((resolve, reject) => {
       _.each(waypoints, (waypoint) => {
         Waypoint.clone(course.curator, waypoint);
       });
-      resolve({waypoints, course});
+      resolve(course);
     });
   }
 
@@ -36,6 +38,7 @@ function CourseInit($q, BaseClass, Waypoint, schema, initData){
 
   function getWaypoints(course){
     return $q((resolve, reject) => {
+      let user;
       if(course.waypoints){
         Waypoint.get(course.curator, course.waypoints)
           .then((waypoints) => {
