@@ -25,17 +25,14 @@ function DataStore(baseUrl, $http, $q, utilities){
     return $http.put(url, instance);
   }
 
-  function extractData(response){
-    let data = response.data;
-    //  test this;
-    if(data){
+  function extractData({data}){
+    if(data && data.id){
       data.id = `${data.id}`;
     }
     return data;
   }
 
   function extractCollection(response){
-    //  test this;
     let data = response.map((item) => { 
       item.data.id = `${ item.data.id }`;
       return item.data; 

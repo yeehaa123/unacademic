@@ -20,7 +20,7 @@ function CoverInit($q, BaseClass, Course, coverSchema, coverInitData){
 
         $q.all(promises).then(function(data){
           let cover     = data[0];
-          let courses   = data[1] || [];
+          let courses   = data[1];
           return resolve({cover, courses});
         });
       });

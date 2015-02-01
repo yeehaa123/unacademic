@@ -105,15 +105,16 @@ function InitBaseClass($q, DataStore, utilities, dispatcher){
   }
 
   function _extractData(data){
-    if(data && _.isArray(data)){
+    if(!data){
+      return;
+    }
+    if( _.isArray(data)){
       let collection = _.map(data, (item) => { 
         return new this(item) 
       }, this);
       return collection;
-    } else if(data){
-      return new this(data);
     }
-    return new this(this.initData);
+    return new this(data);
   };
 
   function _extractUserData(data){

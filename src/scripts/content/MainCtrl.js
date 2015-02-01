@@ -8,7 +8,6 @@ function MainCtrl(init, dispatcher) {
   function updateInfo(params){
     init[params.view.name].resolver(params)
       .then(({model, collection}) => {
-        console.log(model, collection);
         vm.model          = model;
         vm.collection     = collection;
         vm.mode           = params.mode;

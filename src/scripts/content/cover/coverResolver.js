@@ -13,8 +13,8 @@ function coverResolver(Cover, $q){
       }
 
       Cover.get(coverUser, 'info').then((data) => {
-        let model = data.cover;
-        let collection = data.courses;
+        let model = data.cover || new Cover(Cover.initData);
+        let collection = data.courses || [];
         resolve({model, collection});
       });
     });

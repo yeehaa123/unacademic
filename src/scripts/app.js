@@ -18,7 +18,7 @@ let app = angular.module('unacademic', [
   'unacademic.cards'
 ]);
 
-app.constant('baseUrl', 'https://cth-curriculum.firebaseio.com/');
+app.constant('baseUrl', 'https://cth-curriculum.firebaseio.com');
 
 app.config(function($urlRouterProvider){
   $urlRouterProvider.otherwise('cover');

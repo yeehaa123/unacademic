@@ -40,12 +40,17 @@ describe("DataStore", () => {
     describe("single id", ()=> {
       beforeEach(() => {
         utilities.generateUrl.returns('/bla.com');
-        $httpBackend.when('GET', '/bla.com').respond({status: 200});
+        $httpBackend.when('GET', '/bla.com').respond({status: 200, id: 1});
       });
 
       it("gets the info", () => {
         DataStore.get('CoverInfo', userId)
           .then((data) => { expect(data.status).to.equal(200) });
+      });
+
+      it("transforms the id into a string", () => {
+        DataStore.get('CoverInfo', userId)
+          .then((data) => { expect(data.id).to.equal("1") });
       });
     });
 
@@ -53,13 +58,18 @@ describe("DataStore", () => {
       beforeEach(() => {
         utilities.generateUrl.onCall(0).returns('/123.com');
         utilities.generateUrl.onCall(1).returns('/456.com');
-        $httpBackend.when('GET', '/123.com').respond({status: 200});
-        $httpBackend.when('GET', '/456.com').respond({status: 200});
+        $httpBackend.when('GET', '/123.com').respond({status: 200, id: 1});
+        $httpBackend.when('GET', '/456.com').respond({status: 200, id: 2});
       });
 
       it("gets the info", () => {
         DataStore.get('CoverInfo', userId, [123, 456])
           .then((data) => { expect(data.length).to.equal(2) });
+      });
+
+      it("transforms the id into a string", () => {
+        DataStore.get('CoverInfo', userId, [123, 456])
+          .then((data) => { expect(data[1].id).to.equal('2') });
       });
     });
   });
