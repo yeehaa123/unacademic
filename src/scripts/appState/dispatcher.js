@@ -4,12 +4,10 @@ export default dispatcher;
 
 function dispatcher(currentState, queue, permission, mutator){
   let observerCallbacks = [];
-  let modes = ['browsing', 'learning', 'curation'];
 
   return {
     getState: get,
     setState: set,
-    getModes: getModes,
     queue: setQueue,
     registerObserverCallback: registerObserverCallback
   }

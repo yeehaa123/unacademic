@@ -19,6 +19,7 @@ let app = angular.module('unacademic', [
 ]);
 
 app.constant('baseUrl', 'https://cth-curriculum.firebaseio.com');
+app.constant('appModes', ['browse', 'learn', 'curate']);
 
 app.config(function($urlRouterProvider){
   $urlRouterProvider.otherwise('cover');
@@ -43,6 +44,6 @@ app.run(function($rootScope, history, dispatcher) {
     // let urlState = toState.url.match(/^\/(.+?)\//) || toState.url.match(/^\/(.+)\/?/);
     // let view = urlState[1];
     // dispatcher.setState({view: {name: view, curator: toParams.curator, id: toParams.id}});
-    dispatcher.setState( {view: {name: 'cover'} });
+    dispatcher.setState( {mode: 'browse', view: {name: 'cover'} });
   }
 });

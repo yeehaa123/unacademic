@@ -18,8 +18,6 @@ function formHelpers(dispatcher){
         .then(success, error);
     }
 
-    // start refactoring here...
-
     function success(){
       dispatcher.queue({remove: model.id});
       dispatcher.setState({

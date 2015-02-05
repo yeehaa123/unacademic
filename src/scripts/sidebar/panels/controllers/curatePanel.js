@@ -9,8 +9,10 @@ function CuratePanelCtrl($scope, dispatcher, formHelpers, resourceHelpers){
     curatePanel.getTemplateUrl = getTemplateUrl;
     curatePanel.submit = () => formHelpers.submit(curatePanel.form, curatePanel.model);
     curatePanel.addNew = addNew;
-    let checkForm = ()=> formHelpers.checkForm(curatePanel.form, curatePanel.model.id);
-    $scope.$watch('curatePanel.form', checkForm, true);
+    let checkForm = () => {
+      formHelpers.checkForm(curatePanel.form, curatePanel.model.id)
+    };
+    $scope.$watch('curatePanel', checkForm, true);
   }
 
   function addNew(){

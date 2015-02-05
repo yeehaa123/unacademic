@@ -23,13 +23,6 @@ describe("dispatcher", () => {
     dispatcher = new Dispatcher(currentState, queue, permission, mutator);
   });
 
-  describe("getModes", () => {
-    it("gets the app modes", () => {
-      let modes = dispatcher.getModes();
-      expect(modes.length).to.equal(3);
-    });
-  });
-
   describe("getState", () => {
     beforeEach(() => {
       dispatcher.getState();

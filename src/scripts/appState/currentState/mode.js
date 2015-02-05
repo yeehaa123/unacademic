@@ -1,8 +1,6 @@
 export default mode;
 
 function mode(){
-  var mode = 'browsing';
-
   return {
     name: 'mode',
     get: get,

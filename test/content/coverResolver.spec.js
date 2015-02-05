@@ -25,10 +25,10 @@ describe("coverResolver", () => {
   describe("index resolver", () => {
     let response;
 
-    describe("mode is browsing", () => {
+    describe("mode is browse", () => {
 
       beforeEach(() => {
-        var params = {user: 'yeehaa', mode: 'browsing' }
+        let params = {user: 'yeehaa', mode: 'browse' }
         coverResolver(params).then((data) => response = data);
         $rootScope.$digest();
       });

@@ -8,20 +8,24 @@ require('6to5/register');
 
 gulp.task('default', ['test']);
 
-gulp.task('test', function () {
+gulp.task('test', function(){
   return gulp.src(['test/**/*.js'], {read: false})
     .pipe(mocha({reporter: 'nyan'}));
 });
 
-gulp.task('styles', function () {
-  return gulp.src('src/sass/main.scss')
+gulp.task('styles', function(){
+  return gulp.src('src/styles/main.scss')
   .pipe(sass({
     includePaths: require('node-neat').includePaths
   }))
   .pipe(gulp.dest('src/assets'))
 });
 
-gulp.task('serve', function () {
+gulp.task('watch', function(){
+  gulp.watch('src/styles/**/*.scss', ['styles']);
+});
+
+gulp.task('serve', ['styles', 'watch'], function(){
   browserSync({
     server: {
       baseDir: './src'

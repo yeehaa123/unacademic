@@ -8,7 +8,7 @@ function coverResolver(Cover, $q){
     return $q((resolve, reject) => {
       let coverUser = user;
 
-      if(mode === 'browsing'){
+      if(mode === 'browse'){
         coverUser = 'general';
       }
 

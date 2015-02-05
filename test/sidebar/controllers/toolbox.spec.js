@@ -16,23 +16,16 @@ describe("Toolbox", () => {
     dispatcher = {};
     navHelpers = {};
 
-    dispatcher.getState = sinon.stub().returns({mode: 'browsing'});
-    dispatcher.getModes = sinon.stub().returns(['browsing', 'learning', 'curation']);
     dispatcher.setState = sinon.stub();
     dispatcher.registerObserverCallback = sinon.stub();
     navHelpers.goBack = sinon.spy();
     navHelpers.goForward = sinon.spy();
 
-    toolbox = new ToolboxCtrl($scope, dispatcher, navHelpers);
+    let appModes = ['browse', 'learn', 'curate'];
+    toolbox = new ToolboxCtrl($scope, dispatcher, navHelpers, appModes);
   });
 
   describe("initialize",() => {
-
-    describe("app modes", () => {
-      it("gets the app modes", () => {
-        expect(dispatcher.getModes).called;
-      });
-    });
 
     describe("nav props", () => {
       it("sets the other vm props", () => {

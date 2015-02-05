@@ -1,15 +1,15 @@
 <aside class="sidebar">
 
   <section ng-if="sidebar.model">
-    <div ng-show="sidebar.mode === 'browsing'" class="metabox">
+    <div ng-show="sidebar.mode === 'browse'" class="metabox">
       <browse-panel model="sidebar.model"></browse-panel>
     </div>
 
-    <div ng-show="sidebar.mode === 'learning'" class="metabox">
+    <div ng-show="sidebar.mode === 'learn'" class="metabox">
       <learn-panel model="sidebar.model"></learn-panel>
     </div>
 
-    <div ng-show="sidebar.mode === 'curation'" class="metabox">
+    <div ng-show="sidebar.mode === 'curate'" class="metabox">
       <curate-panel model="sidebar.model"></curate-panel>
     </div>
   <section>

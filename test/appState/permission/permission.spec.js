@@ -1,280 +1,75 @@
-import Permission from '../../../src/scripts/appState/permission/index';
-import ngMock from 'angular-mocks-node';
+import Permission from '../../../src/scripts/appState/permission/permission';
 
 describe("permission", () => {
   let permission;
-  let $log;
+  let rules;
   let currentState;
-  let resourceHelpers;
   let proposal;
-  let isAllowed;
+  let newState;
+  let judgement;
+  let state;
 
   beforeEach(() => {
+    state = { mode: 'learning' };
 
-    ngMock.inject(function( _$log_){
-      $log = _$log_;
-    });
+    rules = {};
+    proposal = {};
+    newState = {};
 
-    resourceHelpers = {};
+    rules.check = sinon.stub();
+    proposal.create = sinon.stub().returns(state);
+    newState.create = sinon.stub().returns(state);
 
-    resourceHelpers.createViewState = sinon.stub();
-
-    permission = new Permission($log, resourceHelpers);
+    permission = new Permission(rules, proposal, newState);
   });
 
-  describe("general", () => {
-
-    describe("invalid app mode", () => {
-      beforeEach(() => {
-
-        currentState = {
-          user: 'yeehaa',
-          mode: 'learning',
-        };
-
-        proposal = {
-          user: 'yeehaa',
-          mode: 'bla',
-          queue: new Set()
-        };
-
-        isAllowed = permission.get(currentState, proposal);
-      });
-
-      it("returns an empty object", () => {
-        expect(isAllowed).to.deep.equal({});
-      });
-
-      it("logs the proper warning", () => {
-        expect($log.warn.logs.length).to.equal(1);
-        expect($log.warn.logs[0][0]).to.contain('appmode');
-      });
-    });
-
-    describe("no changes", () => {
-      beforeEach(() => {
-
-        currentState = {
-          user: 'yeehaa',
-          mode: 'learning',
-          name: '123'
-        }
-
-        proposal = {
-          user: 'yeehaa',
-          mode: 'learning',
-          queue: new Set()
-        }
-
-        isAllowed = permission.get(currentState, proposal);
-      });
-
-      it("returns an empty object", () => {
-        expect(isAllowed).to.deep.equal({});
-      });
-    });
-  });
-
-  describe("resource changes", () => {
-
-    describe("no changes", () => {
-      beforeEach(() => {
-
-        currentState = {
-          mode: 'browsing',
-          view: {
-            course: '123',
-            curator: 'yeehaa'
-          }
-        }
-
-        proposal = {
-          mode: 'browsing',
-          resource: {
-            course: '123',
-            curator: 'yeehaa',
-          },
-          queue: new Set()
-        }
-
-        isAllowed = permission.get(currentState, proposal);
-      });
-
-      it("returns an empty object", () => {
-        expect(isAllowed).to.deep.equal({});
-      });
-    })
-
-    describe("changes", () => {
-      beforeEach(() => {
-
-        currentState = {
-          mode: 'browsing',
-          view: {
-            name: 'course',
-            course: '123',
-            curator: 'yeehaa'
-          }
-        }
-
-        proposal = {
-          mode: 'browsing',
-          view: {
-            course: '456',
-            curator: 'yeehaa',
-          },
-          queue: new Set()
-        }
-
-        resourceHelpers.createViewState.returns({course: '456'});
-        isAllowed = permission.get(currentState, proposal);
-      });
-
-      it("creates a view state", () => {
-        expect(resourceHelpers.createViewState)
-          .calledWith(proposal.view, currentState.view, undefined);
-      });
-
-
-      it("returns the resource id", () => {
-        expect(isAllowed.view.course).to.equal('456');
-      });
-
-      it("includes the view name", () => {
-        expect(isAllowed.view).not.to.be.undefined;
-      });
-
-    })
-  });
-
-  describe("queue", () => {
-    describe("is full", () => {
-      beforeEach(() => {
-
-        currentState = {
-          mode: 'learning',
-          user: 'yeehaa'
-        }
-
-        let nextState = {
-          mode: 'curation',
-          user: 'yeehaa',
-          queue: new Set([1,2,3])
-        }
-
-        isAllowed = permission.get(nextState, currentState);
-      });
-
-      it("is not allowed to switch", () => {
-        expect(isAllowed).to.deep.equal({});
-        expect($log.warn.logs.length).to.equal(1);
-        expect($log.warn.logs[0][0]).to.contain('locked');
-      });
-    });
-  });
-
-  describe("browsing mode", () => {
+  describe("if new state is invalid", () => {
 
     beforeEach(() => {
-
-      currentState = {
-        user: '',
-        mode: 'browsing',
-      }
-
+      rules.check.returns(false);
+      judgement = permission.get(state, state);
     });
 
-    it("is not allowed to switch to learning", () => {
-
-      proposal = {
-        mode: 'learning',
-        queue: new Set()
-      }
-
-      isAllowed = permission.get(currentState, proposal);
-      expect(isAllowed).to.deep.equal({});
-      expect($log.warn.logs.length).to.equal(1);
-      expect($log.warn.logs[0][0]).to.contain('signing in');
+    it("checks if the rules are valid", () => {
+      expect(proposal.create).to.be.calledWith(state, state);
     });
 
-    it("is not allowed to switch to curation", () => {
-
-      proposal = {
-        user: '',
-        mode: 'curation',
-        name: '123',
-        queue: new Set()
-      }
-
-      isAllowed = permission.get(currentState, proposal);
-      expect(isAllowed).to.deep.equal({});
-      expect($log.warn.logs.length).to.equal(1);
-      expect($log.warn.logs[0][0]).to.contain('signing in');
+    it("checks if the rules are valid", () => {
+      expect(rules.check).to.be.calledWith(state);
     });
 
-    it("is allowed to switch routes", () => {
+    it("checks if the rules are valid", () => {
+      expect(newState.create).not.to.be.called;
+    });
 
-      proposal = {
-        user: '',
-        mode: 'browsing',
-        view: '345',
-        queue: new Set()
-      }
-
-      resourceHelpers.createViewState.returns({course: '456'});
-      isAllowed = permission.get(currentState, proposal);
-      expect(isAllowed.view).to.deep.equal({course: '456'});
+    it("returns false", () => {
+      expect(judgement).to.equal(false);
     });
   });
 
-  describe("learning mode", () => {
+  describe("if new state is valid", () => {
 
     beforeEach(() => {
-
-      currentState = {
-        user: 'yeehaa',
-        mode: 'learning',
-        view: '123'
-      }
-
+      rules.check.returns(true);
+      judgement = permission.get(state, state);
     });
 
-    it("is allowed to switch to curation", () => {
+    it("checks if the rules are valid", () => {
+      expect(proposal.create).to.be.calledWith(state, state);
+    });
 
-      proposal = {
-        user: 'yeehaa',
-        mode: 'curation',
-        view: '123',
-        queue: new Set()
-      }
+    it("checks if the rules are valid", () => {
+      expect(rules.check).to.be.calledWith(state);
+    });
 
-      isAllowed = permission.get(currentState, proposal);
-      expect(isAllowed.mode).to.equal('curation');
+    it("checks if the rules are valid", () => {
+      expect(newState.create).to.be.calledWith(state, state);
+    });
+
+    it("returns true", () => {
+      expect(judgement).to.equal(state);
     });
   });
+});
 
-  describe("curation mode", () => {
 
-    beforeEach(() => {
-
-      currentState = {
-        user: 'yeehaa',
-        mode: 'curation',
-        name: '123'
-      }
-    });
-
-    it("is allowed to switch to learning", () => {
-
-      proposal = {
-        user: 'yeehaa',
-        mode: 'learning',
-        name: '123',
-        queue: new Set()
-      }
-
-      isAllowed = permission.get(currentState, proposal);
-      expect(isAllowed.mode).to.equal('learning');
-    });
-  });
-})

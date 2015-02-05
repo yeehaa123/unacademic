@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 export default ToolboxCtrl;
 
-function ToolboxCtrl($scope, dispatcher, navHelpers){
+function ToolboxCtrl($scope, dispatcher, navHelpers, appModes){
 
   let toolbox = this;
   let currentMode; 
@@ -10,7 +10,7 @@ function ToolboxCtrl($scope, dispatcher, navHelpers){
 
 
   function initialize(){
-    toolbox.modes = dispatcher.getModes(); 
+    toolbox.modes = appModes; 
     $scope.$watch(() => toolbox.mode , setMode);
     initButtons();
   }
