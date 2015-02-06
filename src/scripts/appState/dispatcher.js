@@ -22,16 +22,9 @@ function dispatcher(currentState, queue, permission, mutator){
 
     let changes = permission.get(state, proposals);
 
-    if(!_.isEmpty(changes)){
+    if(changes){
       mutator.set(changes).then((data) => { notifyObservers(data); });
     }
-  }
-
-  function getViewProposal(changes, state){
-  }
-
-  function getModes(){
-    return modes;
   }
 
   function setQueue(options){

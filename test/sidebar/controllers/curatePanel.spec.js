@@ -55,12 +55,14 @@ describe("CuratePanelCtrl", () => {
 
   });
   describe("add new", () => {
+
     beforeEach(() => {
       curatePanel.model = {
         resourceName: 'cover'
       };
       resourceHelpers.getChildName = sinon.stub().returns('course');
       dispatcher.setState = sinon.spy();
+      dispatcher.getState = sinon.stub().returns({ user: 'yeehaa' });
       curatePanel.addNew();
     });
 
@@ -69,7 +71,7 @@ describe("CuratePanelCtrl", () => {
     });
 
     it("sets the new state", () => {
-      let state = { name: 'course', course: 'new' };
+      let state = { curator: 'yeehaa', name: 'course', course: 'new' };
       expect(dispatcher.setState).calledWith({view: state});
     });
   });

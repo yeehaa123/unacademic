@@ -1,8 +1,8 @@
-import CourseInit from '../../src/scripts/models/course/course';
+import ConstellationInit from '../../src/scripts/models/constellation/constellation';
 import ngMock from 'angular-mocks-node';
 
-describe("Course", () => {
-  let Course;
+describe("Constellation", () => {
+  let Constellation;
   let BaseClass;
   let $q;
   let $rootScope;
@@ -22,27 +22,27 @@ describe("Course", () => {
     BaseClass.get = sinon.stub();
     BaseClass.initialize = sinon.spy();
 
-    Course = new CourseInit($q, BaseClass, Waypoint);
+    Constellation = new ConstellationInit($q, BaseClass, Waypoint);
   });
 
   // test getWaypoints instead....
   describe("getWaypoints", () => {
     let response;
     let userId;
-    let courseId;
+    let constellationId;
     let waypointIds;
-    let coursePromise;
+    let constellationPromise;
 
     beforeEach(() => {
       userId = 'general';
-      courseId = '124';
+      constellationId = '124';
       waypointIds = [1,2];
     });
 
     describe("with waypoints", () => {
 
       beforeEach(() => {
-        let course = {
+        let constellation = {
           curator: userId,
           waypoints: waypointIds,
           clonedFrom: 'yeehaa'
@@ -50,15 +50,15 @@ describe("Course", () => {
 
         let waypointsPromise = $q.when(waypointIds);
         Waypoint.get.withArgs(userId, waypointIds).returns(waypointsPromise);
-        Course.getWaypoints(course).then((data) => { response = data });
+        Constellation.getWaypoints(constellation).then((data) => { response = data });
         $rootScope.$apply();
       });
 
-      it("gets the user's courses", () => {
+      it("gets the user's constellations", () => {
         expect(Waypoint.get).calledWith(userId, waypointIds);
       });
 
-      it("returns the profile and courses", () => {
+      it("returns the profile and constellations", () => {
         expect(response.waypoints.length).to.equal(2);
       });
     });
@@ -66,20 +66,20 @@ describe("Course", () => {
    describe("without waypoints", () => {
 
       beforeEach(() => {
-        let course = {
+        let constellation = {
           curator: userId,
         };
 
-        Course.getWaypoints(userId, courseId).then((data) => { response = data });
+        Constellation.getWaypoints(userId, constellationId).then((data) => { response = data });
         $rootScope.$apply();
       });
 
 
-      it("gets the user's courses", () => {
+      it("gets the user's constellations", () => {
         expect(Waypoint.get).not.called;
       });
 
-      it("returns the profile and courses", () => {
+      it("returns the profile and constellations", () => {
         expect(response.waypoints.length).to.equal(0);
       });
     });
@@ -90,11 +90,11 @@ describe("Course", () => {
     let response;
     let promise;
     let spy;
-    let course;
+    let constellation;
 
     beforeEach(() => {
-      course = { id: '123', curator: 'marijn', waypoints: [1,2]};
-      let coursePromise = $q.when(course);
+      constellation = { id: '123', curator: 'marijn', waypoints: [1,2]};
+      let constellationPromise = $q.when(constellation);
       Waypoint.clone = sinon.stub()
 
       let waypoints = {a: 1, b: 2};
@@ -102,14 +102,14 @@ describe("Course", () => {
       Waypoint.get.returns(waypointsPromise);
 
       BaseClass.clone = sinon.stub()
-      BaseClass.clone.onCall(0).returns(coursePromise)
+      BaseClass.clone.onCall(0).returns(constellationPromise)
 
-      Course.clone('yeehaa', course).then((data) => response = data);
+      Constellation.clone('yeehaa', constellation).then((data) => response = data);
       $rootScope.$apply();
     });
 
     it("calls clone on the baseclass", () => {
-      expect(BaseClass.clone).calledWith('yeehaa', course);;
+      expect(BaseClass.clone).calledWith('yeehaa', constellation);;
     });
 
     it("gets the waypoints", () => {
@@ -122,7 +122,7 @@ describe("Course", () => {
     });
 
     it("returns the clone", () => {
-      expect(response).to.equal(course);
+      expect(response).to.equal(constellation);
     });
   });
 });

@@ -9,16 +9,20 @@ function CuratePanelCtrl($scope, dispatcher, formHelpers, resourceHelpers){
     curatePanel.getTemplateUrl = getTemplateUrl;
     curatePanel.submit = () => formHelpers.submit(curatePanel.form, curatePanel.model);
     curatePanel.addNew = addNew;
+    curatePanel.keywords = ['html', 'css', 'markdown'];
+
     let checkForm = () => {
       formHelpers.checkForm(curatePanel.form, curatePanel.model.id)
     };
+
     $scope.$watch('curatePanel', checkForm, true);
   }
 
   function addNew(){
+    let curator = dispatcher.getState().user;
     let resourceName = curatePanel.model.resourceName;
     let childName = resourceHelpers.getChildName(resourceName);
-    let viewState = { name:  childName, [childName]: 'new' }
+    let viewState = { curator, name:  childName, [childName]: 'new' }
     dispatcher.setState({view: viewState});
   }
 

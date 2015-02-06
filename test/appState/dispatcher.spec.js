@@ -41,11 +41,10 @@ describe("dispatcher", () => {
       dispatcher.registerObserverCallback(notificationSpy);
     });
 
-
     describe("with no changes", () => {
 
       beforeEach(() => {
-        permission.get.returns({});
+        permission.get.returns(false);
         dispatcher.setState({user: 'yeehaa'});
       });
 

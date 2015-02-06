@@ -1,27 +1,27 @@
 export default CoverInit;
 
-function CoverInit($q, BaseClass, Course, coverSchema, coverInitData){
+function CoverInit($q, BaseClass, Constellation, coverSchema, coverInitData){
 
   class Cover extends BaseClass {
 
     static get(userId, id){
       return $q((resolve, reject) => {
         let coverPromise = super.get(userId, id);
-        let coursePromise;
+        let constellationPromise;
         let promises;
 
         if(!userId || userId === 'general'){
-          coursePromise = Course.getAll();
+          constellationPromise = Constellation.getAll();
         } else {
-          coursePromise = Course.getAll(userId);
+          constellationPromise = Constellation.getAll(userId);
         }
 
-        promises = [coverPromise, coursePromise];
+        promises = [coverPromise, constellationPromise];
 
         $q.all(promises).then(function(data){
           let cover     = data[0];
-          let courses   = data[1];
-          return resolve({cover, courses});
+          let constellations   = data[1];
+          return resolve({cover, constellations});
         });
       });
     }

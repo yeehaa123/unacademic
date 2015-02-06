@@ -1,20 +1,22 @@
 <aside class="sidebar">
 
   <section ng-if="sidebar.model">
-    <div ng-show="sidebar.mode === 'browse'" class="metabox">
-      <browse-panel model="sidebar.model"></browse-panel>
-    </div>
 
-    <div ng-show="sidebar.mode === 'learn'" class="metabox">
-      <learn-panel model="sidebar.model"></learn-panel>
-    </div>
+    <browse-panel ng-if="sidebar.mode === 'browse'" 
+                  class="metabox"
+                  model="sidebar.model">
+    </browse-panel>
 
-    <div ng-show="sidebar.mode === 'curate'" class="metabox">
-      <curate-panel model="sidebar.model"></curate-panel>
-    </div>
+    <learn-panel ng-if="sidebar.mode === 'learn'" 
+                 class="metabox"
+                 model="sidebar.model">
+    </learn-panel>
+
+    <curate-panel ng-if="sidebar.mode === 'curate'" 
+                  class="metabox"
+                  model="sidebar.model">
+    </curate-panel>
   <section>
 
-
   <toolbox user="sidebar.user" mode="sidebar.mode"></toolbox>
-
 </aside>

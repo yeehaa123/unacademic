@@ -14,7 +14,7 @@ function coverResolver(Cover, $q){
 
       Cover.get(coverUser, 'info').then((data) => {
         let model = data.cover || new Cover(Cover.initData);
-        let collection = data.courses || [];
+        let collection = data.constellations || [];
         resolve({model, collection});
       });
     });

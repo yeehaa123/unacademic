@@ -4,6 +4,7 @@ export default CardCtrl;
 
 function CardCtrl(dispatcher){
   let vm = this;
+  vm.type = vm.model.resourceName;
 
   vm.browse = function(){
     let name = vm.model.resourceName;

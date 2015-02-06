@@ -225,7 +225,7 @@ button, input[type="submit"] {
 
 .card {
   width: 380px;
-  margin: 3em 1em 1em 3em;
+  margin: 2em 2em;
   border-radius: 0px;
   padding-bottom: 1.5em;
   background-color: white;
@@ -242,13 +242,12 @@ button, input[type="submit"] {
       margin: 0;
       background-color: black;
       color: white;
-      border-bottom: 1px solid white; }
+      border-bottom: 1px solid white;
+      padding: 1em; }
     .card .heading h1 {
       text-align: center;
-      font-size: 2em;
-      font-weight: 700;
-      padding-top: 0.5em;
-      padding-bottom: 0.5em; }
+      font-size: 1.5em;
+      font-weight: 700; }
     .card .heading .constellation {
       display: block;
       background-color: #75C7B3;
@@ -256,7 +255,7 @@ button, input[type="submit"] {
       width: 100%; }
   .card section p {
     padding: 20px; }
-  .card .description h1, .card .waypoints h1, .card .stats h1 {
+  .card .description h1, .card .waypoints h1, .card .checkpoints h1, .card .keywords h1, .card .stats h1 {
     font-size: 1.2em;
     background-color: black;
     padding: 10px;
@@ -264,15 +263,23 @@ button, input[type="submit"] {
     text-align: center;
     border-top: 1px solid white;
     border-bottom: 1px solid white; }
-    .card .description h1:hover, .card .waypoints h1:hover, .card .stats h1:hover {
+    .card .description h1:hover, .card .waypoints h1:hover, .card .checkpoints h1:hover, .card .keywords h1:hover, .card .stats h1:hover {
       background-color: #75C7B3; }
-  .card .waypoints p {
+  .card .keywords h1 {
+    margin-bottom: 1em; }
+  .card .keywords p {
+    background-color: black;
+    color: white;
+    padding: 0.7em;
+    display: inline-block;
+    margin: 0em 0em 1em 1em; }
+  .card .waypoints p, .card .checkpoints p {
     border-bottom: 2px solid black;
-    font-size: 1.2em;
+    font-size: 1em;
     padding: 10px 20px;
     text-align: center;
     margin-bottom: 0; }
-    .card .waypoints p:last-child {
+    .card .waypoints p:last-child, .card .checkpoints p:last-child {
       border-bottom: 0; }
   .card .summary {
     font-size: 1.2em;

@@ -101,9 +101,9 @@ describe("BaseClass", () => {
     describe("without userId", () => {
       beforeEach(() => {
         let data = {
-          "yeehaa": { "123": { curator: 'yeehaa' } },
-          "marijn": { "456": { curator: 'marijn' } ,
-                      "123": { curator: 'marijn', clonedFrom: 'yeehaa' } }
+          "yeehaa": { "123": { id: 0, curator: 'yeehaa' } },
+          "marijn": { "456": { id: 1, curator: 'marijn' } ,
+                      "123": { id: 2, curator: 'marijn', clonedFrom: 'yeehaa' } }
         };
         let promise = $q.when(data);
 
@@ -120,6 +120,10 @@ describe("BaseClass", () => {
 
       it("returns an instance of CoverInfo", () => {
         expect(response[0]).to.be.an.instanceOf(BaseClass);
+      });
+
+      it("converts ids to strings", () => {
+        expect(response[0].id).to.equal('0');
       });
 
       it("gets the info", () => {

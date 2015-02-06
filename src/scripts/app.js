@@ -1,5 +1,6 @@
 import angular from 'angular';
 import 'angular-ui-router';
+import 'angular-ui-select';
 
 import './appState/index';
 import './common/index';
@@ -10,6 +11,7 @@ import './cards/index';
 
 let app = angular.module('unacademic', [
   'ui.router',
+  'ui.select',
   'unacademic.common',
   'unacademic.appState',
   'unacademic.models',
@@ -44,6 +46,6 @@ app.run(function($rootScope, history, dispatcher) {
     // let urlState = toState.url.match(/^\/(.+?)\//) || toState.url.match(/^\/(.+)\/?/);
     // let view = urlState[1];
     // dispatcher.setState({view: {name: view, curator: toParams.curator, id: toParams.id}});
-    dispatcher.setState( {mode: 'browse', view: {name: 'cover'} });
+    dispatcher.setState( {mode: 'browse', view: {name: 'waypoints'} });
   }
 });

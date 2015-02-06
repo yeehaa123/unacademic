@@ -20,6 +20,12 @@ function ToolboxCtrl($scope, dispatcher, navHelpers, appModes){
     toolbox.forward = forward;
     toolbox.signIn = signIn;
     toolbox.checkMode = checkMode;
+    toolbox.gotoWaypoints = gotoWaypoints;
+  }
+
+  // test this....
+  function gotoWaypoints(){
+    dispatcher.setState({view: {name: 'waypoints'} });
   }
 
   function back(){
@@ -31,7 +37,7 @@ function ToolboxCtrl($scope, dispatcher, navHelpers, appModes){
   }
 
   function signIn(){
-    let users = ['reika'];
+    let users = ['yeehaa'];
     let user = _.sample(users);
     console.log(user);
     return dispatcher.setState({user: user});

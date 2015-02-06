@@ -130,7 +130,10 @@ function InitBaseClass($q, DataStore, utilities, dispatcher){
   function _extractObjects(data){
     if(data){
       let keys = _.keys(data);
-      return _.map(keys, (key) => new this(data[key]));
+      return _.map(keys, (key) => {
+        data[key].id = `${data[key].id}`;
+        return new this(data[key]);
+      });
     }
   };
 

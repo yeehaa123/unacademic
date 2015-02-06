@@ -2,11 +2,10 @@ export default resourceHelpers;
 import _ from 'lodash';
 
 function resourceHelpers(){
-  let lineage = ['cover', 'course', 'waypoint', 'checkpoint'];
+  let lineage = ['cover', 'waypoint', 'checkpoint'];
 
   return {
     createViewState: createViewState,
-    // add tests
     getChildName: getChildName
   };
 

@@ -13,8 +13,22 @@ function routes($stateProvider) {
       templateUrl: templateUrl
     })
 
-    .state('course', {
-      url: '/course/:curator/:course',
+    .state('constellation', {
+      url: '/constellation/:curator/:constellation',
+      controller: 'MainCtrl',
+      controllerAs: 'vm',
+      templateUrl: templateUrl
+    })
+
+    .state('waypoints', {
+      url: '/waypoints',
+      controller: 'MainCtrl',
+      controllerAs: 'vm',
+      templateUrl: templateUrl
+    })
+
+    .state('waypoint', {
+      url: '/waypoint',
       controller: 'MainCtrl',
       controllerAs: 'vm',
       templateUrl: templateUrl

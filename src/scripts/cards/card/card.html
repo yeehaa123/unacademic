@@ -1,50 +1,10 @@
-<section class="card ng-class:card.model.type">
+<div>
+  <section ng-if="card.mode === 'browse'" 
+    ng-include="'scripts/content/waypoints/browse.html'"></section>
 
-  <section class="heading">
-    <hgroup class="title">
-      <h1>{{card.model.title}}</h1>
-    </hgroup>
-    <img src="" class="constellation">
-  </section>
+  <section ng-if="card.mode === 'learn'" 
+    ng-include="'scripts/content/waypoints/learn.html'"></section>
 
-  <section class="summary">
-    <p>{{card.model.summary}}</p>
-  </section>
-
-  <section class="description">
-    <h1>Description</h1>
-    <p>{{card.model.description}}</p>
-  </section>
-
-  <section class="waypoints">
-    <h1>Waypoints</h1>
-    <p>HTML</p>
-    <p>CSS</p>
-  </section>
-
-  <section class="stats">
-    <h1>Stats</h1>
-    <ul>
-      <li>
-      <h4>{{card.model.waypoints.length}}</h4>
-      <span>Waypoints</span>
-      </li>
-      <li>
-      <h4>1,119</h4>
-      <span>Followers</span>
-      </li>
-      <li>
-      <h4>30000</h4>
-      <span>Likes</span>
-      </li>
-    </ul>
-  </section>
-
-  <section class="controls">
-    <div ng-show="card.user && card.user !== card.model.curator" 
-         ng-click="card.learn()" class="button">Learn</div>
-    <div ng-click="card.browse()" class="button">Browse</div>
-    <div ng-show="card.mode === 'curate'" ng-click="" class="button">Delete</div>
-  </section>
-
-</section>
+  <section ng-if="card.mode === 'curate'" 
+    ng-include="'scripts/content/waypoints/curate.html'"></section>
+</div>

@@ -3,7 +3,7 @@ import ngMock from 'angular-mocks-node';
 
 describe("Cover", () => {
   let Cover;
-  let Course;
+  let Constellation;
   let BaseClass;
   let $q;
   let $rootScope;
@@ -15,14 +15,14 @@ describe("Cover", () => {
       $q = _$q_;
     });
 
-    Course = {};
-    Course.getAll = sinon.stub();
+    Constellation = {};
+    Constellation.getAll = sinon.stub();
 
     BaseClass = sinon.spy();
     BaseClass.get = sinon.stub();
     BaseClass.initialize = sinon.spy();
 
-    Cover = new CoverInit($q, BaseClass, Course);
+    Cover = new CoverInit($q, BaseClass, Constellation);
   });
 
   describe("get", () => {
@@ -32,12 +32,12 @@ describe("Cover", () => {
     describe("with a user", () => {
       beforeEach(() => {
         let coverPromise = $q.when({title: 'Mock Title'});
-        let coursesPromise = $q.when([1,2]);
+        let constellationsPromise = $q.when([1,2]);
         userId = 'yeehaa';
 
         BaseClass.get.withArgs(userId).returns(coverPromise);
-        Course.getAll.withArgs().returns(coursesPromise);
-        Course.getAll.withArgs(userId).returns(coursesPromise);
+        Constellation.getAll.withArgs().returns(constellationsPromise);
+        Constellation.getAll.withArgs(userId).returns(constellationsPromise);
         Cover.get(userId).then((data) => { response = data });
         $rootScope.$apply();
       });
@@ -46,28 +46,28 @@ describe("Cover", () => {
         expect(BaseClass.get).calledWith(userId);
       });
 
-      it("gets all the courses", () => {
-        expect(Course.getAll).calledWith().at.firstCall;
+      it("gets all the constellations", () => {
+        expect(Constellation.getAll).calledWith().at.firstCall;
       });
 
-      it("gets the user's courses", () => {
-        expect(Course.getAll).calledWith('yeehaa').at.secondCall;
+      it("gets the user's constellations", () => {
+        expect(Constellation.getAll).calledWith('yeehaa').at.secondCall;
       });
 
-      it("returns the profile and courses", () => {
+      it("returns the profile and constellations", () => {
         expect(response.cover.title).to.equal('Mock Title');
-        expect(response.courses.length).to.equal(2);
+        expect(response.constellations.length).to.equal(2);
       });
     });
 
     describe("without a user", () => {
       beforeEach(() => {
         let coverPromise = $q.when({title: 'Mock Title'});
-        let coursesPromise = $q.when([1,2]);
+        let constellationsPromise = $q.when([1,2]);
         userId = 'general';
 
         BaseClass.get.withArgs(userId).returns(coverPromise);
-        Course.getAll.withArgs().returns(coursesPromise);
+        Constellation.getAll.withArgs().returns(constellationsPromise);
         Cover.get(userId).then((data) => { response = data });
         $rootScope.$apply();
       });
@@ -76,12 +76,12 @@ describe("Cover", () => {
         expect(BaseClass.get).calledWith(userId);
       });
 
-      it("gets the user's courses", () => {
-        expect(Course.getAll).calledWith();
+      it("gets the user's constellations", () => {
+        expect(Constellation.getAll).calledWith();
       });
 
-      it("returns the profile and courses", () => {
-        expect(response.courses.length).to.equal(2);
+      it("returns the profile and constellations", () => {
+        expect(response.constellations.length).to.equal(2);
       });
     });
   });

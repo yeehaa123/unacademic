@@ -29,6 +29,12 @@ function schema(){
       summary: {
         type: 'string'
       },
+      checkpoints: {
+        type: 'array'
+      },
+      keywords: {
+        type: 'array'
+      },
       description: {
         type: 'string'
       }

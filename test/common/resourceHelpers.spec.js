@@ -9,7 +9,7 @@ describe("resourceHelpers", () => {
 
   describe("get child name", () => {
     it("gets the name of the child state", () => {
-      let childName = resourceHelpers.getChildName('course');
+      let childName = resourceHelpers.getChildName('cover');
       expect(childName).to.equal('waypoint');
     });
   });
@@ -19,8 +19,8 @@ describe("resourceHelpers", () => {
 
     beforeEach(() => {
       oldState = {
-        name:    'course',
-        course:  '123', 
+        name:    'waypoint',
+        waypoint:  '123', 
         curator: 'Marijn' 
       };
     });
@@ -64,6 +64,7 @@ describe("resourceHelpers", () => {
     describe("new resource is one level higher in tree", () => {
 
       it("replaces the old object", () => {
+
         let newState = {
           name:    'cover',
           cover:  '456', 
@@ -76,10 +77,11 @@ describe("resourceHelpers", () => {
     });
 
     describe("new resource is on the same level in tree", () => {
+
       it("replaces the old object", () => {
         let newState = {
-          name:    'course',
-          course:  '456', 
+          name:    'waypoint',
+          waypoint:  '456', 
           curator: 'yeehaa'
         };
 
@@ -103,7 +105,7 @@ describe("resourceHelpers", () => {
           expect(state.name).to.equal(newState.name);
           expect(state.checkpoint).to.equal(newState.checkpoint);
           expect(state.curator).to.equal(newState.curator);
-          expect(state.course).to.equal(oldState.course);
+          expect(state.constellation).to.equal(oldState.constellation);
         });
       });
 
@@ -123,7 +125,7 @@ describe("resourceHelpers", () => {
           expect(state.checkpoint).to.equal(newState.checkpoint);
           expect(state.curator).to.equal(newState.curator);
           expect(state.waypoint).to.equal(oldState.waypoint);
-          expect(state.course).to.equal(oldState.course);
+          expect(state.constellation).to.equal(oldState.constellation);
         });
       });
     });

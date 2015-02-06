@@ -9,7 +9,7 @@ function formHelpers(dispatcher){
 
   function submit(form, model){
     if(!form.$dirty){
-      return dispatcher.setState({mode: 'learning'});
+      return dispatcher.setState({mode: 'learn'});
     }
 
     if(form.$dirty && form.$valid){
@@ -21,8 +21,9 @@ function formHelpers(dispatcher){
     function success(){
       dispatcher.queue({remove: model.id});
       dispatcher.setState({
-        mode: 'learning', 
-        resource: {
+        mode: 'learn', 
+        view: {
+          name: model.resourceName,
           curator: model.curator,
           [model.resourceName]: model.id
         }

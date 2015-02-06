@@ -88,7 +88,8 @@ describe("formHelpers", () => {
 
         it("set the new state", (done) => {
           let resource = { course: '123', curator: 'yeehaa' };
-          let state = { mode: 'learning', resource: resource };
+          let view = { name: 'course', curator: 'yeehaa', course: '123' }
+          let state = { mode: 'learn', view };
 
           promise.then(() => {
             expect(dispatcher.setState).calledWith(state);
