@@ -1,17 +1,22 @@
-export default MainCtrl;
+import _ from 'lodash';
 
-function MainCtrl(init, dispatcher) {
-  let vm = this;
+class MainCtrl {
 
+ constructor(dispatcher, resolver) {
+  this.resolver = resolver;
+  let updateInfo = _.bind(this._updateInfo, this);
   dispatcher.registerObserverCallback(updateInfo);
+ }
 
-  function updateInfo(params){
-    init[params.view.name].resolver(params)
-      .then(({model, collection}) => {
-        vm.model          = model;
-        vm.collection     = collection;
-        vm.mode           = params.mode;
-        vm.user           = params.user;
-      });
-  }
+ _updateInfo(params){
+   this.resolver(params)
+     .then(({model, collection}) => {
+       this.model          = model;
+       this.collection     = collection;
+       this.mode           = params.mode;
+       this.user           = params.user;
+     });
+ }
 };
+
+export default MainCtrl;

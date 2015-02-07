@@ -1,18 +1,17 @@
 import MainCtrl from '../../src/scripts/content/MainCtrl';
-import ngMock from 'angular-mocks-node';
 
-describe("MainCtrl", () => {
+describe.only("MainCtrl", () => {
   let vm;
   let dispatcher;
-  let init;
+  let resolver;
 
   beforeEach(function () {
-    init = {}
-    dispatcher = {}
+    dispatcher = {};
+    resolver = sinon.stub();
 
     dispatcher.registerObserverCallback = sinon.stub();
 
-    vm = new MainCtrl(init, dispatcher);
+    vm = new MainCtrl(dispatcher, resolver);
   });
 
   describe("general", () => {
@@ -33,16 +32,15 @@ describe("MainCtrl", () => {
       params.user = 'yeehaa';
 
       viewName = params.view.name;
-      init[viewName] = {};
       promise = Promise.resolve({model: '1', collection: '2'});
-      init[viewName].resolver = sinon.stub().returns(promise);
+      resolver.returns(promise);
 
       dispatcher.registerObserverCallback.callArgWith(0, params);
     });
 
     it("retrieves the cover info", (done) => {
       promise.then(() => {
-        expect(init[viewName].resolver).called;
+        expect(resolver).called;
         done();
       });
     });

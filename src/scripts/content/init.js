@@ -1,30 +1,22 @@
 export default init;
 
 function init(coverResolver, 
-              coverProps, 
               constellationResolver, 
-              constellationProps,
               waypointsResolver,
-              waypointsProps,
-              waypointResolver,
-              waypointProps){
+              waypointResolver){
 
   return {
     cover: {
-      resolver: coverResolver,
-      props: coverProps
+      resolver: coverResolver
     },
     constellation: {
-      resolver: constellationResolver,
-      props: constellationProps
+      resolver: constellationResolver
     },
     waypoints: {
-      resolver: waypointsResolver,
-      props: waypointsProps
+      resolver: waypointsResolver
     },
     waypoint: {
-      resolver: waypointResolver,
-      props: waypointProps
+      resolver: waypointResolver
     }
   };
 }
