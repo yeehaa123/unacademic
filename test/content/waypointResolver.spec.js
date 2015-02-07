@@ -1,7 +1,7 @@
 import WaypointResolver from '../../src/scripts/content/waypoint/waypointResolver';
 import ngMock from 'angular-mocks-node';
 
-describe.only("waypointResolver", () => {
+describe("waypointResolver", () => {
   let waypointResolver;
   let Waypoint;
   let $rootScope;

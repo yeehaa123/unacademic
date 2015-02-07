@@ -1,11 +1,9 @@
 export default card;
 import CardCtrl from './card';
 
-let templateUrl = './scripts/cards/card/card.html';
-
 function card(){
   return {
-    templateUrl: templateUrl,
+    template: '<div ng-include="card.getTemplateUrl(card.type, card.mode)"></div>',
     restrict: 'E',
     replace: true,
     scope: {

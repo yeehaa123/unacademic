@@ -5,3 +5,4 @@ let app = angular.module('unacademic.cards', []);
 
 app.directive('card', card);
 app.directive('cards', cards);
+

@@ -1,0 +1,33 @@
+<section class="card ng-class:card.type">
+
+  <section class="heading">
+    <hgroup class="title">
+    <h1>{{card.model.title}}</h1>
+    </hgroup>
+    <img src="" class="constellation">
+  </section>
+
+  <section class="content">
+    <section class="summary">
+      <p>{{card.model.summary}}</p>
+    </section>
+
+    <section class="description">
+      <h1>Description</h1>
+      <p>{{card.model.description}}</p>
+    </section>
+
+    <section ng-if="card.model.keywords" class="keywords">
+      <h1>Keywords</h1>
+      <p ng-repeat="keyword in card.model.keywords">{{ keyword }}</p>
+    </section>
+  </section>
+
+  <section class="controls">
+    <div ng-show="card.user && card.user !== card.model.curator" 
+      ng-click="card.learn()" class="button">Learn</div>
+    <div ng-click="card.browse()" class="button">Browse</div>
+    <div ng-show="card.mode === 'curate'" ng-click="" class="button">Delete</div>
+  </section>
+
+</section>

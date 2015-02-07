@@ -40,7 +40,7 @@ function ToolboxCtrl($scope, dispatcher, navHelpers, appModes){
     let users = ['yeehaa'];
     let user = _.sample(users);
     console.log(user);
-    return dispatcher.setState({user: user});
+    return dispatcher.setState({mode: 'learn', user: user});
   }
 
   function setMode(newVal, oldVal){

@@ -85,4 +85,14 @@ describe("Card", () => {
       expect(dispatcher.setState).calledWith({view});
     });
   });
+
+  describe("dynamic template", () => {
+    it("should create the right url", () => {
+      let type = 'Waypoint';
+      let mode = 'browse';
+      let url = card.getTemplateUrl(type, mode);
+      let expectedUrl = './scripts/content/waypoint/cards/browse.html';
+      expect(url).to.equal(expectedUrl);
+    });
+  });
 });
