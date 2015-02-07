@@ -1,6 +1,6 @@
 import MainCtrl from '../../src/scripts/content/MainCtrl';
 
-describe.only("MainCtrl", () => {
+describe("MainCtrl", () => {
   let vm;
   let dispatcher;
   let resolver;

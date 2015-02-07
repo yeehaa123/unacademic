@@ -2,7 +2,7 @@ export default resourceHelpers;
 import _ from 'lodash';
 
 function resourceHelpers(){
-  let lineage = ['cover', 'waypoint', 'checkpoint'];
+  let lineage = ['cover', 'constellation', 'waypoints', 'waypoint', 'checkpoint'];
 
   return {
     createViewState: createViewState,
@@ -11,6 +11,9 @@ function resourceHelpers(){
 
   function getChildName(name){
     let index = _.indexOf(lineage, name);
+    if(name == 'constellation'){
+      return lineage[index + 2];
+    }
     return lineage[index + 1];
   }
 

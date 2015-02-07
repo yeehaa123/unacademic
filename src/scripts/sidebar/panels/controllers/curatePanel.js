@@ -19,11 +19,12 @@ function CuratePanelCtrl($scope, dispatcher, formHelpers, resourceHelpers){
   }
 
   function addNew(){
-    let curator = dispatcher.getState().user;
-    let resourceName = curatePanel.model.resourceName;
-    let childName = resourceHelpers.getChildName(resourceName);
-    let viewState = { curator, name:  childName, [childName]: 'new' }
-    dispatcher.setState({view: viewState});
+    let { user:curator, view } = dispatcher.getState();
+    let name = view.name;
+    let childName = resourceHelpers.getChildName(name);
+    let parentId = view[name];
+    let viewState = { curator, name:  childName, [name]: parentId, [childName]: 'new' }
+    dispatcher.setState({ view: viewState });
   }
 
   function getTemplateUrl(){

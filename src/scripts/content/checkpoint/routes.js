@@ -6,10 +6,11 @@ let templateUrl = './scripts/content/views/index.html';
 
 function routes($stateProvider) {
   $stateProvider
-    .state('waypoint', {
-      url: '/waypoint/:curator/:waypoint',
-      controller: 'WaypointCtrl',
+    .state('checkpoint', {
+      url: '/waypoint/:curator/:waypoint/:checkpoint',
+      controller: 'CheckpointCtrl',
       controllerAs: 'vm',
       templateUrl: templateUrl
     })
 };
+

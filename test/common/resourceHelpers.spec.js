@@ -8,8 +8,14 @@ describe("resourceHelpers", () => {
   });
 
   describe("get child name", () => {
+
     it("gets the name of the child state", () => {
       let childName = resourceHelpers.getChildName('cover');
+      expect(childName).to.equal('constellation');
+    });
+
+    it("skips a state of name is 'constellation'", () => {
+      let childName = resourceHelpers.getChildName('constellation');
       expect(childName).to.equal('waypoint');
     });
   });

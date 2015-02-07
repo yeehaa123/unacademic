@@ -1,0 +1,15 @@
+<form name="curatePanel.form" novalidate>
+
+  <label for="title">Title</label>
+  <input type="text" name="title" 
+         ng-model="curatePanel.model.title" 
+         minlength="3" required/>
+
+  <button ng-click="curatePanel.addNew()">
+    Add New Checkpoint
+  </button>
+
+  <button ng-click="curatePanel.submit()">
+    Submit
+  </button>
+</form>

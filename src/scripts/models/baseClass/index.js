@@ -41,6 +41,7 @@ function InitBaseClass($q, DataStore, utilities, dispatcher){
         valid = !this[field] ? false : valid;
       });
 
+
       if(valid){
         let model = JSON.stringify(this);
         return DataStore.save(this);
