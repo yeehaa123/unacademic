@@ -22,6 +22,10 @@ function InitBaseClass($q, DataStore, utilities, dispatcher){
       }
     }
 
+    get url(){
+      return utilities.createUrl(this);
+    }
+
     get resourceName(){
       return this.constructor.name.toLowerCase();
     }
@@ -43,8 +47,9 @@ function InitBaseClass($q, DataStore, utilities, dispatcher){
 
 
       if(valid){
+        let url = this.url;
         let model = JSON.stringify(this);
-        return DataStore.save(this);
+        return DataStore.save(url, this);
       }
 
       return $q.reject();
@@ -53,6 +58,7 @@ function InitBaseClass($q, DataStore, utilities, dispatcher){
 
     static get(userId, id){
       let extractData = _.bind(_extractData, this);
+      console.log(this.name.toLowerCase());
 
       return DataStore.get(this.name, userId, id)
         .then(extractData);

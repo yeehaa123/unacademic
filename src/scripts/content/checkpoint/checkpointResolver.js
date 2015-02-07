@@ -21,7 +21,7 @@ function checkpointResolver($q, Checkpoint){
 
       Checkpoint.get(curator, checkpoint)
         .then((response) => {
-          resolve({model: response, collection: response.checkpoints})
+          resolve({model: response, collection: []})
         });
     });
   }

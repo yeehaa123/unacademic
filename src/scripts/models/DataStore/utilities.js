@@ -5,6 +5,7 @@ function utilities(baseUrl){
     generateUrl: generateUrl,
     generateResourceName: generateResourceName,
     generateUID: generateUID,
+    createUrl: createUrl
   };
 
   function generateUrl(modelName, userId, id){
@@ -21,6 +22,16 @@ function utilities(baseUrl){
       return `${baseUrl}/${resourceName}/${userId}.json`;
     }
 
+  }
+
+  function createUrl({ resourceName, waypoint, id, curator} ){
+    let url;
+    if(waypoint){
+      url = `${baseUrl}/waypoint/${curator}/${waypoint}/checkpoints/${id}`;
+    } else {
+      url = `${baseUrl}/${resourceName}/${curator}/${id}`;
+    }
+    return `${url}.json`
   }
 
   function generateUID(){

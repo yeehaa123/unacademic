@@ -4,8 +4,14 @@ import _ from 'lodash';
 function DataStore(baseUrl, $http, $q, utilities){
   return {
     get: get,
+    fetch: fetch,
     save: save
   };
+
+  function fetch(url){
+    console.log(url);
+    return $http.get(url).then(extractData);
+  }
 
   function get(modelName, userId, id){
     if(_.isArray(id)){
@@ -20,8 +26,7 @@ function DataStore(baseUrl, $http, $q, utilities){
     }
   }
 
-  function save(instance){
-    let url = utilities.generateUrl(instance.constructor.name, instance.curator, instance.id);
+  function save(url, instance){
     return $http.put(url, instance);
   }
 

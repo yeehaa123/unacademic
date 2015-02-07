@@ -9,6 +9,35 @@ describe("Utilities", function(){
     utilities = new Utilities(baseUrl);
   });
 
+  describe.only("createUrl", function(){
+    it("has no children", () => {
+
+      let cover = {
+        resourceName: 'cover',
+        id: 'info',
+        curator: 'yeehaa'
+      };
+
+      let createdUrl = utilities.createUrl(cover);
+      let url = '/cover/yeehaa/info.json';
+      expect(createdUrl).to.equal(url);
+    });
+
+    it("is a checkpoint", () => {
+
+      let cover = {
+        resourceName: 'checkpoint',
+        waypoint: '123',
+        id: '0',
+        curator: 'yeehaa'
+      };
+
+      let createdUrl = utilities.createUrl(cover);
+      let url = '/waypoint/yeehaa/123/0.json';
+      expect(createdUrl).to.equal(url);
+    });
+  });
+
   describe("generateUrl", function(){
 
     describe("without userId", function(){
